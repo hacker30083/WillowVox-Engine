@@ -1,6 +1,4 @@
 #include <WillowVoxEngine/Application/Application.h>
-#include <WillowVoxEngine/Events/EventDispatcher.h>
-#include <WillowVoxEngine/Events/WindowEvents.h>
 
 namespace WillowVox
 {
@@ -28,15 +26,5 @@ namespace WillowVox
 			// Render the game
 			Render();
 		}
-	}
-
-	void Application::OnEvent(Event& e)
-	{
-		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>([this](WindowCloseEvent& event)
-		{
-			isRunning = false;
-			return true;
-		});
 	}
 }

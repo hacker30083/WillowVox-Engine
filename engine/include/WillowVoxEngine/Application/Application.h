@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../Events/Event.h"
-
 namespace WillowVox
 {
 	class Application
@@ -11,7 +9,6 @@ namespace WillowVox
 		virtual ~Application();
 
 		void Run();
-		virtual void OnEvent(Event& e);
 
 	protected:
 		bool isRunning = true;

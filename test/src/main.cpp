@@ -16,12 +16,12 @@ public:
 protected:
 	void Update() override
 	{
-		//WillowVox::Logger::Log("Update\n");
+		WillowVox::Logger::Log("Update\n");
 	}
 
 	void Render() override
 	{
-		//WillowVox::Logger::Log("Render\n");
+		WillowVox::Logger::Log("Render\n");
 	}
 };
 
