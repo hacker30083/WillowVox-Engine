@@ -17,7 +17,7 @@ cmake --build ./build
 ```
 Run the build command in the project root directory.
 
-The final executable can be found at `(project root)/build/bin`
+The final executable can be found at `(project root)/build/bin/(build type)`
 
 #### Note for building with CMake
 If you're running from a command line, make sure to run
