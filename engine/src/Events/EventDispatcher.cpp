@@ -2,7 +2,7 @@
 
 namespace WillowVox
 {
-    void EventDispatcher::RegisterListener(Event::Type eventType, std::function<void(Event&)> listener)
+    void EventDispatcher::RegisterListener(Event::Type eventType, Listener listener)
     {
         listeners[eventType].push_back(listener);
     }

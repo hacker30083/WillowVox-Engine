@@ -21,7 +21,7 @@ namespace WillowVox
         bool IsHandled() const { return handled; }
         void MarkHandled() { handled = true; }
 
-        virtual std::string toString() const { return "Event"; }
+        virtual std::string ToString() const { return "Event"; }
 
     private:
         Type type;

@@ -10,8 +10,10 @@ namespace WillowVox
     class EventDispatcher
     {
     public:
+        using Listener = std::function<void(Event&)>;
+
         // Register a listener for a specific event type
-        void RegisterListener(Event::Type eventType, std::function<void(Event&)> listener);
+        void RegisterListener(Event::Type eventType, Listener listener);
 
         // Unregister all listeners for a specific event type
         void UnregisterAllListeners(Event::Type eventType);
@@ -21,6 +23,6 @@ namespace WillowVox
 
     private:
         // Store all the event listeners
-        std::unordered_map<Event::Type, std::vector<std::function<void(Event&)>>> listeners;
+        std::unordered_map<Event::Type, std::vector<Listener>> listeners;
     };
 }
