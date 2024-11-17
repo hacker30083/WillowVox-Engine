@@ -1,7 +1,7 @@
 # CMakeLists.txt (root)
 cmake_minimum_required(VERSION 3.15)
 project(WillowVoxEngine
-        LANGUAGES CXX
+        LANGUAGES CXX C
         VERSION 0.1.0
 )
 

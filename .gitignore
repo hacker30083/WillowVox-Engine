@@ -11,19 +11,6 @@ CTestTestfile.cmake
 Makefile
 compile_commands.json
 
-# Generated binaries and libraries
-*.exe
-*.dll
-*.so
-*.dylib
-*.lib
-*.a
-*.pdb
-*.obj
-*.o
-*.lo
-*.slo
-
 # IDE-specific files
 .idea/
 *.vcxproj

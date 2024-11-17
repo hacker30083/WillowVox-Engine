@@ -5,10 +5,16 @@ add_library(WillowVoxEngine STATIC
     src/Core/Logger.cpp
     src/Events/EventDispatcher.cpp
     src/Input/Input.cpp
+
+    vendor/glad.c
 )
 
 # Include directories
 target_include_directories(WillowVoxEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(WillowVoxEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/include)
+
+# Link libraries
+target_link_libraries(WillowVoxEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/lib/glfw3.lib)
 
 # Set output properties for the library
 set_target_properties(WillowVoxEngine PROPERTIES
