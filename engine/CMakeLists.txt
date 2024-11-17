@@ -6,7 +6,7 @@ add_library(WillowVoxEngine STATIC
     src/Events/EventDispatcher.cpp
     src/Input/Input.cpp
 
-    vendor/glad.c
+    dependencies/include/glad/src/glad.c
 )
 
 # Include directories
