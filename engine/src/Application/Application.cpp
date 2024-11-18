@@ -3,6 +3,7 @@
 #include <WillowVoxEngine/Application/Application.h>
 #include <WillowVoxEngine/Core/Logger.h>
 #include <WillowVoxEngine/Application/Window.h>
+#include <WillowVoxEngine/Rendering/OpenGLGraphicsAPI.h>
 
 namespace WillowVox
 {
@@ -18,9 +19,16 @@ namespace WillowVox
 
 	void Application::Run()
 	{
+		OpenGLGraphicsAPI openGLApi;
+		openGLApi.Initialize();
+		
 		Window window;
-		window.windowCloseDispatcher.RegisterListener(Event::Type::WindowClose, [this](Event& event) {
+		window.windowEventDispatcher.RegisterListener(Event::Type::WindowClose, [this](Event& event) {
 			isRunning = false;
+		});
+
+		window.windowEventDispatcher.RegisterListener(Event::Type::WindowResize, [this](Event& event) {
+			Logger::EngineLog("Window resized!\n");
 		});
 
 		while (isRunning)

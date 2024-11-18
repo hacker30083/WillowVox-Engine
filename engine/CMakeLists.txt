@@ -6,6 +6,7 @@ add_library(WillowVoxEngine STATIC
     src/Core/Logger.cpp
     src/Events/EventDispatcher.cpp
     src/Input/Input.cpp
+    src/Rendering/OpenGLGraphicsAPI.cpp
 
     dependencies/include/glad/src/glad.c
 )

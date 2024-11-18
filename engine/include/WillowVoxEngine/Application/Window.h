@@ -4,7 +4,6 @@
 #include <GLFW/glfw3.h>
 
 #include <WillowVoxEngine/Events/EventDispatcher.h>
-#include <WillowVoxEngine/Events/WindowCloseEvent.h>
 
 namespace WillowVox
 {
@@ -17,7 +16,7 @@ namespace WillowVox
         void StartFrame();
         void EndFrame();
 
-        EventDispatcher windowCloseDispatcher;
+        EventDispatcher windowEventDispatcher;
 
     private:
         GLFWwindow* window;
