@@ -71,6 +71,7 @@ namespace WillowVox
 
         triCount = indices.size();
 
+        // Buffer data
         glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(Vertex), vertices, GL_STATIC_DRAW);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, triCount * sizeof(uint32_t), indices.data(), GL_STATIC_DRAW);
     }
@@ -84,6 +85,7 @@ namespace WillowVox
 
         triCount = indexCount;
 
+        // Buffer data
         glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, triCount * sizeof(uint32_t), indices, GL_STATIC_DRAW);
     }
