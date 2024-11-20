@@ -5,6 +5,7 @@
 #include <WillowVoxEngine/Rendering/Shader.h>
 #include <WillowVoxEngine/Rendering/Mesh.h>
 #include <WillowVoxEngine/Rendering/MeshRenderer.h>
+#include <WillowVoxEngine/Rendering/Texture.h>
 
 namespace WillowVox
 {
@@ -39,15 +40,18 @@ namespace WillowVox
 		MeshRenderer mr(shader);
 
 		Vertex vertices[] = {
-			{ { -0.5f, -0.5f, 0.0f } },
-			{ {  0.5f, -0.5f, 0.0f } },
-			{ {  0.0f,  0.5f, 0.0f } }
+			{ { -0.5f, -0.5f, 0.0f }, { 0.0f, 0.0f } },
+			{ {  0.5f, -0.5f, 0.0f }, { 1.0f, 0.0f } },
+			{ {  0.0f,  0.5f, 0.0f }, { 0.5f, 1.0f } }
 		};
 
 		Mesh* mesh = new Mesh();
 		mesh->SetMeshData(vertices, 3);
 
 		mr.SetMesh(mesh, true);
+
+		Texture tex("assets/grass_block_side.png");
+		tex.BindTexture(Texture::TEX00);
 
 		while (isRunning)
 		{

@@ -17,7 +17,9 @@ namespace WillowVox
         // Enable vertex attributes
         // TODO: Allow for different types of Vertex classes with different attributes
 		glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+		glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
     }
 
     Mesh::~Mesh()
