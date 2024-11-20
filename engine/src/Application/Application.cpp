@@ -42,11 +42,17 @@ namespace WillowVox
 		Vertex vertices[] = {
 			{ { -0.5f, -0.5f, 0.0f }, { 0.0f, 0.0f } },
 			{ {  0.5f, -0.5f, 0.0f }, { 1.0f, 0.0f } },
-			{ {  0.0f,  0.5f, 0.0f }, { 0.5f, 1.0f } }
+			{ { -0.5f,  0.5f, 0.0f }, { 0.0f, 1.0f } },
+			{ {  0.5f,  0.5f, 0.0f }, { 1.0f, 1.0f } },
+		};
+	
+		uint32_t indices[] = {
+			0, 1, 3,
+			0, 2, 3
 		};
 
 		Mesh* mesh = new Mesh();
-		mesh->SetMeshData(vertices, 3);
+		mesh->SetMeshData(vertices, 4, indices, 6);
 
 		mr.SetMesh(mesh, true);
 

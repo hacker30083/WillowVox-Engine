@@ -14,6 +14,9 @@ namespace WillowVox
         glGenBuffers(1, &VBO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
+        glGenBuffers(1, &EBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+
         // Enable vertex attributes
         // TODO: Allow for different types of Vertex classes with different attributes
 		glEnableVertexAttribArray(0);
@@ -26,31 +29,69 @@ namespace WillowVox
     {
         glDeleteVertexArrays(1, &VAO);
         glDeleteBuffers(1, &VBO);
+        glDeleteBuffers(1, &EBO);
     }
 
-    void Mesh::SetMeshData(std::vector<Vertex>& vertices)
+    
+    void Mesh::SetMeshData(std::vector<Vertex>& vertices, std::vector<uint32_t>& indices)
     {
+        // Bind buffers
         glBindVertexArray(VAO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
-        triCount = vertices.size();
-        glBufferData(GL_ARRAY_BUFFER, triCount * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
+        triCount = indices.size();
+
+        // Buffer data
+        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, triCount * sizeof(uint32_t), indices.data(), GL_STATIC_DRAW);
+        
     }
 
-    void Mesh::SetMeshData(Vertex* vertices, uint32_t vertexCount)
+    void Mesh::SetMeshData(Vertex* vertices, uint32_t vertexCount, uint32_t* indices, uint32_t indexCount)
     {
+        // Bind buffers
         glBindVertexArray(VAO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
-        triCount = vertexCount;
+        triCount = indexCount;
+
+        // Buffer data
         glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(Vertex), vertices, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, triCount * sizeof(uint32_t), indices, GL_STATIC_DRAW);
+    }
+
+    void Mesh::SetMeshData(Vertex* vertices, uint32_t vertexCount, std::vector<uint32_t>& indices)
+    {
+        // Bind buffers
+        glBindVertexArray(VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+
+        triCount = indices.size();
+
+        glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(Vertex), vertices, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, triCount * sizeof(uint32_t), indices.data(), GL_STATIC_DRAW);
+    }
+
+    void Mesh::SetMeshData(std::vector<Vertex>& vertices, uint32_t* indices, uint32_t indexCount)
+    {
+        // Bind buffers
+        glBindVertexArray(VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+
+        triCount = indexCount;
+
+        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, triCount * sizeof(uint32_t), indices, GL_STATIC_DRAW);
     }
 
     void Mesh::Render(Shader& shader)
     {
         glBindVertexArray(VAO);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-        glDrawArrays(GL_TRIANGLES, 0, triCount);
+        glDrawElements(GL_TRIANGLES, triCount, GL_UNSIGNED_INT, 0);
     }
 }
