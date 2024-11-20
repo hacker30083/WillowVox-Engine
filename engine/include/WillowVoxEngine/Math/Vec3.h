@@ -4,7 +4,8 @@ namespace WillowVox
 {
     struct Vec3
     {
-    public:
+        Vec3(float x, float y, float z) : x(x), y(y), z(z) {}
+
         float x;
         float y;
         float z;
