@@ -11,6 +11,7 @@ add_library(WillowVoxEngine STATIC
     src/Rendering/Mesh.cpp
     src/Rendering/MeshRenderer.cpp
     src/Rendering/Texture.cpp
+    src/Rendering/Camera.cpp
 
     dependencies/include/glad/src/glad.c
 )

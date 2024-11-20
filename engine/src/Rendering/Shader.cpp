@@ -8,6 +8,7 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <WillowVoxEngine/Rendering/OpenGLGraphicsAPI.h>
 #include <WillowVoxEngine/Core/Logger.h>
@@ -137,5 +138,10 @@ namespace WillowVox
     void Shader::SetVec3(const char* name, float x, float y, float z) const
     {
         glUniform3f(glGetUniformLocation(programId, name), x, y, z);
+    }
+
+    void Shader::SetMat4(const char* name, glm::mat4 value) const
+    {
+        glUniformMatrix4fv(glGetUniformLocation(programId, name), 1, GL_FALSE, glm::value_ptr(value));
     }
 }

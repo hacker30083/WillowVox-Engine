@@ -6,6 +6,7 @@
 #include <WillowVoxEngine/Rendering/Mesh.h>
 #include <WillowVoxEngine/Rendering/MeshRenderer.h>
 #include <WillowVoxEngine/Rendering/Texture.h>
+#include <glm/glm.hpp>
 
 namespace WillowVox
 {
@@ -21,6 +22,8 @@ namespace WillowVox
 
 	void Application::Run()
 	{
+		mainCamera = new Camera();
+
 		OpenGLGraphicsAPI openGLApi;
 		openGLApi.Initialize();
 		
@@ -68,6 +71,13 @@ namespace WillowVox
 
 			// Render the game
 			Render();
+			glm::mat4 view = mainCamera->GetViewMatrix();
+			glm::mat4 projection = glm::perspective(glm::radians(mainCamera->Zoom), 600.0f / 400.0f, 0.1f, 1000.0f);
+			shader.Use();
+			shader.SetMat4("view", view);
+			shader.SetMat4("projection", view);
+			shader.SetVec3("model", 0, 0, 0);
+
 			mr.Render();
 
 			window.EndFrame();
