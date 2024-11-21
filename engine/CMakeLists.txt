@@ -18,7 +18,7 @@ add_library(WillowVoxEngine STATIC
 
 # Include directories
 target_include_directories(WillowVoxEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_include_directories(WillowVoxEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/include)
+target_include_directories(WillowVoxEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/include)
 
 # Link libraries
 target_link_libraries(WillowVoxEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/lib/glfw3.lib)

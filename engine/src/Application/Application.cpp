@@ -43,10 +43,10 @@ namespace WillowVox
 		MeshRenderer mr(shader);
 
 		Vertex vertices[] = {
-			{ { -0.5f, -0.5f, 0.0f }, { 0.0f, 0.0f } },
-			{ {  0.5f, -0.5f, 0.0f }, { 1.0f, 0.0f } },
-			{ { -0.5f,  0.5f, 0.0f }, { 0.0f, 1.0f } },
-			{ {  0.5f,  0.5f, 0.0f }, { 1.0f, 1.0f } },
+			{ { -1.0f, -1.0f, -5.0f }, { 0.0f, 0.0f } },
+			{ {  1.0f, -1.0f, -5.0f }, { 1.0f, 0.0f } },
+			{ { -1.0f,  1.0f, -5.0f }, { 0.0f, 1.0f } },
+			{ {  1.0f,  1.0f, -5.0f }, { 1.0f, 1.0f } },
 		};
 	
 		uint32_t indices[] = {
@@ -72,10 +72,10 @@ namespace WillowVox
 			// Render the game
 			Render();
 			glm::mat4 view = mainCamera->GetViewMatrix();
-			glm::mat4 projection = glm::perspective(glm::radians(mainCamera->Zoom), 600.0f / 400.0f, 0.1f, 1000.0f);
+			glm::mat4 projection = mainCamera->GetProjectionMatrix();
 			shader.Use();
 			shader.SetMat4("view", view);
-			shader.SetMat4("projection", view);
+			shader.SetMat4("projection", projection);
 			shader.SetVec3("model", 0, 0, 0);
 
 			mr.Render();
