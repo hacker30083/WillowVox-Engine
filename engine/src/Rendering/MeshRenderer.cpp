@@ -2,18 +2,18 @@
 
 namespace WillowVox
 {
-    MeshRenderer::~MeshRenderer()
+    template <typename T> MeshRenderer<T>::~MeshRenderer()
     {
         if (destroyMeshWhenDestroyed)
             delete this->mesh;
     }
 
-    void MeshRenderer::SetShader(Shader& shader)
+    template <typename T> void MeshRenderer<T>::SetShader(Shader& shader)
     {
         this->shader = shader;
     }
 
-    void MeshRenderer::SetMesh(Mesh* mesh, bool destroyMeshWhenDestroyed)
+    template <typename T> void MeshRenderer<T>::SetMesh(Mesh<T>* mesh, bool destroyMeshWhenDestroyed)
     {
         if (mesh != nullptr && this->destroyMeshWhenDestroyed)
             delete this->mesh;
@@ -22,7 +22,7 @@ namespace WillowVox
         this->destroyMeshWhenDestroyed = destroyMeshWhenDestroyed;
     }
 
-    void MeshRenderer::Render()
+    template <typename T> void MeshRenderer<T>::Render()
     {
         mesh->Render(shader);
     }

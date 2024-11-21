@@ -5,21 +5,21 @@
 
 namespace WillowVox
 {
-    class MeshRenderer
+    template <typename T> class MeshRenderer
     {
     public:
         MeshRenderer(Shader& shader) : shader(shader) {}
-        MeshRenderer(Shader& shader, Mesh* mesh) : shader(shader), mesh(mesh) {}
+        MeshRenderer(Shader& shader, Mesh<T>* mesh) : shader(shader), mesh(mesh) {}
         ~MeshRenderer();
 
         void SetShader(Shader& shader);
-        void SetMesh(Mesh* mesh, bool destroyMeshWhenDestroyed = false);
+        void SetMesh(Mesh<T>* mesh, bool destroyMeshWhenDestroyed = false);
 
         void Render();
 
     private:
         Shader& shader;
-        Mesh* mesh;
+        Mesh<T>* mesh;
 
         bool destroyMeshWhenDestroyed = false;
     };

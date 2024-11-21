@@ -6,6 +6,7 @@
 #include <WillowVoxEngine/Rendering/Mesh.h>
 #include <WillowVoxEngine/Rendering/MeshRenderer.h>
 #include <WillowVoxEngine/Rendering/Texture.h>
+#include <WillowVoxEngine/Rendering/Vertex.h>
 #include <glm/glm.hpp>
 
 namespace WillowVox
@@ -40,7 +41,7 @@ namespace WillowVox
 		shader.Use();
 		shader.SetVec3("color", 0.5f, 1.0f, 0.5f);
 
-		MeshRenderer mr(shader);
+		MeshRenderer<Vertex> mr(shader);
 
 		Vertex vertices[] = {
 			{ { -1.0f, -1.0f, -5.0f }, { 0.0f, 0.0f } },
@@ -54,7 +55,7 @@ namespace WillowVox
 			0, 2, 3
 		};
 
-		Mesh* mesh = new Mesh();
+		Mesh<Vertex>* mesh = new Mesh<Vertex>();
 		mesh->SetMeshData(vertices, 4, indices, 6);
 
 		mr.SetMesh(mesh, true);

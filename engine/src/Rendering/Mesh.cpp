@@ -5,7 +5,7 @@
 
 namespace WillowVox
 {
-    Mesh::Mesh()
+    template <typename T> Mesh<T>::Mesh()
     {
         // Generate vertex array and vertex buffer
         glGenVertexArrays(1, &VAO);
@@ -18,14 +18,10 @@ namespace WillowVox
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
         // Enable vertex attributes
-        // TODO: Allow for different types of Vertex classes with different attributes
-		glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
-		glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
+        T.SetShaderAttributes();
     }
 
-    Mesh::~Mesh()
+    template <typename T> Mesh<T>::~Mesh()
     {
         glDeleteVertexArrays(1, &VAO);
         glDeleteBuffers(1, &VBO);
@@ -33,7 +29,7 @@ namespace WillowVox
     }
 
     
-    void Mesh::SetMeshData(std::vector<Vertex>& vertices, std::vector<uint32_t>& indices)
+    template <typename T> void Mesh<T>::SetMeshData(std::vector<T>& vertices, std::vector<uint32_t>& indices)
     {
         // Bind buffers
         glBindVertexArray(VAO);
@@ -43,12 +39,12 @@ namespace WillowVox
         triCount = indices.size();
 
         // Buffer data
-        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(T), vertices.data(), GL_STATIC_DRAW);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, triCount * sizeof(uint32_t), indices.data(), GL_STATIC_DRAW);
         
     }
 
-    void Mesh::SetMeshData(Vertex* vertices, uint32_t vertexCount, uint32_t* indices, uint32_t indexCount)
+    template <typename T> void Mesh<T>::SetMeshData(T* vertices, uint32_t vertexCount, uint32_t* indices, uint32_t indexCount)
     {
         // Bind buffers
         glBindVertexArray(VAO);
@@ -58,11 +54,11 @@ namespace WillowVox
         triCount = indexCount;
 
         // Buffer data
-        glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(Vertex), vertices, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(T), vertices, GL_STATIC_DRAW);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, triCount * sizeof(uint32_t), indices, GL_STATIC_DRAW);
     }
 
-    void Mesh::SetMeshData(Vertex* vertices, uint32_t vertexCount, std::vector<uint32_t>& indices)
+    template <typename T> void Mesh<T>::SetMeshData(T* vertices, uint32_t vertexCount, std::vector<uint32_t>& indices)
     {
         // Bind buffers
         glBindVertexArray(VAO);
@@ -72,11 +68,11 @@ namespace WillowVox
         triCount = indices.size();
 
         // Buffer data
-        glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(Vertex), vertices, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(T), vertices, GL_STATIC_DRAW);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, triCount * sizeof(uint32_t), indices.data(), GL_STATIC_DRAW);
     }
 
-    void Mesh::SetMeshData(std::vector<Vertex>& vertices, uint32_t* indices, uint32_t indexCount)
+    template <typename T> void Mesh<T>::SetMeshData(std::vector<T>& vertices, uint32_t* indices, uint32_t indexCount)
     {
         // Bind buffers
         glBindVertexArray(VAO);
@@ -86,11 +82,11 @@ namespace WillowVox
         triCount = indexCount;
 
         // Buffer data
-        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(T), vertices.data(), GL_STATIC_DRAW);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, triCount * sizeof(uint32_t), indices, GL_STATIC_DRAW);
     }
 
-    void Mesh::Render(Shader& shader)
+    template <typename T> void Mesh<T>::Render(Shader& shader)
     {
         glBindVertexArray(VAO);
 
