@@ -10,12 +10,27 @@ namespace WillowVox
     public:
         MeshRenderer(Shader& shader) : shader(shader) {}
         MeshRenderer(Shader& shader, Mesh<T>* mesh) : shader(shader), mesh(mesh) {}
-        ~MeshRenderer();
 
-        void SetShader(Shader& shader);
-        void SetMesh(Mesh<T>* mesh, bool destroyMeshWhenDestroyed = false);
+        ~MeshRenderer()
+        {
+            if (destroyMeshWhenDestroyed)
+                delete this->mesh;
+        }
 
-        void Render();
+        void SetShader(Shader& shader) { this->shader = shader; }
+        void SetMesh(Mesh<T>* mesh, bool destroyMeshWhenDestroyed = false)
+        {
+            if (mesh != nullptr && this->destroyMeshWhenDestroyed)
+                delete this->mesh;
+            this->mesh = mesh;
+
+            this->destroyMeshWhenDestroyed = destroyMeshWhenDestroyed;
+        }
+
+        void Render()
+        {
+            mesh->Render(shader);
+        }
 
     private:
         Shader& shader;

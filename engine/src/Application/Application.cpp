@@ -8,6 +8,7 @@
 #include <WillowVoxEngine/Rendering/Texture.h>
 #include <WillowVoxEngine/Rendering/Vertex.h>
 #include <glm/glm.hpp>
+#include <iostream>
 
 namespace WillowVox
 {
@@ -72,6 +73,7 @@ namespace WillowVox
 
 			// Render the game
 			Render();
+			
 			glm::mat4 view = mainCamera->GetViewMatrix();
 			glm::mat4 projection = mainCamera->GetProjectionMatrix();
 			shader.Use();

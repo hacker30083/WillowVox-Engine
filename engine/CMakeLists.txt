@@ -8,8 +8,6 @@ add_library(WillowVoxEngine STATIC
     src/Input/Input.cpp
     src/Rendering/OpenGLGraphicsAPI.cpp
     src/Rendering/Shader.cpp
-    src/Rendering/Mesh.cpp
-    src/Rendering/MeshRenderer.cpp
     src/Rendering/Texture.cpp
     src/Rendering/Camera.cpp
 

@@ -1,5 +1,8 @@
 #pragma once
 
+#include <cstdint>
+#include <cstddef>
+
 namespace WillowVox
 {
     class OpenGLGraphicsAPI
@@ -9,7 +12,7 @@ namespace WillowVox
 
         void Initialize();
 
-        static void SetShaderAttribVec2(int index, uint32_t size, uint32_t offset);
-        static void SetShaderAttribVec3(int index, uint32_t size, uint32_t offset);
+        static void SetShaderAttribVec2(int index, uint32_t size, std::size_t offset);
+        static void SetShaderAttribVec3(int index, uint32_t size, std::size_t offset);
     };
 }
