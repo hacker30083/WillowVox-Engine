@@ -16,7 +16,7 @@ add_subdirectory(test)
 # Copy assets folder to build folder
 add_custom_target(copy_assets ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${CMAKE_SOURCE_DIR}/engine/assets
+    ${CMAKE_SOURCE_DIR}/test/assets
     ${CMAKE_BINARY_DIR}/bin/Debug/assets
     COMMENT "Copying assets"
 )
