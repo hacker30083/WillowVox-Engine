@@ -11,4 +11,5 @@ int main(int argc, char** argv)
 	auto app = WillowVox::CreateApplication();
 	app->Run();
 	delete app;
+	WillowVox::Logger::CloseLogger();
 }

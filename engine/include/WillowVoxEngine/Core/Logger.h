@@ -1,7 +1,9 @@
 #pragma once
 
 #include <ctime>
-#include <iostream>
+#include <fstream>
+#include <cstdio>
+#include <iomanip>
 
 #define LOG_COLOR_RESET        "\x1b[0m"
 #define LOG_COLOR_APP_WARN     "\x1b[93m"
@@ -15,6 +17,11 @@ namespace WillowVox
 	class Logger
 	{
 	public:
+		static void CloseLogger()
+		{
+			logFile.close();
+		}
+
 		// Client
 		template <typename... Args>
 		static void Log(const char* msg, Args... args)
@@ -24,6 +31,13 @@ namespace WillowVox
 			printf(LOG_COLOR_RESET "[%d:%d:%d App] ", now->tm_hour, now->tm_min, now->tm_sec);
 			printf(msg, args...);
 			printf("\n");
+
+			char formattedMsg[1024];
+        	std::snprintf(formattedMsg, sizeof(formattedMsg), msg, args...);
+			logFile << "[" << std::setfill('0') << std::setw(2) << now->tm_hour << ":"
+                << std::setfill('0') << std::setw(2) << now->tm_min << ":"
+                << std::setfill('0') << std::setw(2) << now->tm_sec << " App] "
+                << formattedMsg << std::endl;
 		}
 
 		template <typename... Args>
@@ -34,6 +48,13 @@ namespace WillowVox
 			printf(LOG_COLOR_APP_WARN "[%d:%d:%d App] WARN: ", now->tm_hour, now->tm_min, now->tm_sec);
 			printf(msg, args...);
 			printf(LOG_COLOR_RESET "\n");
+			
+			char formattedMsg[1024];
+        	std::snprintf(formattedMsg, sizeof(formattedMsg), msg, args...);
+			logFile << "[" << std::setfill('0') << std::setw(2) << now->tm_hour << ":"
+                << std::setfill('0') << std::setw(2) << now->tm_min << ":"
+                << std::setfill('0') << std::setw(2) << now->tm_sec << " App] WARN: "
+                << formattedMsg << std::endl;
 		}
 
 		template <typename... Args>
@@ -44,6 +65,13 @@ namespace WillowVox
 			printf(LOG_COLOR_APP_ERROR "[%d:%d:%d App] ERROR: ", now->tm_hour, now->tm_min, now->tm_sec);
 			printf(msg, args...);
 			printf(LOG_COLOR_RESET "\n");
+			
+			char formattedMsg[1024];
+        	std::snprintf(formattedMsg, sizeof(formattedMsg), msg, args...);
+			logFile << "[" << std::setfill('0') << std::setw(2) << now->tm_hour << ":"
+                << std::setfill('0') << std::setw(2) << now->tm_min << ":"
+                << std::setfill('0') << std::setw(2) << now->tm_sec << " App] ERROR: "
+                << formattedMsg << std::endl;
 		}
 
 		// Engine
@@ -55,6 +83,13 @@ namespace WillowVox
 			printf(LOG_COLOR_ENGINE_LOG "[%d:%d:%d Engine] ", now->tm_hour, now->tm_min, now->tm_sec);
 			printf(msg, args...);
 			printf(LOG_COLOR_RESET "\n");
+			
+			char formattedMsg[1024];
+        	std::snprintf(formattedMsg, sizeof(formattedMsg), msg, args...);
+			logFile << "[" << std::setfill('0') << std::setw(2) << now->tm_hour << ":"
+                << std::setfill('0') << std::setw(2) << now->tm_min << ":"
+                << std::setfill('0') << std::setw(2) << now->tm_sec << " Engine] "
+                << formattedMsg << std::endl;
 		}
 
 		template <typename... Args>
@@ -65,6 +100,13 @@ namespace WillowVox
 			printf(LOG_COLOR_ENGINE_WARN "[%d:%d:%d Engine] WARN: ", now->tm_hour, now->tm_min, now->tm_sec);
 			printf(msg, args...);
 			printf(LOG_COLOR_RESET "\n");
+			
+			char formattedMsg[1024];
+        	std::snprintf(formattedMsg, sizeof(formattedMsg), msg, args...);
+			logFile << "[" << std::setfill('0') << std::setw(2) << now->tm_hour << ":"
+                << std::setfill('0') << std::setw(2) << now->tm_min << ":"
+                << std::setfill('0') << std::setw(2) << now->tm_sec << " Engine] WARN: "
+                << formattedMsg << std::endl;
 		}
 
 		template <typename... Args>
@@ -75,6 +117,15 @@ namespace WillowVox
 			printf(LOG_COLOR_ENGINE_ERROR "[%d:%d:%d Engine] ERROR: ", now->tm_hour, now->tm_min, now->tm_sec);
 			printf(msg, args...);
 			printf(LOG_COLOR_RESET "\n");
+			
+			char formattedMsg[1024];
+        	std::snprintf(formattedMsg, sizeof(formattedMsg), msg, args...);
+			logFile << "[" << std::setfill('0') << std::setw(2) << now->tm_hour << ":"
+                << std::setfill('0') << std::setw(2) << now->tm_min << ":"
+                << std::setfill('0') << std::setw(2) << now->tm_sec << " Engine] ERROR: "
+                << formattedMsg << std::endl;
 		}
+
+		static std::fstream logFile;
 	};
 }

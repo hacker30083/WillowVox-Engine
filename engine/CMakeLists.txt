@@ -4,6 +4,7 @@ file(GLOB_RECURSE WILLOWVOXENGINE_SOURCES src/*.cpp)
 # Define the library target
 add_library(WillowVoxEngine STATIC 
     src/Application/Application.cpp
+    src/Core/Logger.cpp
     src/Input/Input.cpp
 )
 
