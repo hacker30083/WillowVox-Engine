@@ -27,11 +27,11 @@ namespace WillowVox
 		openGLApi.Initialize();
 		
 		Window window;
-		window.windowEventDispatcher.RegisterListener(Event::Type::WindowClose, [this](Event& event) {
+		window.windowCloseEventDispatcher.RegisterListener([this](Event& event) {
 			isRunning = false;
 		});
 
-		window.windowEventDispatcher.RegisterListener(Event::Type::WindowResize, [this](Event& event) {
+		window.windowResizeEventDispatcher.RegisterListener([this](Event& event) {
 			Logger::EngineLog("Window resized!\n");
 		});
 

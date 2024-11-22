@@ -20,6 +20,8 @@ protected:
 
 	glm::vec3 squarePos;
 
+	bool mouseDisabled = false;
+
 	void Start() override
 	{
 		shader = new WillowVox::Shader("assets/vert.glsl", "assets/frag.glsl");
@@ -50,8 +52,19 @@ protected:
 
 		squarePos = glm::vec3(0);
 
-		input->inputEventDispatcher.RegisterListener(WillowVox::Event::Type::MouseScroll, [this](WillowVox::MouseScrollEvent& e) {
+		input->mouseScrollEventDispatcher.RegisterListener([this](WillowVox::MouseScrollEvent& e) {
 			WillowVox::Logger::Log("Mouse scrolled\n");
+		});
+
+		input->keyPressEventDispatcher.RegisterListener([this](WillowVox::KeyPressEvent& e) {
+			if (e.key != WillowVox::ESC)
+				return;
+
+			this->mouseDisabled = !this->mouseDisabled;
+			if (this->mouseDisabled)
+				this->input->DisableMouse();
+			else
+				this->input->EnableMouse();
 		});
 	}
 

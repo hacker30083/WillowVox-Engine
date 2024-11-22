@@ -1,7 +1,7 @@
 #pragma once
 
 #include <WillowVoxEngine/Events/Event.h>
-#include <WillowVoxEngine/Input/Input.h>
+#include <WillowVoxEngine/Input/Key.h>
 
 namespace WillowVox
 {
