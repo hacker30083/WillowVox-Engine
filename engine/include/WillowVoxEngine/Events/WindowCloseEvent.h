@@ -1,3 +1,5 @@
+#pragma once
+
 #include <WillowVoxEngine/Events/Event.h>
 
 namespace WillowVox

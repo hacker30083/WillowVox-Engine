@@ -1,7 +1,13 @@
 #include <WillowVoxEngine/Application/Application.h>
-#include <WillowVoxEngine/Events/EventDispatcher.h>
-#include <WillowVoxEngine/Events/WindowCloseEvent.h>
 #include <WillowVoxEngine/Core/Logger.h>
+#include <WillowVoxEngine/Application/Window.h>
+#include <WillowVoxEngine/Rendering/OpenGLGraphicsAPI.h>
+#include <WillowVoxEngine/Rendering/Shader.h>
+#include <WillowVoxEngine/Rendering/Mesh.h>
+#include <WillowVoxEngine/Rendering/MeshRenderer.h>
+#include <WillowVoxEngine/Rendering/Texture.h>
+#include <WillowVoxEngine/Rendering/Vertex.h>
+#include <glm/glm.hpp>
 
 namespace WillowVox
 {
@@ -17,22 +23,34 @@ namespace WillowVox
 
 	void Application::Run()
 	{
-		EventDispatcher testDispatcher;
-		testDispatcher.RegisterListener(Event::Type::WindowClose, [this](Event& event) {
+		OpenGLGraphicsAPI openGLApi;
+		openGLApi.Initialize();
+		
+		Window window;
+		window.windowEventDispatcher.RegisterListener(Event::Type::WindowClose, [this](Event& event) {
 			isRunning = false;
-			Logger::EngineLog("Window Closed\n");
 		});
+
+		window.windowEventDispatcher.RegisterListener(Event::Type::WindowResize, [this](Event& event) {
+			Logger::EngineLog("Window resized!\n");
+		});
+
+		mainCamera = new Camera();
+
+		// Pre-game logic
+		Start();
 
 		while (isRunning)
 		{
+			window.StartFrame();
+
 			// Run game logic
 			Update();
 
 			// Render the game
 			Render();
 
-			WindowCloseEvent windowCloseEvent;
-			testDispatcher.Dispatch(windowCloseEvent);
+			window.EndFrame();
 		}
 	}
 }

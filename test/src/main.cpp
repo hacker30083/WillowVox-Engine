@@ -14,14 +14,54 @@ public:
 	}
 
 protected:
+	WillowVox::Shader* shader;
+	WillowVox::MeshRenderer<WillowVox::Vertex>* mr;
+	WillowVox::Texture* tex;
+
+	void Start() override
+	{
+		shader = new WillowVox::Shader("assets/vert.glsl", "assets/frag.glsl");
+		shader->Use();
+		shader->SetVec3("color", 0.5f, 0.5f, 1.0f);
+
+		mr = new WillowVox::MeshRenderer<WillowVox::Vertex>(*shader);
+
+		WillowVox::Vertex vertices[] = {
+			{ { -1.0f, -1.0f, -5.0f }, { 0.0f, 0.0f } },
+			{ {  1.0f, -1.0f, -5.0f }, { 1.0f, 0.0f } },
+			{ { -1.0f,  1.0f, -5.0f }, { 0.0f, 1.0f } },
+			{ {  1.0f,  1.0f, -5.0f }, { 1.0f, 1.0f } },
+		};
+	
+		uint32_t indices[] = {
+			0, 1, 3,
+			0, 2, 3
+		};
+
+		WillowVox::Mesh<WillowVox::Vertex>* mesh = new WillowVox::Mesh<WillowVox::Vertex>();
+		mesh->SetMeshData(vertices, 4, indices, 6);
+
+		tex = new WillowVox::Texture("assets/grass_block_side.png");
+		tex->BindTexture(WillowVox::Texture::TEX00);
+
+		mr->SetMesh(mesh, true);
+	}
+
 	void Update() override
 	{
-		WillowVox::Logger::Log("Update\n");
+		
 	}
 
 	void Render() override
 	{
-		WillowVox::Logger::Log("Render\n");
+		glm::mat4 view = mainCamera->GetViewMatrix();
+		glm::mat4 projection = mainCamera->GetProjectionMatrix();
+		shader->Use();
+		shader->SetMat4("view", view);
+		shader->SetMat4("projection", projection);
+		shader->SetVec3("model", cos(glfwGetTime()), 0, 0);
+
+		mr->Render();
 	}
 };
 

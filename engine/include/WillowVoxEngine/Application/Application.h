@@ -1,5 +1,7 @@
 #pragma once
 
+#include <WillowVoxEngine/Rendering/Camera.h>
+
 namespace WillowVox
 {
 	class Application
@@ -10,8 +12,11 @@ namespace WillowVox
 
 		void Run();
 
+		Camera* mainCamera;
+
 	protected:
 		bool isRunning = true;
+		virtual void Start() = 0;
 		virtual void Update() = 0;
 		virtual void Render() = 0;
 	};
