@@ -4,7 +4,6 @@ add_library(WillowVoxEngine STATIC
     src/Application/Application.cpp
     src/Application/Window.cpp
     src/Core/Logger.cpp
-    src/Events/EventDispatcher.cpp
     src/Input/Input.cpp
     src/Rendering/OpenGLGraphicsAPI.cpp
     src/Rendering/Shader.cpp

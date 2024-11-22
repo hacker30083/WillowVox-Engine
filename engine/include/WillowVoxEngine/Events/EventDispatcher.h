@@ -7,22 +7,38 @@
 
 namespace WillowVox
 {
-    class EventDispatcher
+    template <typename T> class EventDispatcher
     {
     public:
-        using Listener = std::function<void(Event&)>;
+        using Listener = std::function<void(T&)>;
 
         // Register a listener for a specific event type
-        void RegisterListener(Event::Type eventType, Listener listener);
+        void RegisterListener(Listener listener)
+        {
+            listeners.push_back(listener);
+        }
 
         // Unregister all listeners for a specific event type
-        void UnregisterAllListeners(Event::Type eventType);
+        void UnregisterAllListeners()
+        {
+            listeners.clear();
+        }
 
         // Dispatch an event to all registered listeners
-        void Dispatch(Event& event);
+        void Dispatch(T& event)
+        {
+            for (auto& l : listeners)
+            {
+                l(event);
+
+                // Stop propagation if event is marked as handled
+                if (event.IsHandled())
+                    break;
+            }
+        }
 
     private:
         // Store all the event listeners
-        std::unordered_map<Event::Type, std::vector<Listener>> listeners;
+        std::vector<Listener> listeners;
     };
 }

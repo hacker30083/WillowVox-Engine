@@ -50,7 +50,7 @@ protected:
 
 		squarePos = glm::vec3(0);
 
-		input->inputEventDispatcher.RegisterListener(WillowVox::Event::Type::MouseScroll, [this](WillowVox::Event& e) {
+		input->inputEventDispatcher.RegisterListener(WillowVox::Event::Type::MouseScroll, [this](WillowVox::MouseScrollEvent& e) {
 			WillowVox::Logger::Log("Mouse scrolled\n");
 		});
 	}

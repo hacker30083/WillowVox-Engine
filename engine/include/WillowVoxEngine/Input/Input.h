@@ -3,6 +3,12 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <WillowVoxEngine/Events/EventDispatcher.h>
+#include <WillowVoxEngine/Events/MouseScrollEvent.h>
+#include <WillowVoxEngine/Events/KeyPressEvent.h>
+#include <WillowVoxEngine/Events/KeyReleaseEvent.h>
+#include <WillowVoxEngine/Events/MouseMoveEvent.h>
+#include <WillowVoxEngine/Events/MouseClickEvent.h>
+#include <WillowVoxEngine/Events/MouseReleaseEvent.h>
 
 namespace WillowVox
 {
@@ -107,7 +113,12 @@ namespace WillowVox
 		void DisableMouse();
 		void EnableMouse();
 
-		EventDispatcher inputEventDispatcher;
+		EventDispatcher<KeyPressEvent> keyPressEventDispatcher;
+		EventDispatcher<KeyReleaseEvent> keyReleaseEventDispatcher;
+		EventDispatcher<MouseClickEvent> mouseClickEventDispatcher;
+		EventDispatcher<MouseReleaseEvent> mouseReleaseEventDispatcher;
+		EventDispatcher<MouseMoveEvent> mouseMoveEventDispatcher;
+		EventDispatcher<MouseScrollEvent> mouseScrollEventDispatcher;
 
 	private:
 		GLFWwindow* window;
