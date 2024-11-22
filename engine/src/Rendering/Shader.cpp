@@ -120,7 +120,7 @@ namespace WillowVox
         glUniform1f(glGetUniformLocation(programId, name), value);
     }
 
-    void Shader::SetVec2(const char* name, Vec2 value) const
+    void Shader::SetVec2(const char* name, glm::vec2 value) const
     {
         glUniform2f(glGetUniformLocation(programId, name), value.x, value.y);
     }
@@ -130,7 +130,7 @@ namespace WillowVox
         glUniform2f(glGetUniformLocation(programId, name), x, y);
     }
 
-    void Shader::SetVec3(const char* name, Vec3 value) const
+    void Shader::SetVec3(const char* name, glm::vec3 value) const
     {
         glUniform3f(glGetUniformLocation(programId, name), value.x, value.y, value.z);
     }

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <WillowVoxEngine/Math/Vec3.h>
-#include <WillowVoxEngine/Math/Vec2.h>
 #include <WillowVoxEngine/Rendering/OpenGLGraphicsAPI.h>
 #include <stddef.h>
 
@@ -9,10 +7,10 @@ namespace WillowVox
 {
     struct Vertex
     {
-        Vertex(Vec3 position, Vec2 texCoord) : position(position), texCoord(texCoord) {}
+        Vertex(glm::vec3 position, glm::vec2 texCoord) : position(position), texCoord(texCoord) {}
 
-        Vec3 position;
-        Vec2 texCoord;
+        glm::vec3 position;
+        glm::vec2 texCoord;
 
         static void SetShaderAttributes()
         {

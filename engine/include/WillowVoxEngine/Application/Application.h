@@ -16,6 +16,7 @@ namespace WillowVox
 
 	protected:
 		bool isRunning = true;
+		virtual void Start() = 0;
 		virtual void Update() = 0;
 		virtual void Render() = 0;
 	};
