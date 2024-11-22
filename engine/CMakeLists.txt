@@ -2,7 +2,10 @@
 # Add files
 file(GLOB_RECURSE WILLOWVOXENGINE_SOURCES src/*.cpp)
 # Define the library target
-add_library(WillowVoxEngine STATIC ${WILLOWVOXENGINE_SOURCES})
+add_library(WillowVoxEngine STATIC 
+    src/Application/Application.cpp
+    src/Input/Input.cpp
+)
 
 # Include directories
 target_include_directories(WillowVoxEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
