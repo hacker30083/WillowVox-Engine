@@ -3,6 +3,12 @@
 #include <WillowVoxEngine/Core/Logger.h>
 #include <WillowVoxEngine/Events/WindowCloseEvent.h>
 #include <WillowVoxEngine/Events/WindowResizeEvent.h>
+#include <WillowVoxEngine/Events/MouseScrollEvent.h>
+#include <WillowVoxEngine/Events/KeyPressEvent.h>
+#include <WillowVoxEngine/Events/KeyReleaseEvent.h>
+#include <WillowVoxEngine/Events/MouseMoveEvent.h>
+#include <WillowVoxEngine/Events/MouseClickEvent.h>
+#include <WillowVoxEngine/Events/MouseReleaseEvent.h>
 
 namespace WillowVox
 {
@@ -33,13 +39,59 @@ namespace WillowVox
 		glViewport(0, 0, 600, 400);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+        // Callbacks
         glfwSetWindowUserPointer(window, static_cast<void*>(this));
+
+        // Window callbacks
         glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height) {
             auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
             glViewport(0, 0, width, height);
             WindowResizeEvent e(width, height);
             self->windowEventDispatcher.Dispatch(e);
+        });
+
+        // Input callbacks
+        glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+			auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+            
+            if (action == GLFW_PRESS)
+            {
+                KeyPressEvent e((Key)key);
+                self->input->inputEventDispatcher.Dispatch(e);
+            }
+            else if (action == GLFW_RELEASE)
+            {
+                KeyReleaseEvent e((Key)key);
+                self->input->inputEventDispatcher.Dispatch(e);
+            }
+		});
+
+        glfwSetScrollCallback(window, [](GLFWwindow* window, double xoffset, double yoffset) {
+			auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+            MouseScrollEvent e(xoffset, yoffset);
+            self->input->inputEventDispatcher.Dispatch(e);
+		});
+
+        glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xpos, double ypos) {
+            auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+            MouseMoveEvent e(xpos, ypos);
+            self->input->inputEventDispatcher.Dispatch(e);
+        });
+
+        glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods) {
+            auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+            if (action == GLFW_PRESS)
+            {
+                MouseClickEvent e(button);
+                self->input->inputEventDispatcher.Dispatch(e);
+            }
+            else
+            {
+                MouseReleaseEvent e(button);
+                self->input->inputEventDispatcher.Dispatch(e);
+            }
         });
     }
 
@@ -64,4 +116,8 @@ namespace WillowVox
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+
+    void Window::SetInput(Input* input) { this->input = input; }
+
+    GLFWwindow* Window::GetWindow() { return window; }
 }

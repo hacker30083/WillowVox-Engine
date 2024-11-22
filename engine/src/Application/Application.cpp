@@ -35,6 +35,9 @@ namespace WillowVox
 			Logger::EngineLog("Window resized!\n");
 		});
 
+		input = new Input(window.GetWindow());
+		window.SetInput(input);
+
 		mainCamera = new Camera();
 
 		// Pre-game logic
@@ -42,6 +45,11 @@ namespace WillowVox
 
 		while (isRunning)
 		{
+			// Calculate deltaTime
+			float currentFrame = glfwGetTime();
+			deltaTime = currentFrame - lastFrame;
+			lastFrame = currentFrame;
+
 			window.StartFrame();
 
 			// Run game logic

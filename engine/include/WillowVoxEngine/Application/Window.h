@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 
 #include <WillowVoxEngine/Events/EventDispatcher.h>
+#include <WillowVoxEngine/Input/Input.h>
 
 namespace WillowVox
 {
@@ -16,9 +17,13 @@ namespace WillowVox
         void StartFrame();
         void EndFrame();
 
+        void SetInput(Input* input);
+        GLFWwindow* GetWindow();
+
         EventDispatcher windowEventDispatcher;
 
     private:
         GLFWwindow* window;
+        Input* input;
     };
 }
