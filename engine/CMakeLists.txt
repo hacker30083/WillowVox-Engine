@@ -11,6 +11,7 @@ add_library(WillowVoxEngine STATIC
     src/Rendering/Camera.cpp
     src/World/Chunk.cpp
     src/World/World.cpp
+    src/World/GameObject.cpp
 
     dependencies/include/glad/src/glad.c
 )

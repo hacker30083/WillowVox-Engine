@@ -23,9 +23,10 @@ namespace WillowVox
 
 	void Application::Run()
 	{
+		// Load graphics API
 		OpenGLGraphicsAPI openGLApi;
 		openGLApi.Initialize();
-		
+
 		Window window;
 		window.windowCloseEventDispatcher.RegisterListener([this](Event& event) {
 			isRunning = false;
@@ -35,12 +36,15 @@ namespace WillowVox
 			Logger::EngineLog("Window resized!\n");
 		});
 
+		// Load assets
+		LoadAssets();
+
 		input = new Input(window.GetWindow());
 		window.SetInput(input);
 
-		mainCamera = new Camera();
+		// Create world
+		InitWorld();
 
-		loadedWorld = new World();
 		loadedWorld->Start();
 
 		// Pre-game logic
@@ -60,7 +64,7 @@ namespace WillowVox
 			Update();
 
 			// Render the game
-			loadedWorld->Render(*mainCamera);
+			loadedWorld->Render();
 			Render();
 
 			window.EndFrame();

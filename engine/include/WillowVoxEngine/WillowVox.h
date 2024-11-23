@@ -32,6 +32,8 @@
 // World
 #include <WillowVoxEngine/World/Chunk.h>
 #include <WillowVoxEngine/World/World.h>
+#include <WillowVoxEngine/World/GameObject.h>
+#include <WillowVoxEngine/World/Component.h>
 // Math (TODO: Don't expose any external libraries to client applications)
 #include <glm/glm.hpp>
 

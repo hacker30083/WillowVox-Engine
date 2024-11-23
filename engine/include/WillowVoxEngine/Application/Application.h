@@ -14,19 +14,22 @@ namespace WillowVox
 
 		void Run();
 
-		Camera* mainCamera;
 		Input* input;
 		float deltaTime;
 
 	protected:
+		virtual void LoadAssets() = 0;
+		virtual void InitWorld() = 0;
+
 		virtual void Start() = 0;
 		virtual void Update() = 0;
 		virtual void Render() = 0;
 
 		bool isRunning = true;
+		
+		World* loadedWorld;
 
 	private:
-		World* loadedWorld;
 
 		float lastFrame = 0;
 	};
