@@ -29,6 +29,9 @@
 #include <WillowVoxEngine/Rendering/Shader.h>
 #include <WillowVoxEngine/Rendering/Texture.h>
 #include <WillowVoxEngine/Rendering/Vertex.h>
+// World
+#include <WillowVoxEngine/World/Chunk.h>
+#include <WillowVoxEngine/World/World.h>
 // Math (TODO: Don't expose any external libraries to client applications)
 #include <glm/glm.hpp>
 

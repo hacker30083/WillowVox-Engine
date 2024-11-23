@@ -40,6 +40,9 @@ namespace WillowVox
 
 		mainCamera = new Camera();
 
+		loadedWorld = new World();
+		loadedWorld->Start();
+
 		// Pre-game logic
 		Start();
 
@@ -53,9 +56,11 @@ namespace WillowVox
 			window.StartFrame();
 
 			// Run game logic
+			loadedWorld->Update();
 			Update();
 
 			// Render the game
+			loadedWorld->Render(*mainCamera);
 			Render();
 
 			window.EndFrame();

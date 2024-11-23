@@ -1,15 +1,15 @@
 #pragma once
 
-#include <WillowVoxEngine/Rendering/Mesh.h>
+#include <WillowVoxEngine/Rendering/BMesh.h>
 #include <WillowVoxEngine/Rendering/Shader.h>
 
 namespace WillowVox
 {
-    template <typename T> class MeshRenderer
+    class MeshRenderer
     {
     public:
         MeshRenderer(Shader& shader) : shader(shader) {}
-        MeshRenderer(Shader& shader, Mesh<T>* mesh) : shader(shader), mesh(mesh) {}
+        MeshRenderer(Shader& shader, BMesh* mesh) : shader(shader), mesh(mesh) {}
 
         ~MeshRenderer()
         {
@@ -18,7 +18,7 @@ namespace WillowVox
         }
 
         void SetShader(Shader& shader) { this->shader = shader; }
-        void SetMesh(Mesh<T>* mesh, bool destroyMeshWhenDestroyed = false)
+        void SetMesh(BMesh* mesh, bool destroyMeshWhenDestroyed = false)
         {
             if (mesh != nullptr && this->destroyMeshWhenDestroyed)
                 delete this->mesh;
@@ -34,7 +34,7 @@ namespace WillowVox
 
     private:
         Shader& shader;
-        Mesh<T>* mesh;
+        BMesh* mesh;
 
         bool destroyMeshWhenDestroyed = false;
     };

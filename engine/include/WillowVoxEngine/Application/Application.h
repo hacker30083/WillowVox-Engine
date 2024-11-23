@@ -2,6 +2,7 @@
 
 #include <WillowVoxEngine/Rendering/Camera.h>
 #include <WillowVoxEngine/Input/Input.h>
+#include <WillowVoxEngine/World/World.h>
 
 namespace WillowVox
 {
@@ -25,6 +26,8 @@ namespace WillowVox
 		bool isRunning = true;
 
 	private:
+		World* loadedWorld;
+
 		float lastFrame = 0;
 	};
 

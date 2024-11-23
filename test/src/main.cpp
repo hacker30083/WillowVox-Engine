@@ -15,7 +15,7 @@ public:
 
 protected:
 	WillowVox::Shader* shader;
-	WillowVox::MeshRenderer<WillowVox::Vertex>* mr;
+	WillowVox::MeshRenderer* mr;
 	WillowVox::Texture* tex;
 
 	glm::vec3 squarePos;
@@ -28,7 +28,7 @@ protected:
 		shader->Use();
 		shader->SetVec3("color", 0.5f, 0.5f, 1.0f);
 
-		mr = new WillowVox::MeshRenderer<WillowVox::Vertex>(*shader);
+		mr = new WillowVox::MeshRenderer(*shader);
 
 		WillowVox::Vertex vertices[] = {
 			{ { -1.0f, -1.0f, -5.0f }, { 0.0f, 0.0f } },
