@@ -33,7 +33,7 @@ namespace WillowVox
         }
         else
         {
-            Logger::EngineLog("Failed to load texture\n");
+            Logger::Error("Failed to load texture: %s", path);
         }
 
         // Free texture data

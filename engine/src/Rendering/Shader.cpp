@@ -43,7 +43,7 @@ namespace WillowVox
         }
         catch (std::ifstream::failure e)
         {
-            std::cout << "Error reading shader source files\n";
+            Logger::Error("Error reading shader source files: %s", e.what());
         }
         const char* vShaderCode = vertexCode.c_str();
         const char* fShaderCode = fragmentCode.c_str();
@@ -62,7 +62,7 @@ namespace WillowVox
         if (!success)
         {
             glGetShaderInfoLog(vertex, 512, nullptr, infoLog);
-            std::cout << "Error compiling vertex shader!\n" << infoLog << '\n';
+            Logger::Error("Error compiling vertex shader! (%s): %s", vertexShaderPath, infoLog);
         }
 
         // fragment shader
@@ -74,7 +74,7 @@ namespace WillowVox
         if (!success)
         {
             glGetShaderInfoLog(fragment, 512, nullptr, infoLog);
-            std::cout << "Error compiling fragment shader!\n" << infoLog << '\n';
+            Logger::Error("Error compiling fragment shader! (%s): %s", fragmentShaderPath, infoLog);
         }
 
         // shader program
@@ -87,7 +87,7 @@ namespace WillowVox
         if (!success)
         {
             glGetProgramInfoLog(programId, 512, nullptr, infoLog);
-            std::cout << "Error linking shader program!\n" << infoLog << '\n';
+            Logger::Error("Error linking shader program: %s", infoLog);
         }
 
         // delete the shaders
