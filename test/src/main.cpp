@@ -18,6 +18,10 @@ protected:
 	WillowVox::MeshRenderer<WillowVox::Vertex>* mr;
 	WillowVox::Texture* tex;
 
+	glm::vec3 squarePos;
+
+	bool mouseDisabled = false;
+
 	void Start() override
 	{
 		shader = new WillowVox::Shader("assets/vert.glsl", "assets/frag.glsl");
@@ -45,11 +49,35 @@ protected:
 		tex->BindTexture(WillowVox::Texture::TEX00);
 
 		mr->SetMesh(mesh, true);
+
+		squarePos = glm::vec3(0);
+
+		input->mouseScrollEventDispatcher.RegisterListener([this](WillowVox::MouseScrollEvent& e) {
+			WillowVox::Logger::Log("Mouse scrolled\n");
+		});
+
+		input->keyPressEventDispatcher.RegisterListener([this](WillowVox::KeyPressEvent& e) {
+			if (e.key != WillowVox::ESC)
+				return;
+
+			this->mouseDisabled = !this->mouseDisabled;
+			if (this->mouseDisabled)
+				this->input->DisableMouse();
+			else
+				this->input->EnableMouse();
+		});
 	}
 
 	void Update() override
 	{
-		
+		if (input->GetKey(WillowVox::W))
+			squarePos.y += 2 * deltaTime;
+		if (input->GetKey(WillowVox::S))
+			squarePos.y -= 2 * deltaTime;
+		if (input->GetKey(WillowVox::A))
+			squarePos.x -= 2 * deltaTime;
+		if (input->GetKey(WillowVox::D))
+			squarePos.x += 2 * deltaTime;
 	}
 
 	void Render() override
@@ -59,7 +87,7 @@ protected:
 		shader->Use();
 		shader->SetMat4("view", view);
 		shader->SetMat4("projection", projection);
-		shader->SetVec3("model", cos(glfwGetTime()), 0, 0);
+		shader->SetVec3("model", squarePos);
 
 		mr->Render();
 	}

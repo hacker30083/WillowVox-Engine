@@ -13,6 +13,12 @@
 #include <WillowVoxEngine/Events/EventDispatcher.h>
 #include <WillowVoxEngine/Events/WindowCloseEvent.h>
 #include <WillowVoxEngine/Events/WindowResizeEvent.h>
+#include <WillowVoxEngine/Events/KeyPressEvent.h>
+#include <WillowVoxEngine/Events/KeyReleaseEvent.h>
+#include <WillowVoxEngine/Events/MouseClickEvent.h>
+#include <WillowVoxEngine/Events/MouseReleaseEvent.h>
+#include <WillowVoxEngine/Events/MouseMoveEvent.h>
+#include <WillowVoxEngine/Events/MouseScrollEvent.h>
 // Input
 #include <WillowVoxEngine/Input/Input.h>
 // Rendering

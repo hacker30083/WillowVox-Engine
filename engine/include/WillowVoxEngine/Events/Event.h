@@ -11,7 +11,7 @@ namespace WillowVox
         {
             None = 0,
             KeyPress, KeyRelease,
-            MouseMove, MouseClick,
+            MouseMove, MouseClick, MouseRelease, MouseScroll,
             WindowResize, WindowClose
         };
 

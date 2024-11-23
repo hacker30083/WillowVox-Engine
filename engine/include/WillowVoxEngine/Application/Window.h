@@ -2,8 +2,10 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
 #include <WillowVoxEngine/Events/EventDispatcher.h>
+#include <WillowVoxEngine/Events/WindowCloseEvent.h>
+#include <WillowVoxEngine/Events/WindowResizeEvent.h>
+#include <WillowVoxEngine/Input/Input.h>
 
 namespace WillowVox
 {
@@ -16,9 +18,14 @@ namespace WillowVox
         void StartFrame();
         void EndFrame();
 
-        EventDispatcher windowEventDispatcher;
+        void SetInput(Input* input);
+        GLFWwindow* GetWindow();
+
+        EventDispatcher<WindowCloseEvent> windowCloseEventDispatcher;
+        EventDispatcher<WindowResizeEvent> windowResizeEventDispatcher;
 
     private:
         GLFWwindow* window;
+        Input* input;
     };
 }
