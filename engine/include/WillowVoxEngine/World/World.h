@@ -1,6 +1,7 @@
 #pragma once
 
 #include <WillowVoxEngine/Rendering/MeshRenderer.h>
+#include <WillowVoxEngine/World/ChunkManager.h>
 #include <WillowVoxEngine/World/Chunk.h>
 #include <WillowVoxEngine/World/GameObject.h>
 #include <WillowVoxEngine/Rendering/Shader.h>
@@ -26,6 +27,7 @@ namespace WillowVox
     private:
         std::vector<GameObject*> gameObjects;
         std::vector<MeshRenderer*> meshRenderers;
+        ChunkManager chunkManager;
         // vvv Test code vvv
         Chunk* chunk;
         Shader* chunkShader;

@@ -12,6 +12,7 @@ add_library(WillowVoxEngine STATIC
     src/World/Chunk.cpp
     src/World/World.cpp
     src/World/GameObject.cpp
+    src/World/ChunkManager.cpp
 
     dependencies/include/glad/src/glad.c
 )
