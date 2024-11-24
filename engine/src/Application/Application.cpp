@@ -11,9 +11,11 @@
 
 namespace WillowVox
 {
+	Application* Application::app = nullptr;
+
 	Application::Application()
 	{
-
+		app = this;
 	}
 
 	Application::~Application()

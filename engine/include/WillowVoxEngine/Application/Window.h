@@ -27,5 +27,7 @@ namespace WillowVox
     private:
         GLFWwindow* window;
         Input* input;
+
+        float lastMouseX, lastMouseY;
     };
 }

@@ -74,7 +74,9 @@ namespace WillowVox
 
         glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xpos, double ypos) {
             auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
-            MouseMoveEvent e(xpos, ypos);
+            MouseMoveEvent e(xpos - self->lastMouseX, self->lastMouseY - ypos);
+            self->lastMouseX = xpos;
+            self->lastMouseY = ypos;
             self->input->mouseMoveEventDispatcher.Dispatch(e);
         });
 

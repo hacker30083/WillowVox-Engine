@@ -17,8 +17,6 @@ public:
 protected:
 	WillowVox::Texture* tex;
 
-	bool mouseDisabled = false;
-
 	void LoadAssets() override
 	{
 		tex = new WillowVox::Texture("assets/grass_block_side.png");
@@ -32,16 +30,7 @@ protected:
 
 	void Start() override
 	{
-		input->keyPressEventDispatcher.RegisterListener([this](WillowVox::KeyPressEvent& e) {
-			if (e.key != WillowVox::ESC)
-				return;
 
-			this->mouseDisabled = !this->mouseDisabled;
-			if (this->mouseDisabled)
-				this->input->DisableMouse();
-			else
-				this->input->EnableMouse();
-		});
 	}
 
 	void Update() override

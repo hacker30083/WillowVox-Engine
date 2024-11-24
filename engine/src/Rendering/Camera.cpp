@@ -10,16 +10,16 @@ namespace WillowVox
     Camera::Camera(float posX, float posY, float posZ, float roll, float pitch, float yaw)
     {
         position = glm::vec3(posX, posY, posZ);
-        direction = glm::vec3(roll, pitch, yaw);
+        direction = glm::vec3(pitch, yaw, roll);
     }
     
     glm::vec3 Camera::Front()
     {
         // calculate the new Front vector
         glm::vec3 front;
-        front.x = cos(glm::radians(direction.z)) * cos(glm::radians(direction.y));
-        front.y = sin(glm::radians(direction.y));
-        front.z = sin(glm::radians(direction.z)) * cos(glm::radians(direction.y));
+        front.x = cos(glm::radians(direction.y)) * cos(glm::radians(direction.x));
+        front.y = sin(glm::radians(direction.x));
+        front.z = sin(glm::radians(direction.y)) * cos(glm::radians(direction.x));
         return glm::normalize(front);
     }
 

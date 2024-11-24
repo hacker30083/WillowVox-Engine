@@ -8,31 +8,34 @@ namespace WillowVox
         {
             delete i;
         }
-
-        delete chunk;
     }
 
     void World::Start()
     {
         chunkShader = new Shader("assets/chunk_vert.glsl", "assets/chunk_frag.glsl");
+        chunkManager.terrainShader = chunkShader;
 
-        chunk = new Chunk(*chunkShader);
+        chunkManager.Start();
+
+        for (auto i : gameObjects)
+        {
+            i->Start();
+        }
     }
 
     void World::Update()
     {
+        chunkManager.Update();
 
+        for (auto i : gameObjects)
+        {
+            i->Update();
+        }
     }
 
     void World::Render()
     {
-        glm::mat4 view = mainCamera->GetViewMatrix();
-		glm::mat4 projection = mainCamera->GetProjectionMatrix();
-		chunkShader->Use();
-		chunkShader->SetMat4("view", view);
-		chunkShader->SetMat4("projection", projection);
-		chunkShader->SetVec3("model", glm::vec3(0, 0, 0));
-        chunk->Render();
+        chunkManager.Render(*mainCamera);
     }
 
     void World::AddMeshRenderer(MeshRenderer* mr)

@@ -14,6 +14,8 @@ namespace WillowVox
 
 		void Run();
 
+		static Application* app;
+		
 		Input* input;
 		float deltaTime;
 
@@ -28,6 +30,7 @@ namespace WillowVox
 		bool isRunning = true;
 		
 		World* loadedWorld;
+
 
 	private:
 

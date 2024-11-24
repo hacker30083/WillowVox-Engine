@@ -21,10 +21,11 @@ namespace WillowVox
     public:
         // Camera attributes
         glm::vec3 position;
+        // pitch = x, yaw = y, roll = z
         glm::vec3 direction;
         float fov = 70.0f;
 
-        Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 direction = glm::vec3(0, 0, -90.0f));
+        Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 direction = glm::vec3(0, -90.0f, 0));
 
         // constructor with scalar values
         Camera(float posX, float posY, float posZ, float roll, float pitch, float yaw);
