@@ -36,7 +36,14 @@ void PlayerController::Start()
         if (camera->direction.x < -89.0f)
             camera->direction.x = -89.0f;
     });
+
+    WillowVox::Application::app->input->mouseScrollEventDispatcher.RegisterListener([this](WillowVox::MouseScrollEvent& e) {
+        this->movementSpeed += (float)e.yOffset;
+        if (this->movementSpeed < 0)
+            this->movementSpeed = 0;
+    });
 }
+
 
 void PlayerController::Update()
 {
@@ -55,7 +62,17 @@ void PlayerController::Update()
             camera->position += camera->Front() * velocity;
     }
     if (WillowVox::Application::app->input->GetKey(WillowVox::S))
-        camera->position -= camera->Front() * velocity;
+    {
+        if (WillowVox::Application::app->input->GetKey(WillowVox::SPACE))
+        {
+            glm::vec3 moveDir = camera->Front();
+            moveDir.y = 0;
+            moveDir = glm::normalize(moveDir);
+            camera->position -= moveDir * velocity;
+        }
+        else
+            camera->position -= camera->Front() * velocity;
+    }
     if (WillowVox::Application::app->input->GetKey(WillowVox::A))
         camera->position -= camera->Right() * velocity;
     if (WillowVox::Application::app->input->GetKey(WillowVox::D))
