@@ -10,6 +10,7 @@ namespace WillowVox
     void ChunkManager::Start()
     {
         chunk = new Chunk(*terrainShader);
+        chunk->GenerateChunk();
     }
 
     void ChunkManager::Update()

@@ -1,4 +1,5 @@
 #include <WillowVoxEngine/World/World.h>
+#include <WillowVoxEngine/Rendering/OpenGLGraphicsAPI.h>
 
 namespace WillowVox
 {
@@ -35,6 +36,7 @@ namespace WillowVox
 
     void World::Render()
     {
+        OpenGLGraphicsAPI::EnableCullFace();
         chunkManager.Render(*mainCamera);
     }
 

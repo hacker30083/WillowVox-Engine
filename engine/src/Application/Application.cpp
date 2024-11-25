@@ -30,6 +30,7 @@ namespace WillowVox
 		openGLApi.Initialize();
 
 		Window window;
+		OpenGLGraphicsAPI::PostGladSetup();
 		window.windowCloseEventDispatcher.RegisterListener([this](Event& event) {
 			isRunning = false;
 		});
