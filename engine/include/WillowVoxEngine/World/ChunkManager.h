@@ -10,8 +10,6 @@
 #include <thread>
 #include <mutex>
 
-#define CHUNK_SIZE 32
-
 namespace WillowVox
 {
     class ChunkManager

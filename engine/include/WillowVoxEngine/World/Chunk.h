@@ -12,6 +12,7 @@ namespace WillowVox
         Chunk(Shader& shader);
         ~Chunk();
 
+        void SetChunkData(ChunkData* data);
         void GenerateChunk();
         void Render();
 

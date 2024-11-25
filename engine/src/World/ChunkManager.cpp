@@ -1,4 +1,5 @@
 #include <WillowVoxEngine/World/ChunkManager.h>
+#include <WillowVoxEngine/World/WorldGlobals.h>
 
 namespace WillowVox
 {
@@ -10,6 +11,16 @@ namespace WillowVox
     void ChunkManager::Start()
     {
         chunk = new Chunk(*terrainShader);
+
+        uint16_t* data = new uint16_t[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE];
+        for (int i = 0; i < CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE; i++)
+        {
+            data[i] = std::rand() % 2;
+        }
+
+        ChunkData* chunkData = new ChunkData(data);
+
+        chunk->SetChunkData(chunkData);
         chunk->GenerateChunk();
     }
 
