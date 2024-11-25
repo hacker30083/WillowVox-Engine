@@ -24,9 +24,7 @@ namespace WillowVox
     void Chunk::GenerateChunk()
     {
         std::vector<ChunkVertex> vertices;
-        vertices.reserve(24);
         std::vector<uint32_t> indices;
-        indices.reserve(6);
 
         uint32_t currentVertex = 0;
 
