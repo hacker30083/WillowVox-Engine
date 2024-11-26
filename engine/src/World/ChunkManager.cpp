@@ -36,6 +36,77 @@ namespace WillowVox
                 chunkQueue = {};
                 // Add current chunk
                 chunkQueue.push({ playerChunkX, playerChunkY, playerChunkZ });
+
+                for (int r = 0; r < renderDistance; r++)
+                {
+                    // Add middle chunks
+                    for (int y = 0; y < renderHeight; y++)
+                    {
+                        chunkQueue.push({ playerChunkX,     playerChunkY + y, playerChunkZ + r });
+                        chunkQueue.push({ playerChunkX + r, playerChunkY + y, playerChunkZ     });
+                        chunkQueue.push({ playerChunkX,     playerChunkY + y, playerChunkZ - r });
+                        chunkQueue.push({ playerChunkX - r, playerChunkY + y, playerChunkZ     });
+
+                        if (y > 0)
+                        {
+                            chunkQueue.push({ playerChunkX,     playerChunkY - y, playerChunkZ + r });
+                            chunkQueue.push({ playerChunkX + r, playerChunkY - y, playerChunkZ     });
+                            chunkQueue.push({ playerChunkX,     playerChunkY - y, playerChunkZ - r });
+                            chunkQueue.push({ playerChunkX - r, playerChunkY - y, playerChunkZ     });
+                        }
+                    }
+
+                    // Add edges
+                    for (int e = 1; e < r; e++)
+                    {
+                        for (int y = 0; y <= renderHeight; y++)
+                        {
+                            chunkQueue.push({ playerChunkX + e, playerChunkY + y, playerChunkZ + r });
+                            chunkQueue.push({ playerChunkX - e, playerChunkY + y, playerChunkZ + r });
+
+                            chunkQueue.push({ playerChunkX + r, playerChunkY + y, playerChunkZ + e });
+                            chunkQueue.push({ playerChunkX + r, playerChunkY + y, playerChunkZ - e });
+
+                            chunkQueue.push({ playerChunkX + e, playerChunkY + y, playerChunkZ - r });
+                            chunkQueue.push({ playerChunkX - e, playerChunkY + y, playerChunkZ - r });
+
+                            chunkQueue.push({ playerChunkX - r, playerChunkY + y, playerChunkZ + e });
+                            chunkQueue.push({ playerChunkX - r, playerChunkY + y, playerChunkZ - e });
+
+                            if (y > 0)
+                            {
+                                chunkQueue.push({ playerChunkX + e, playerChunkY - y, playerChunkZ + r });
+                                chunkQueue.push({ playerChunkX - e, playerChunkY - y, playerChunkZ + r });
+
+                                chunkQueue.push({ playerChunkX + r, playerChunkY - y, playerChunkZ + e });
+                                chunkQueue.push({ playerChunkX + r, playerChunkY - y, playerChunkZ - e });
+
+                                chunkQueue.push({ playerChunkX + e, playerChunkY - y, playerChunkZ - r });
+                                chunkQueue.push({ playerChunkX - e, playerChunkY - y, playerChunkZ - r });
+
+                                chunkQueue.push({ playerChunkX - r, playerChunkY - y, playerChunkZ + e });
+                                chunkQueue.push({ playerChunkX - r, playerChunkY - y, playerChunkZ - e });
+                            }
+                        }
+                    }
+
+                    // Add corners
+                    for (int y = 0; y <= renderHeight; y++)
+                    {
+                        chunkQueue.push({ playerChunkX + r, playerChunkY + y, playerChunkZ + r });
+                        chunkQueue.push({ playerChunkX + r, playerChunkY + y, playerChunkZ - r });
+                        chunkQueue.push({ playerChunkX - r, playerChunkY + y, playerChunkZ + r });
+                        chunkQueue.push({ playerChunkX - r, playerChunkY + y, playerChunkZ - r });
+
+                        if (y > 0)
+                        {
+                            chunkQueue.push({ playerChunkX + r, playerChunkY - y, playerChunkZ + r });
+                            chunkQueue.push({ playerChunkX + r, playerChunkY - y, playerChunkZ - r });
+                            chunkQueue.push({ playerChunkX - r, playerChunkY - y, playerChunkZ + r });
+                            chunkQueue.push({ playerChunkX - r, playerChunkY - y, playerChunkZ - r });
+                        }
+                    }
+                }
             }
             else if (!chunkQueue.empty())
             {
@@ -65,12 +136,13 @@ namespace WillowVox
                         uint16_t* d = new uint16_t[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE];
                         for (int i = 0; i < CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE; i++)
                         {
-                            d[i] = std::rand() % 2;
+                            //d[i] = std::rand() % 2;
+                            d[i] = 1;
                         }
                         ChunkData* data = new ChunkData(d);
 
                         // Set chunk's chunk data
-                        chunk->SetChunkData(data);
+                        chunk->chunkData = data;
 
                         // Add new chunk data to chunk data map
                         chunkMutex.lock();
@@ -80,13 +152,141 @@ namespace WillowVox
                     else
                     {
                         // Set chunk's data to item from chunk data map
-                        chunk->SetChunkData(chunkData.at(chunkPos));
+                        chunk->chunkData = chunkData.at(chunkPos);
+                        chunkMutex.unlock();
+                    }
+                }
+
+                // Set north chunk data
+                {
+                    glm::ivec3 checkPos(chunkPos.x, chunkPos.y, chunkPos.z - 1);
+                    chunkMutex.lock();
+                    if (chunkData.find(checkPos) == chunkData.end())
+                    {
+                        // Chunk data doesn't exist, create it
+                        chunkMutex.unlock();
+                        uint16_t* d = new uint16_t[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE];
+                        for (int i = 0; i < CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE; i++)
+                        {
+                            //d[i] = std::rand() % 2;
+                            d[i] = 1;
+                        }
+                        ChunkData* data = new ChunkData(d);
+
+                        // Set chunk's chunk data
+                        chunk->northData = data;
+
+                        // Add new chunk data to chunk data map
+                        chunkMutex.lock();
+                        chunkData[checkPos] = data;
+                        chunkMutex.unlock();
+                    }
+                    else
+                    {
+                        // Set chunk's data to item from chunk data map
+                        chunk->northData = chunkData.at(checkPos);
+                        chunkMutex.unlock();
+                    }
+                }
+
+                // Set south chunk data
+                {
+                    glm::ivec3 checkPos(chunkPos.x, chunkPos.y, chunkPos.z + 1);
+                    chunkMutex.lock();
+                    if (chunkData.find(checkPos) == chunkData.end())
+                    {
+                        // Chunk data doesn't exist, create it
+                        chunkMutex.unlock();
+                        uint16_t* d = new uint16_t[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE];
+                        for (int i = 0; i < CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE; i++)
+                        {
+                            //d[i] = std::rand() % 2;
+                            d[i] = 1;
+                        }
+                        ChunkData* data = new ChunkData(d);
+
+                        // Set chunk's chunk data
+                        chunk->southData = data;
+
+                        // Add new chunk data to chunk data map
+                        chunkMutex.lock();
+                        chunkData[checkPos] = data;
+                        chunkMutex.unlock();
+                    }
+                    else
+                    {
+                        // Set chunk's data to item from chunk data map
+                        chunk->southData = chunkData.at(checkPos);
+                        chunkMutex.unlock();
+                    }
+                }
+
+                // Set east chunk data
+                {
+                    glm::ivec3 checkPos(chunkPos.x + 1, chunkPos.y, chunkPos.z);
+                    chunkMutex.lock();
+                    if (chunkData.find(checkPos) == chunkData.end())
+                    {
+                        // Chunk data doesn't exist, create it
+                        chunkMutex.unlock();
+                        uint16_t* d = new uint16_t[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE];
+                        for (int i = 0; i < CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE; i++)
+                        {
+                            //d[i] = std::rand() % 2;
+                            d[i] = 1;
+                        }
+                        ChunkData* data = new ChunkData(d);
+
+                        // Set chunk's chunk data
+                        chunk->eastData = data;
+
+                        // Add new chunk data to chunk data map
+                        chunkMutex.lock();
+                        chunkData[checkPos] = data;
+                        chunkMutex.unlock();
+                    }
+                    else
+                    {
+                        // Set chunk's data to item from chunk data map
+                        chunk->eastData = chunkData.at(checkPos);
+                        chunkMutex.unlock();
+                    }
+                }
+
+                // Set west chunk data
+                {
+                    glm::ivec3 checkPos(chunkPos.x - 1, chunkPos.y, chunkPos.z);
+                    chunkMutex.lock();
+                    if (chunkData.find(checkPos) == chunkData.end())
+                    {
+                        // Chunk data doesn't exist, create it
+                        chunkMutex.unlock();
+                        uint16_t* d = new uint16_t[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE];
+                        for (int i = 0; i < CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE; i++)
+                        {
+                            //d[i] = std::rand() % 2;
+                            d[i] = 1;
+                        }
+                        ChunkData* data = new ChunkData(d);
+
+                        // Set chunk's chunk data
+                        chunk->westData = data;
+
+                        // Add new chunk data to chunk data map
+                        chunkMutex.lock();
+                        chunkData[checkPos] = data;
+                        chunkMutex.unlock();
+                    }
+                    else
+                    {
+                        // Set chunk's data to item from chunk data map
+                        chunk->westData = chunkData.at(checkPos);
                         chunkMutex.unlock();
                     }
                 }
 
                 // Set top chunk data
-                /*{
+                {
                     glm::ivec3 checkPos(chunkPos.x, chunkPos.y + 1, chunkPos.z);
                     chunkMutex.lock();
                     if (chunkData.find(checkPos) == chunkData.end())
@@ -96,25 +296,58 @@ namespace WillowVox
                         uint16_t* d = new uint16_t[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE];
                         for (int i = 0; i < CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE; i++)
                         {
-                            d[i] = std::rand() % 2;
+                            //d[i] = std::rand() % 2;
+                            d[i] = 1;
                         }
                         ChunkData* data = new ChunkData(d);
 
                         // Set chunk's chunk data
-                        //chunk->SetChunkData(data);
+                        chunk->upData = data;
 
                         // Add new chunk data to chunk data map
                         chunkMutex.lock();
-                        chunkData[chunkPos] = data;
+                        chunkData[checkPos] = data;
                         chunkMutex.unlock();
                     }
                     else
                     {
                         // Set chunk's data to item from chunk data map
-                        chunk->SetChunkData(chunkData.at(chunkPos));
+                        chunk->upData = chunkData.at(checkPos);
                         chunkMutex.unlock();
                     }
-                }*/
+                }
+
+                // Set down chunk data
+                {
+                    glm::ivec3 checkPos(chunkPos.x, chunkPos.y - 1, chunkPos.z);
+                    chunkMutex.lock();
+                    if (chunkData.find(checkPos) == chunkData.end())
+                    {
+                        // Chunk data doesn't exist, create it
+                        chunkMutex.unlock();
+                        uint16_t* d = new uint16_t[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE];
+                        for (int i = 0; i < CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE; i++)
+                        {
+                            //d[i] = std::rand() % 2;
+                            d[i] = 1;
+                        }
+                        ChunkData* data = new ChunkData(d);
+
+                        // Set chunk's chunk data
+                        chunk->downData = data;
+
+                        // Add new chunk data to chunk data map
+                        chunkMutex.lock();
+                        chunkData[checkPos] = data;
+                        chunkMutex.unlock();
+                    }
+                    else
+                    {
+                        // Set chunk's data to item from chunk data map
+                        chunk->downData = chunkData.at(checkPos);
+                        chunkMutex.unlock();
+                    }
+                }
 
                 // Generate chunk mesh
                 chunk->GenerateChunkMeshData();

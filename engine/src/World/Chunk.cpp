@@ -16,11 +16,6 @@ namespace WillowVox
         delete mr;
     }
 
-    void Chunk::SetChunkData(ChunkData* data)
-    {
-        chunkData = data;
-    }
-
     void Chunk::GenerateChunkMeshData()
     {
         vertices.clear();
@@ -39,7 +34,13 @@ namespace WillowVox
                     
                     // North
                     {
-                        if (z == 0 || chunkData->GetBlock(x, y, z - 1) == 0)
+                        int nBlock;
+                        if (z > 0)
+                            nBlock = chunkData->GetBlock(x, y, z - 1);
+                        else
+                            nBlock = northData->GetBlock(x, y, CHUNK_SIZE - 1);
+
+                        if (nBlock == 0)
                         {
                             vertices.emplace_back(x + 1, y + 0, z + 0, 0, 0);
                             vertices.emplace_back(x + 0, y + 0, z + 0, 1, 0);
@@ -58,7 +59,13 @@ namespace WillowVox
 
                     // South
                     {
-                        if (z == CHUNK_SIZE - 1 || chunkData->GetBlock(x, y, z + 1) == 0)
+                        int nBlock;
+                        if (z < CHUNK_SIZE - 1)
+                            nBlock = chunkData->GetBlock(x, y, z + 1);
+                        else
+                            nBlock = southData->GetBlock(x, y, 0);
+
+                        if (nBlock == 0)
                         {
                             vertices.emplace_back(x + 0, y + 0, z + 1, 0, 0);
                             vertices.emplace_back(x + 1, y + 0, z + 1, 1, 0);
@@ -75,28 +82,15 @@ namespace WillowVox
                         }
                     }
 
-                    // West
-                    {
-                        if (x == 0 || chunkData->GetBlock(x - 1, y, z) == 0)
-                        {
-                            vertices.emplace_back(x + 0, y + 0, z + 0, 0, 0);
-                            vertices.emplace_back(x + 0, y + 0, z + 1, 1, 0);
-                            vertices.emplace_back(x + 0, y + 1, z + 0, 0, 1);
-                            vertices.emplace_back(x + 0, y + 1, z + 1, 1, 1);
-
-                            indices.emplace_back(currentVertex + 0);
-                            indices.emplace_back(currentVertex + 3);
-                            indices.emplace_back(currentVertex + 1);
-                            indices.emplace_back(currentVertex + 0);
-                            indices.emplace_back(currentVertex + 2);
-                            indices.emplace_back(currentVertex + 3);
-                            currentVertex += 4;
-                        }
-                    }
-
                     // East
                     {
-                        if (x == CHUNK_SIZE - 1 || chunkData->GetBlock(x + 1, y, z) == 0)
+                        int nBlock;
+                        if (x < CHUNK_SIZE - 1)
+                            nBlock = chunkData->GetBlock(x + 1, y, z);
+                        else
+                            nBlock = northData->GetBlock(0, y, z);
+
+                        if (nBlock == 0)
                         {
                             vertices.emplace_back(x + 1, y + 0, z + 1, 0, 0);
                             vertices.emplace_back(x + 1, y + 0, z + 0, 1, 0);
@@ -113,14 +107,20 @@ namespace WillowVox
                         }
                     }
 
-                    // Bottom
+                    // West
                     {
-                        if (y == 0 || chunkData->GetBlock(x, y - 1, z) == 0)
+                        int nBlock;
+                        if (x > 0)
+                            nBlock = chunkData->GetBlock(x - 1, y, z);
+                        else
+                            nBlock = northData->GetBlock(CHUNK_SIZE - 1, y, z);
+
+                        if (nBlock == 0)
                         {
-                            vertices.emplace_back(x + 1, y + 0, z + 1, 0, 0);
+                            vertices.emplace_back(x + 0, y + 0, z + 0, 0, 0);
                             vertices.emplace_back(x + 0, y + 0, z + 1, 1, 0);
-                            vertices.emplace_back(x + 1, y + 0, z + 0, 0, 1);
-                            vertices.emplace_back(x + 0, y + 0, z + 0, 1, 1);
+                            vertices.emplace_back(x + 0, y + 1, z + 0, 0, 1);
+                            vertices.emplace_back(x + 0, y + 1, z + 1, 1, 1);
 
                             indices.emplace_back(currentVertex + 0);
                             indices.emplace_back(currentVertex + 3);
@@ -134,12 +134,43 @@ namespace WillowVox
 
                     // Top
                     {
-                        if (y == CHUNK_SIZE - 1 || chunkData->GetBlock(x, y + 1, z) == 0)
+                        int nBlock;
+                        if (y < CHUNK_SIZE - 1)
+                            nBlock = chunkData->GetBlock(x, y + 1, z);
+                        else
+                            nBlock = northData->GetBlock(x, 0, z);
+
+                        if (nBlock == 0)
                         {
                             vertices.emplace_back(x + 0, y + 1, z + 1, 0, 0);
                             vertices.emplace_back(x + 1, y + 1, z + 1, 1, 0);
                             vertices.emplace_back(x + 0, y + 1, z + 0, 0, 1);
                             vertices.emplace_back(x + 1, y + 1, z + 0, 1, 1);
+
+                            indices.emplace_back(currentVertex + 0);
+                            indices.emplace_back(currentVertex + 3);
+                            indices.emplace_back(currentVertex + 1);
+                            indices.emplace_back(currentVertex + 0);
+                            indices.emplace_back(currentVertex + 2);
+                            indices.emplace_back(currentVertex + 3);
+                            currentVertex += 4;
+                        }
+                    }
+
+                    // Bottom
+                    {
+                        int nBlock;
+                        if (y > 0)
+                            nBlock = chunkData->GetBlock(x, y - 1, z);
+                        else
+                            nBlock = northData->GetBlock(x, CHUNK_SIZE - 1, z);
+
+                        if (nBlock == 0)
+                        {
+                            vertices.emplace_back(x + 1, y + 0, z + 1, 0, 0);
+                            vertices.emplace_back(x + 0, y + 0, z + 1, 1, 0);
+                            vertices.emplace_back(x + 1, y + 0, z + 0, 0, 1);
+                            vertices.emplace_back(x + 0, y + 0, z + 0, 1, 1);
 
                             indices.emplace_back(currentVertex + 0);
                             indices.emplace_back(currentVertex + 3);
@@ -161,8 +192,8 @@ namespace WillowVox
         mesh->SetMeshData(vertices, indices);
         mr->SetMesh(mesh, true);
 
-        //vertices.clear();
-        //indices.clear();
+        vertices.clear();
+        indices.clear();
     }
 
     void Chunk::Render()

@@ -15,21 +15,27 @@ namespace WillowVox
         Chunk(Shader& shader, glm::ivec3 chunkPos, glm::vec3 worldPos);
         ~Chunk();
 
-        void SetChunkData(ChunkData* data);
         void GenerateChunkMeshData();
         void GenerateChunkMesh();
         void Render();
 
-    private:
-        MeshRenderer* mr;
-        Shader& shader;
         ChunkData* chunkData;
+        ChunkData* northData;
+        ChunkData* southData;
+        ChunkData* eastData;
+        ChunkData* westData;
+        ChunkData* upData;
+        ChunkData* downData;
+
+    private:
         glm::ivec3 chunkPos;
         glm::vec3 worldPos;
 
+        MeshRenderer* mr;
+        Shader& shader;
+
         std::vector<ChunkVertex> vertices;
         std::vector<uint32_t> indices;
-
         bool ready = false;
     };
 }
