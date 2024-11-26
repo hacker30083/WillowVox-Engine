@@ -21,6 +21,8 @@ namespace WillowVox
         void Update();
         void Render(Camera& camera);
 
+        void SetPlayerObj(Camera* camera);
+
         int renderDistance = 10;
         int renderHeight = 3;
 
@@ -34,12 +36,14 @@ namespace WillowVox
 
         std::unordered_map<glm::ivec3, Chunk*, ivec3Hash> chunks;
         std::unordered_map<glm::ivec3, ChunkData*, ivec3Hash> chunkData;
-        std::queue<glm::ivec3> chunkQueue;
-        std::queue<glm::ivec3> chunkDataQueue;
-        std::queue<glm::ivec3> chunkDataDeleteQueue;
+        std::queue<glm::ivec3> chunkQueue; // For use only by chunk thread
         
         std::thread chunkThread;
         std::mutex chunkMutex;
+
+        Camera* playerObj;
+        int lastPlayerX = -100, lastPlayerY = -100, lastPlayerZ = -100;
+        int playerChunkX = -100, playerChunkY = -100, playerChunkZ = -100;
 
         bool shouldEnd = false;
     };

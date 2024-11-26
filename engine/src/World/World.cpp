@@ -1,5 +1,6 @@
 #include <WillowVoxEngine/World/World.h>
 #include <WillowVoxEngine/Rendering/OpenGLGraphicsAPI.h>
+#include <WillowVoxEngine/Core/Logger.h>
 
 namespace WillowVox
 {
@@ -15,6 +16,8 @@ namespace WillowVox
     {
         chunkShader = new Shader("assets/chunk_vert.glsl", "assets/chunk_frag.glsl");
         chunkManager.terrainShader = chunkShader;
+
+        chunkManager.SetPlayerObj(mainCamera);
 
         chunkManager.Start();
 
