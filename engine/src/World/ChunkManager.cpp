@@ -6,7 +6,7 @@ namespace WillowVox
 {
     ChunkManager::~ChunkManager()
     {
-        delete chunk;
+        
     }
 
     void ChunkManager::Start()
@@ -133,13 +133,9 @@ namespace WillowVox
                     {
                         // Chunk data doesn't exist, create it
                         chunkMutex.unlock();
-                        uint16_t* d = new uint16_t[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE];
-                        for (int i = 0; i < CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE; i++)
-                        {
-                            //d[i] = std::rand() % 2;
-                            d[i] = 1;
-                        }
-                        ChunkData* data = new ChunkData(d);
+
+                        ChunkData* data = new ChunkData();
+                        worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
                         chunk->chunkData = data;
@@ -165,13 +161,9 @@ namespace WillowVox
                     {
                         // Chunk data doesn't exist, create it
                         chunkMutex.unlock();
-                        uint16_t* d = new uint16_t[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE];
-                        for (int i = 0; i < CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE; i++)
-                        {
-                            //d[i] = std::rand() % 2;
-                            d[i] = 1;
-                        }
-                        ChunkData* data = new ChunkData(d);
+                        
+                        ChunkData* data = new ChunkData();
+                        worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
                         chunk->northData = data;
@@ -197,13 +189,9 @@ namespace WillowVox
                     {
                         // Chunk data doesn't exist, create it
                         chunkMutex.unlock();
-                        uint16_t* d = new uint16_t[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE];
-                        for (int i = 0; i < CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE; i++)
-                        {
-                            //d[i] = std::rand() % 2;
-                            d[i] = 1;
-                        }
-                        ChunkData* data = new ChunkData(d);
+                        
+                        ChunkData* data = new ChunkData();
+                        worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
                         chunk->southData = data;
@@ -229,13 +217,9 @@ namespace WillowVox
                     {
                         // Chunk data doesn't exist, create it
                         chunkMutex.unlock();
-                        uint16_t* d = new uint16_t[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE];
-                        for (int i = 0; i < CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE; i++)
-                        {
-                            //d[i] = std::rand() % 2;
-                            d[i] = 1;
-                        }
-                        ChunkData* data = new ChunkData(d);
+                        
+                        ChunkData* data = new ChunkData();
+                        worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
                         chunk->eastData = data;
@@ -261,13 +245,9 @@ namespace WillowVox
                     {
                         // Chunk data doesn't exist, create it
                         chunkMutex.unlock();
-                        uint16_t* d = new uint16_t[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE];
-                        for (int i = 0; i < CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE; i++)
-                        {
-                            //d[i] = std::rand() % 2;
-                            d[i] = 1;
-                        }
-                        ChunkData* data = new ChunkData(d);
+                        
+                        ChunkData* data = new ChunkData();
+                        worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
                         chunk->westData = data;
@@ -293,13 +273,9 @@ namespace WillowVox
                     {
                         // Chunk data doesn't exist, create it
                         chunkMutex.unlock();
-                        uint16_t* d = new uint16_t[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE];
-                        for (int i = 0; i < CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE; i++)
-                        {
-                            //d[i] = std::rand() % 2;
-                            d[i] = 1;
-                        }
-                        ChunkData* data = new ChunkData(d);
+                        
+                        ChunkData* data = new ChunkData();
+                        worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
                         chunk->upData = data;
@@ -325,13 +301,9 @@ namespace WillowVox
                     {
                         // Chunk data doesn't exist, create it
                         chunkMutex.unlock();
-                        uint16_t* d = new uint16_t[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE];
-                        for (int i = 0; i < CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE; i++)
-                        {
-                            //d[i] = std::rand() % 2;
-                            d[i] = 1;
-                        }
-                        ChunkData* data = new ChunkData(d);
+                        
+                        ChunkData* data = new ChunkData();
+                        worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
                         chunk->downData = data;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <WillowVoxEngine/World/WorldGlobals.h>
+#include <cstdint>
 
 namespace WillowVox
 {
