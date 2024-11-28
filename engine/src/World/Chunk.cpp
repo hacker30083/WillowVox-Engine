@@ -22,7 +22,7 @@ namespace WillowVox
         indices.clear();
 
         uint32_t currentVertex = 0;
-
+        
         for (char x = 0; x < CHUNK_SIZE; x++)
         {
             for (char z = 0; z < CHUNK_SIZE; z++)
@@ -88,7 +88,7 @@ namespace WillowVox
                         if (x < CHUNK_SIZE - 1)
                             nBlock = chunkData->GetBlock(x + 1, y, z);
                         else
-                            nBlock = northData->GetBlock(0, y, z);
+                            nBlock = eastData->GetBlock(0, y, z);
 
                         if (nBlock == 0)
                         {
@@ -113,7 +113,7 @@ namespace WillowVox
                         if (x > 0)
                             nBlock = chunkData->GetBlock(x - 1, y, z);
                         else
-                            nBlock = northData->GetBlock(CHUNK_SIZE - 1, y, z);
+                            nBlock = westData->GetBlock(CHUNK_SIZE - 1, y, z);
 
                         if (nBlock == 0)
                         {
@@ -138,7 +138,7 @@ namespace WillowVox
                         if (y < CHUNK_SIZE - 1)
                             nBlock = chunkData->GetBlock(x, y + 1, z);
                         else
-                            nBlock = northData->GetBlock(x, 0, z);
+                            nBlock = upData->GetBlock(x, 0, z);
 
                         if (nBlock == 0)
                         {
@@ -163,7 +163,7 @@ namespace WillowVox
                         if (y > 0)
                             nBlock = chunkData->GetBlock(x, y - 1, z);
                         else
-                            nBlock = northData->GetBlock(x, CHUNK_SIZE - 1, z);
+                            nBlock = downData->GetBlock(x, CHUNK_SIZE - 1, z);
 
                         if (nBlock == 0)
                         {

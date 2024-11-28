@@ -7,6 +7,7 @@
 #include <WillowVoxEngine/Rendering/MeshRenderer.h>
 #include <WillowVoxEngine/Rendering/Texture.h>
 #include <WillowVoxEngine/Rendering/Vertex.h>
+#include <WillowVoxEngine/Math/Noise.h>
 #include <glm/glm.hpp>
 
 namespace WillowVox
@@ -42,8 +43,12 @@ namespace WillowVox
 		// Load assets
 		LoadAssets();
 
+		// Set up input
 		input = new Input(window.GetWindow());
 		window.SetInput(input);
+
+		// Init noise
+		Noise::InitNoise();
 
 		// Create world
 		InitWorld();

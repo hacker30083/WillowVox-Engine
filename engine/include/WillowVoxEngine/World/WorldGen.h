@@ -1,6 +1,7 @@
 #pragma once
 
 #include <WillowVoxEngine/World/ChunkData.h>
+#include <WillowVoxEngine/Core/Logger.h>
 #include <cstdint>
 
 namespace WillowVox
@@ -17,7 +18,7 @@ namespace WillowVox
                 {
                     for (int z = 0; z < CHUNK_SIZE; z++)
                     {
-                        chunkData.voxels[i] = GetBlock(x, y, z);
+                        chunkData.voxels[i] = GetBlock(x + chunkData.offset.x, y + chunkData.offset.y, z + chunkData.offset.z);
                         i++;
                     }
                 }
@@ -26,7 +27,7 @@ namespace WillowVox
         
         virtual uint16_t GetBlock(int x, int y, int z)
         {
-            return 0;
+            return 1;
         }
     };
 }
