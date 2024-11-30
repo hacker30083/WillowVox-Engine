@@ -9,6 +9,12 @@ namespace WillowVox
     {
         float noise = Noise::GetValue2D(x, z) + 10;
         uint16_t block = (uint16_t)roundf(noise);
-        return y < block ? 1 : 0;
+
+        if (y <= block)
+            return 1;
+        else if (y == block + 1)
+            return 2;
+        else
+            return 0;
     }
 }

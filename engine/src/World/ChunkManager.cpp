@@ -124,7 +124,7 @@ namespace WillowVox
                 chunkMutex.unlock();
 
                 // Create chunk object
-                Chunk* chunk = new Chunk(*terrainShader, chunkPos, chunkPos * CHUNK_SIZE);
+                Chunk* chunk = new Chunk(*solidShader, *fluidShader, *billboardShader, chunkPos, chunkPos * CHUNK_SIZE);
 
                 // Set chunk data
                 {
@@ -347,15 +347,27 @@ namespace WillowVox
     {
         glm::mat4 view = camera.GetViewMatrix();
 		glm::mat4 projection = camera.GetProjectionMatrix();
-		terrainShader->Use();
-		terrainShader->SetMat4("view", view);
-		terrainShader->SetMat4("projection", projection);
-        //chunk->Render();
+		solidShader->Use();
+		solidShader->SetMat4("view", view);
+		solidShader->SetMat4("projection", projection);
+
+		fluidShader->Use();
+		fluidShader->SetMat4("view", view);
+		fluidShader->SetMat4("projection", projection);
+
+		billboardShader->Use();
+		billboardShader->SetMat4("view", view);
+		billboardShader->SetMat4("projection", projection);
 
         chunkMutex.lock();
         for (auto it = chunks.begin(); it != chunks.end();)
         {
-            (*it->second).Render();
+            (*it->second).RenderSolid();
+            ++it;
+        }
+        for (auto it = chunks.begin(); it != chunks.end();)
+        {
+            (*it->second).RenderTransparent();
             ++it;
         }
         chunkMutex.unlock();

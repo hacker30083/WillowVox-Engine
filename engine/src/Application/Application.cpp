@@ -43,7 +43,7 @@ namespace WillowVox
 
 		// Load assets and resources
 		LoadAssets();
-		Blocks::RegisterBlock({0, 0, 0, 0, Block::TRANSPARENT, "Air"});
+		Blocks::RegisterBlock({0, 0, Block::TRANSPARENT, "Air"});
 		RegisterBlocks();
 
 		// Set up input

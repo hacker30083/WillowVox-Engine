@@ -16,10 +16,21 @@ namespace WillowVox
     {
 		tex = new Texture("assets/block_map.png");
 		tex->BindTexture(Texture::TEX00);
-        chunkShader = new Shader("assets/chunk_vert.glsl", "assets/chunk_frag.glsl");
-        chunkManager.terrainShader = chunkShader;
-        chunkShader->Use();
-        chunkShader->SetFloat("texMultiplier", 16.0f / tex->width);
+
+        solidShader = new Shader("assets/chunk_solid_vert.glsl", "assets/chunk_solid_frag.glsl");
+        chunkManager.solidShader = solidShader;
+        solidShader->Use();
+        solidShader->SetFloat("texMultiplier", 16.0f / tex->width);
+
+        fluidShader = new Shader("assets/chunk_fluid_vert.glsl", "assets/chunk_fluid_frag.glsl");
+        chunkManager.fluidShader = fluidShader;
+        fluidShader->Use();
+        fluidShader->SetFloat("texMultiplier", 16.0f / tex->width);
+
+        billboardShader = new Shader("assets/chunk_billboard_vert.glsl", "assets/chunk_billboard_frag.glsl");
+        chunkManager.billboardShader = billboardShader;
+        billboardShader->Use();
+        billboardShader->SetFloat("texMultiplier", 16.0f / tex->width);
 
         chunkManager.SetPlayerObj(mainCamera);
 

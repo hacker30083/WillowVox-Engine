@@ -28,7 +28,9 @@ namespace WillowVox
         int renderHeight = 3;
 
         // TEMP until asset manager
-        Shader* terrainShader;
+        Shader* solidShader;
+        Shader* fluidShader;
+        Shader* billboardShader;
 
     private:
         void ChunkThreadUpdate();

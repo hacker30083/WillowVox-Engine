@@ -30,7 +30,9 @@ namespace WillowVox
         std::vector<MeshRenderer*> meshRenderers;
         ChunkManager chunkManager;
         // vvv Test code vvv
-        Shader* chunkShader;
+        Shader* solidShader;
+        Shader* fluidShader;
+        Shader* billboardShader;
         Texture* tex;
     };
 }
