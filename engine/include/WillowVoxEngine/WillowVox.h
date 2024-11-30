@@ -29,6 +29,9 @@
 #include <WillowVoxEngine/Rendering/Shader.h>
 #include <WillowVoxEngine/Rendering/Texture.h>
 #include <WillowVoxEngine/Rendering/Vertex.h>
+// Resources
+#include <WillowVoxEngine/Resources/Block.h>
+#include <WillowVoxEngine/Resources/Blocks.h>
 // World
 #include <WillowVoxEngine/World/Chunk.h>
 #include <WillowVoxEngine/World/World.h>

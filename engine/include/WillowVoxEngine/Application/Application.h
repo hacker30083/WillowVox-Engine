@@ -21,6 +21,7 @@ namespace WillowVox
 
 	protected:
 		virtual void LoadAssets() = 0;
+		virtual void RegisterBlocks() = 0;
 		virtual void InitWorld() = 0;
 
 		virtual void Start() = 0;
@@ -33,7 +34,6 @@ namespace WillowVox
 
 
 	private:
-
 		float lastFrame = 0;
 	};
 

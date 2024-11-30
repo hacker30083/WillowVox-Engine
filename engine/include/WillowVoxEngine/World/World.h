@@ -6,6 +6,7 @@
 #include <WillowVoxEngine/World/GameObject.h>
 #include <WillowVoxEngine/Rendering/Shader.h>
 #include <WillowVoxEngine/Rendering/Camera.h>
+#include <WillowVoxEngine/Rendering/Texture.h>
 #include <vector>
 
 namespace WillowVox
@@ -30,5 +31,6 @@ namespace WillowVox
         ChunkManager chunkManager;
         // vvv Test code vvv
         Shader* chunkShader;
+        Texture* tex;
     };
 }

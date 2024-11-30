@@ -2,6 +2,7 @@
 #include <WillowVoxEngine/Rendering/Mesh.h>
 #include <WillowVoxEngine/World/WorldGlobals.h>
 #include <WillowVoxEngine/Core/Logger.h>
+#include <WillowVoxEngine/Resources/Blocks.h>
 
 namespace WillowVox
 {
@@ -31,6 +32,8 @@ namespace WillowVox
                 {
                     if (chunkData->GetBlock(x, y, z) == 0)
                         continue;
+
+                    Block& block = Blocks::GetBlock(chunkData->GetBlock(x, y, z));
                     
                     // North
                     {
@@ -42,10 +45,10 @@ namespace WillowVox
 
                         if (nBlock == 0)
                         {
-                            vertices.emplace_back(x + 1, y + 0, z + 0, 0, 0);
-                            vertices.emplace_back(x + 0, y + 0, z + 0, 1, 0);
-                            vertices.emplace_back(x + 1, y + 1, z + 0, 0, 1);
-                            vertices.emplace_back(x + 0, y + 1, z + 0, 1, 1);
+                            vertices.emplace_back(x + 1, y + 0, z + 0, block.sideMinX, block.sideMinY);
+                            vertices.emplace_back(x + 0, y + 0, z + 0, block.sideMaxX, block.sideMinY);
+                            vertices.emplace_back(x + 1, y + 1, z + 0, block.sideMinX, block.sideMaxY);
+                            vertices.emplace_back(x + 0, y + 1, z + 0, block.sideMaxX, block.sideMaxY);
 
                             indices.emplace_back(currentVertex + 0);
                             indices.emplace_back(currentVertex + 3);
@@ -67,10 +70,10 @@ namespace WillowVox
 
                         if (nBlock == 0)
                         {
-                            vertices.emplace_back(x + 0, y + 0, z + 1, 0, 0);
-                            vertices.emplace_back(x + 1, y + 0, z + 1, 1, 0);
-                            vertices.emplace_back(x + 0, y + 1, z + 1, 0, 1);
-                            vertices.emplace_back(x + 1, y + 1, z + 1, 1, 1);
+                            vertices.emplace_back(x + 0, y + 0, z + 1, block.sideMinX, block.sideMinY);
+                            vertices.emplace_back(x + 1, y + 0, z + 1, block.sideMaxX, block.sideMinY);
+                            vertices.emplace_back(x + 0, y + 1, z + 1, block.sideMinX, block.sideMaxY);
+                            vertices.emplace_back(x + 1, y + 1, z + 1, block.sideMaxX, block.sideMaxY);
 
                             indices.emplace_back(currentVertex + 0);
                             indices.emplace_back(currentVertex + 3);
@@ -92,10 +95,10 @@ namespace WillowVox
 
                         if (nBlock == 0)
                         {
-                            vertices.emplace_back(x + 1, y + 0, z + 1, 0, 0);
-                            vertices.emplace_back(x + 1, y + 0, z + 0, 1, 0);
-                            vertices.emplace_back(x + 1, y + 1, z + 1, 0, 1);
-                            vertices.emplace_back(x + 1, y + 1, z + 0, 1, 1);
+                            vertices.emplace_back(x + 1, y + 0, z + 1, block.sideMinX, block.sideMinY);
+                            vertices.emplace_back(x + 1, y + 0, z + 0, block.sideMaxX, block.sideMinY);
+                            vertices.emplace_back(x + 1, y + 1, z + 1, block.sideMinX, block.sideMaxY);
+                            vertices.emplace_back(x + 1, y + 1, z + 0, block.sideMaxX, block.sideMaxY);
 
                             indices.emplace_back(currentVertex + 0);
                             indices.emplace_back(currentVertex + 3);
@@ -117,10 +120,10 @@ namespace WillowVox
 
                         if (nBlock == 0)
                         {
-                            vertices.emplace_back(x + 0, y + 0, z + 0, 0, 0);
-                            vertices.emplace_back(x + 0, y + 0, z + 1, 1, 0);
-                            vertices.emplace_back(x + 0, y + 1, z + 0, 0, 1);
-                            vertices.emplace_back(x + 0, y + 1, z + 1, 1, 1);
+                            vertices.emplace_back(x + 0, y + 0, z + 0, block.sideMinX, block.sideMinY);
+                            vertices.emplace_back(x + 0, y + 0, z + 1, block.sideMaxX, block.sideMinY);
+                            vertices.emplace_back(x + 0, y + 1, z + 0, block.sideMinX, block.sideMaxY);
+                            vertices.emplace_back(x + 0, y + 1, z + 1, block.sideMaxX, block.sideMaxY);
 
                             indices.emplace_back(currentVertex + 0);
                             indices.emplace_back(currentVertex + 3);
@@ -142,10 +145,10 @@ namespace WillowVox
 
                         if (nBlock == 0)
                         {
-                            vertices.emplace_back(x + 0, y + 1, z + 1, 0, 0);
-                            vertices.emplace_back(x + 1, y + 1, z + 1, 1, 0);
-                            vertices.emplace_back(x + 0, y + 1, z + 0, 0, 1);
-                            vertices.emplace_back(x + 1, y + 1, z + 0, 1, 1);
+                            vertices.emplace_back(x + 0, y + 1, z + 1, block.topMinX, block.topMinY);
+                            vertices.emplace_back(x + 1, y + 1, z + 1, block.topMaxX, block.topMinY);
+                            vertices.emplace_back(x + 0, y + 1, z + 0, block.topMinX, block.topMaxY);
+                            vertices.emplace_back(x + 1, y + 1, z + 0, block.topMaxX, block.topMaxY);
 
                             indices.emplace_back(currentVertex + 0);
                             indices.emplace_back(currentVertex + 3);
@@ -167,10 +170,10 @@ namespace WillowVox
 
                         if (nBlock == 0)
                         {
-                            vertices.emplace_back(x + 1, y + 0, z + 1, 0, 0);
-                            vertices.emplace_back(x + 0, y + 0, z + 1, 1, 0);
-                            vertices.emplace_back(x + 1, y + 0, z + 0, 0, 1);
-                            vertices.emplace_back(x + 0, y + 0, z + 0, 1, 1);
+                            vertices.emplace_back(x + 1, y + 0, z + 1, block.bottomMinX, block.bottomMinY);
+                            vertices.emplace_back(x + 0, y + 0, z + 1, block.bottomMaxX, block.bottomMinY);
+                            vertices.emplace_back(x + 1, y + 0, z + 0, block.bottomMinX, block.bottomMaxY);
+                            vertices.emplace_back(x + 0, y + 0, z + 0, block.bottomMaxX, block.bottomMaxY);
 
                             indices.emplace_back(currentVertex + 0);
                             indices.emplace_back(currentVertex + 3);

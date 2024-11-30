@@ -14,8 +14,12 @@ namespace WillowVox
 
     void World::Start()
     {
+		tex = new Texture("assets/block_map.png");
+		tex->BindTexture(Texture::TEX00);
         chunkShader = new Shader("assets/chunk_vert.glsl", "assets/chunk_frag.glsl");
         chunkManager.terrainShader = chunkShader;
+        chunkShader->Use();
+        chunkShader->SetFloat("texMultiplier", 16.0f / tex->width);
 
         chunkManager.SetPlayerObj(mainCamera);
 

@@ -19,8 +19,12 @@ protected:
 
 	void LoadAssets() override
 	{
-		tex = new WillowVox::Texture("assets/grass_block_side.png");
-		tex->BindTexture(WillowVox::Texture::TEX00);
+
+	}
+
+	void RegisterBlocks() override
+	{
+		WillowVox::Blocks::RegisterBlock({ 1, 1, 0, 0, 1, 0, WillowVox::Block::SOLID, "Grass Block"});
 	}
 
 	void InitWorld() override

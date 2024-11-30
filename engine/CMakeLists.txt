@@ -10,6 +10,7 @@ add_library(WillowVoxEngine STATIC
     src/Rendering/Shader.cpp
     src/Rendering/Texture.cpp
     src/Rendering/Camera.cpp
+    src/Resources/Blocks.cpp
     src/World/Chunk.cpp
     src/World/World.cpp
     src/World/GameObject.cpp

@@ -1,6 +1,7 @@
 #include <WillowVoxEngine/Application/Application.h>
 #include <WillowVoxEngine/Core/Logger.h>
 #include <WillowVoxEngine/Application/Window.h>
+#include <WillowVoxEngine/Resources/Blocks.h>
 #include <WillowVoxEngine/Rendering/OpenGLGraphicsAPI.h>
 #include <WillowVoxEngine/Rendering/Shader.h>
 #include <WillowVoxEngine/Rendering/Mesh.h>
@@ -40,8 +41,10 @@ namespace WillowVox
 			Logger::EngineLog("Window resized!\n");
 		});
 
-		// Load assets
+		// Load assets and resources
 		LoadAssets();
+		Blocks::RegisterBlock({0, 0, 0, 0, Block::TRANSPARENT, "Air"});
+		RegisterBlocks();
 
 		// Set up input
 		input = new Input(window.GetWindow());
