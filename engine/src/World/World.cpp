@@ -54,7 +54,7 @@ namespace WillowVox
 
     void World::Render()
     {
-        OpenGLGraphicsAPI::EnableCullFace();
+        fluidShader->SetFloat("time", OpenGLGraphicsAPI::GetTime());
         chunkManager.Render(*mainCamera);
     }
 

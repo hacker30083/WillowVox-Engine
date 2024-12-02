@@ -16,6 +16,8 @@ namespace WillowVox
         static void EnableCullFace();
         static void DisableCullFace();
 
+        static double GetTime();
+
         static void SetShaderAttribVec2(int index, uint32_t size, std::size_t offset);
         static void SetShaderAttribVec3(int index, uint32_t size, std::size_t offset);
         static void SetShaderAttribVec3b(int index, uint32_t size, std::size_t offset);

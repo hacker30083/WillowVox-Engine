@@ -22,7 +22,7 @@ namespace WillowVox
         {
             OpenGLGraphicsAPI::SetShaderAttribVec3b(0, sizeof(FluidVertex), offsetof(FluidVertex, xPos));
             OpenGLGraphicsAPI::SetShaderAttribVec2(1, sizeof(FluidVertex), offsetof(FluidVertex, texCoord));
-            OpenGLGraphicsAPI::SetShaderAttribByte(1, sizeof(FluidVertex), offsetof(FluidVertex, top));
+            OpenGLGraphicsAPI::SetShaderAttribByte(2, sizeof(FluidVertex), offsetof(FluidVertex, top));
         }
     };
 }

@@ -34,6 +34,11 @@ namespace WillowVox
         glDisable(GL_CULL_FACE);
     }
 
+    double OpenGLGraphicsAPI::GetTime()
+    {
+        return glfwGetTime();
+    }
+
     void OpenGLGraphicsAPI::SetShaderAttribVec2(int index, uint32_t size, std::size_t offset)
     {
         glEnableVertexAttribArray(index);

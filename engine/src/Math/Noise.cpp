@@ -11,7 +11,7 @@ namespace WillowVox
 
     float Noise::GetValue2D(int x, int y)
     {
-        return noise.GetNoise((float)x * 10.4f, (float)y * 10.4f);
+        return noise.GetNoise((float)x * .87f, (float)y * .87f) * 10.0f;
     }
 
     float Noise::GetValue3D(int x, int y, int z)

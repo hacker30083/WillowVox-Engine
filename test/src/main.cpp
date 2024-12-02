@@ -26,6 +26,7 @@ protected:
 	{
 		WillowVox::Blocks::RegisterBlock({ 1, 1, 0, 0, 1, 0, WillowVox::Block::SOLID, "Grass Block"});
 		WillowVox::Blocks::RegisterBlock({ 1, 2, WillowVox::Block::BILLBOARD, "Grass"});
+		WillowVox::Blocks::RegisterBlock({ 0, 4, WillowVox::Block::LIQUID, "Water"});
 	}
 
 	void InitWorld() override
