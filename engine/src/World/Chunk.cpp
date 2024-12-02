@@ -103,10 +103,10 @@ namespace WillowVox
                             {
                                 if (block.blockType == Block::LIQUID)
                                 {
-                                    fluidVertices.emplace_back(x + 1, y + 0, z + 0, block.sideMinX, block.sideMinY, 0);
-                                    fluidVertices.emplace_back(x + 0, y + 0, z + 0, block.sideMaxX, block.sideMinY, 0);
-                                    fluidVertices.emplace_back(x + 1, y + 1, z + 0, block.sideMinX, block.sideMaxY, waterTopValue);
-                                    fluidVertices.emplace_back(x + 0, y + 1, z + 0, block.sideMaxX, block.sideMaxY, waterTopValue);
+                                    fluidVertices.emplace_back(x + 1, y + 0, z + 0, block.sideMinX, block.sideMinY, 0, 0);
+                                    fluidVertices.emplace_back(x + 0, y + 0, z + 0, block.sideMaxX, block.sideMinY, 0, 0);
+                                    fluidVertices.emplace_back(x + 1, y + 1, z + 0, block.sideMinX, block.sideMaxY, 0, waterTopValue);
+                                    fluidVertices.emplace_back(x + 0, y + 1, z + 0, block.sideMaxX, block.sideMaxY, 0, waterTopValue);
 
                                     fluidIndices.emplace_back(currentFluidVertex + 0);
                                     fluidIndices.emplace_back(currentFluidVertex + 3);
@@ -118,10 +118,10 @@ namespace WillowVox
                                 }
                                 else
                                 {
-                                    solidVertices.emplace_back(x + 1, y + 0, z + 0, block.sideMinX, block.sideMinY);
-                                    solidVertices.emplace_back(x + 0, y + 0, z + 0, block.sideMaxX, block.sideMinY);
-                                    solidVertices.emplace_back(x + 1, y + 1, z + 0, block.sideMinX, block.sideMaxY);
-                                    solidVertices.emplace_back(x + 0, y + 1, z + 0, block.sideMaxX, block.sideMaxY);
+                                    solidVertices.emplace_back(x + 1, y + 0, z + 0, block.sideMinX, block.sideMinY, 0);
+                                    solidVertices.emplace_back(x + 0, y + 0, z + 0, block.sideMaxX, block.sideMinY, 0);
+                                    solidVertices.emplace_back(x + 1, y + 1, z + 0, block.sideMinX, block.sideMaxY, 0);
+                                    solidVertices.emplace_back(x + 0, y + 1, z + 0, block.sideMaxX, block.sideMaxY, 0);
 
                                     solidIndices.emplace_back(currentSolidVertex + 0);
                                     solidIndices.emplace_back(currentSolidVertex + 3);
@@ -151,10 +151,10 @@ namespace WillowVox
                             {
                                 if (block.blockType == Block::LIQUID)
                                 {
-                                    fluidVertices.emplace_back(x + 0, y + 0, z + 1, block.sideMinX, block.sideMinY, 0);
-                                    fluidVertices.emplace_back(x + 1, y + 0, z + 1, block.sideMaxX, block.sideMinY, 0);
-                                    fluidVertices.emplace_back(x + 0, y + 1, z + 1, block.sideMinX, block.sideMaxY, waterTopValue);
-                                    fluidVertices.emplace_back(x + 1, y + 1, z + 1, block.sideMaxX, block.sideMaxY, waterTopValue);
+                                    fluidVertices.emplace_back(x + 0, y + 0, z + 1, block.sideMinX, block.sideMinY, 1, 0);
+                                    fluidVertices.emplace_back(x + 1, y + 0, z + 1, block.sideMaxX, block.sideMinY, 1, 0);
+                                    fluidVertices.emplace_back(x + 0, y + 1, z + 1, block.sideMinX, block.sideMaxY, 1, waterTopValue);
+                                    fluidVertices.emplace_back(x + 1, y + 1, z + 1, block.sideMaxX, block.sideMaxY, 1, waterTopValue);
 
                                     fluidIndices.emplace_back(currentFluidVertex + 0);
                                     fluidIndices.emplace_back(currentFluidVertex + 3);
@@ -166,10 +166,10 @@ namespace WillowVox
                                 }
                                 else
                                 {
-                                    solidVertices.emplace_back(x + 0, y + 0, z + 1, block.sideMinX, block.sideMinY);
-                                    solidVertices.emplace_back(x + 1, y + 0, z + 1, block.sideMaxX, block.sideMinY);
-                                    solidVertices.emplace_back(x + 0, y + 1, z + 1, block.sideMinX, block.sideMaxY);
-                                    solidVertices.emplace_back(x + 1, y + 1, z + 1, block.sideMaxX, block.sideMaxY);
+                                    solidVertices.emplace_back(x + 0, y + 0, z + 1, block.sideMinX, block.sideMinY, 1);
+                                    solidVertices.emplace_back(x + 1, y + 0, z + 1, block.sideMaxX, block.sideMinY, 1);
+                                    solidVertices.emplace_back(x + 0, y + 1, z + 1, block.sideMinX, block.sideMaxY, 1);
+                                    solidVertices.emplace_back(x + 1, y + 1, z + 1, block.sideMaxX, block.sideMaxY, 1);
 
                                     solidIndices.emplace_back(currentSolidVertex + 0);
                                     solidIndices.emplace_back(currentSolidVertex + 3);
@@ -199,10 +199,10 @@ namespace WillowVox
                             {
                                 if (block.blockType == Block::LIQUID)
                                 {
-                                    fluidVertices.emplace_back(x + 1, y + 0, z + 1, block.sideMinX, block.sideMinY, 0);
-                                    fluidVertices.emplace_back(x + 1, y + 0, z + 0, block.sideMaxX, block.sideMinY, 0);
-                                    fluidVertices.emplace_back(x + 1, y + 1, z + 1, block.sideMinX, block.sideMaxY, waterTopValue);
-                                    fluidVertices.emplace_back(x + 1, y + 1, z + 0, block.sideMaxX, block.sideMaxY, waterTopValue);
+                                    fluidVertices.emplace_back(x + 1, y + 0, z + 1, block.sideMinX, block.sideMinY, 3, 0);
+                                    fluidVertices.emplace_back(x + 1, y + 0, z + 0, block.sideMaxX, block.sideMinY, 3, 0);
+                                    fluidVertices.emplace_back(x + 1, y + 1, z + 1, block.sideMinX, block.sideMaxY, 3, waterTopValue);
+                                    fluidVertices.emplace_back(x + 1, y + 1, z + 0, block.sideMaxX, block.sideMaxY, 3, waterTopValue);
 
                                     fluidIndices.emplace_back(currentFluidVertex + 0);
                                     fluidIndices.emplace_back(currentFluidVertex + 3);
@@ -214,10 +214,10 @@ namespace WillowVox
                                 }
                                 else
                                 {
-                                    solidVertices.emplace_back(x + 1, y + 0, z + 1, block.sideMinX, block.sideMinY);
-                                    solidVertices.emplace_back(x + 1, y + 0, z + 0, block.sideMaxX, block.sideMinY);
-                                    solidVertices.emplace_back(x + 1, y + 1, z + 1, block.sideMinX, block.sideMaxY);
-                                    solidVertices.emplace_back(x + 1, y + 1, z + 0, block.sideMaxX, block.sideMaxY);
+                                    solidVertices.emplace_back(x + 1, y + 0, z + 1, block.sideMinX, block.sideMinY, 3);
+                                    solidVertices.emplace_back(x + 1, y + 0, z + 0, block.sideMaxX, block.sideMinY, 3);
+                                    solidVertices.emplace_back(x + 1, y + 1, z + 1, block.sideMinX, block.sideMaxY, 3);
+                                    solidVertices.emplace_back(x + 1, y + 1, z + 0, block.sideMaxX, block.sideMaxY, 3);
 
                                     solidIndices.emplace_back(currentSolidVertex + 0);
                                     solidIndices.emplace_back(currentSolidVertex + 3);
@@ -247,10 +247,10 @@ namespace WillowVox
                             {
                                 if (block.blockType == Block::LIQUID)
                                 {
-                                    fluidVertices.emplace_back(x + 0, y + 0, z + 0, block.sideMinX, block.sideMinY, 0);
-                                    fluidVertices.emplace_back(x + 0, y + 0, z + 1, block.sideMaxX, block.sideMinY, 0);
-                                    fluidVertices.emplace_back(x + 0, y + 1, z + 0, block.sideMinX, block.sideMaxY, waterTopValue);
-                                    fluidVertices.emplace_back(x + 0, y + 1, z + 1, block.sideMaxX, block.sideMaxY, waterTopValue);
+                                    fluidVertices.emplace_back(x + 0, y + 0, z + 0, block.sideMinX, block.sideMinY, 2, 0);
+                                    fluidVertices.emplace_back(x + 0, y + 0, z + 1, block.sideMaxX, block.sideMinY, 2, 0);
+                                    fluidVertices.emplace_back(x + 0, y + 1, z + 0, block.sideMinX, block.sideMaxY, 2, waterTopValue);
+                                    fluidVertices.emplace_back(x + 0, y + 1, z + 1, block.sideMaxX, block.sideMaxY, 2, waterTopValue);
 
                                     fluidIndices.emplace_back(currentFluidVertex + 0);
                                     fluidIndices.emplace_back(currentFluidVertex + 3);
@@ -262,10 +262,10 @@ namespace WillowVox
                                 }
                                 else
                                 {
-                                    solidVertices.emplace_back(x + 0, y + 0, z + 0, block.sideMinX, block.sideMinY);
-                                    solidVertices.emplace_back(x + 0, y + 0, z + 1, block.sideMaxX, block.sideMinY);
-                                    solidVertices.emplace_back(x + 0, y + 1, z + 0, block.sideMinX, block.sideMaxY);
-                                    solidVertices.emplace_back(x + 0, y + 1, z + 1, block.sideMaxX, block.sideMaxY);
+                                    solidVertices.emplace_back(x + 0, y + 0, z + 0, block.sideMinX, block.sideMinY, 2);
+                                    solidVertices.emplace_back(x + 0, y + 0, z + 1, block.sideMaxX, block.sideMinY, 2);
+                                    solidVertices.emplace_back(x + 0, y + 1, z + 0, block.sideMinX, block.sideMaxY, 2);
+                                    solidVertices.emplace_back(x + 0, y + 1, z + 1, block.sideMaxX, block.sideMaxY, 2);
 
                                     solidIndices.emplace_back(currentSolidVertex + 0);
                                     solidIndices.emplace_back(currentSolidVertex + 3);
@@ -295,10 +295,10 @@ namespace WillowVox
                             {
                                 if (block.blockType == Block::LIQUID)
                                 {
-                                    fluidVertices.emplace_back(x + 1, y + 0, z + 1, block.bottomMinX, block.bottomMinY, 0);
-                                    fluidVertices.emplace_back(x + 0, y + 0, z + 1, block.bottomMaxX, block.bottomMinY, 0);
-                                    fluidVertices.emplace_back(x + 1, y + 0, z + 0, block.bottomMinX, block.bottomMaxY, 0);
-                                    fluidVertices.emplace_back(x + 0, y + 0, z + 0, block.bottomMaxX, block.bottomMaxY, 0);
+                                    fluidVertices.emplace_back(x + 1, y + 0, z + 1, block.bottomMinX, block.bottomMinY, 4, 0);
+                                    fluidVertices.emplace_back(x + 0, y + 0, z + 1, block.bottomMaxX, block.bottomMinY, 4, 0);
+                                    fluidVertices.emplace_back(x + 1, y + 0, z + 0, block.bottomMinX, block.bottomMaxY, 4, 0);
+                                    fluidVertices.emplace_back(x + 0, y + 0, z + 0, block.bottomMaxX, block.bottomMaxY, 4, 0);
 
                                     fluidIndices.emplace_back(currentFluidVertex + 0);
                                     fluidIndices.emplace_back(currentFluidVertex + 3);
@@ -310,10 +310,10 @@ namespace WillowVox
                                 }
                                 else
                                 {
-                                    solidVertices.emplace_back(x + 1, y + 0, z + 1, block.bottomMinX, block.bottomMinY);
-                                    solidVertices.emplace_back(x + 0, y + 0, z + 1, block.bottomMaxX, block.bottomMinY);
-                                    solidVertices.emplace_back(x + 1, y + 0, z + 0, block.bottomMinX, block.bottomMaxY);
-                                    solidVertices.emplace_back(x + 0, y + 0, z + 0, block.bottomMaxX, block.bottomMaxY);
+                                    solidVertices.emplace_back(x + 1, y + 0, z + 1, block.bottomMinX, block.bottomMinY, 4);
+                                    solidVertices.emplace_back(x + 0, y + 0, z + 1, block.bottomMaxX, block.bottomMinY, 4);
+                                    solidVertices.emplace_back(x + 1, y + 0, z + 0, block.bottomMinX, block.bottomMaxY, 4);
+                                    solidVertices.emplace_back(x + 0, y + 0, z + 0, block.bottomMaxX, block.bottomMaxY, 4);
 
                                     solidIndices.emplace_back(currentSolidVertex + 0);
                                     solidIndices.emplace_back(currentSolidVertex + 3);
@@ -332,10 +332,10 @@ namespace WillowVox
                             {
                                 if (topBlock.blockType != Block::LIQUID)
                                 {
-                                    fluidVertices.emplace_back(x + 0, y + 1, z + 1, block.topMinX, block.topMinY, waterTopValue);
-                                    fluidVertices.emplace_back(x + 1, y + 1, z + 1, block.topMaxX, block.topMinY, waterTopValue);
-                                    fluidVertices.emplace_back(x + 0, y + 1, z + 0, block.topMinX, block.topMaxY, waterTopValue);
-                                    fluidVertices.emplace_back(x + 1, y + 1, z + 0, block.topMaxX, block.topMaxY, waterTopValue);
+                                    fluidVertices.emplace_back(x + 0, y + 1, z + 1, block.topMinX, block.topMinY, 5, waterTopValue);
+                                    fluidVertices.emplace_back(x + 1, y + 1, z + 1, block.topMaxX, block.topMinY, 5, waterTopValue);
+                                    fluidVertices.emplace_back(x + 0, y + 1, z + 0, block.topMinX, block.topMaxY, 5, waterTopValue);
+                                    fluidVertices.emplace_back(x + 1, y + 1, z + 0, block.topMaxX, block.topMaxY, 5, waterTopValue);
 
                                     fluidIndices.emplace_back(currentFluidVertex + 0);
                                     fluidIndices.emplace_back(currentFluidVertex + 3);
@@ -345,10 +345,10 @@ namespace WillowVox
                                     fluidIndices.emplace_back(currentFluidVertex + 3);
                                     currentFluidVertex += 4;
                                     
-                                    fluidVertices.emplace_back(x + 1, y + 1, z + 1, block.topMinX, block.topMinY, waterTopValue);
-                                    fluidVertices.emplace_back(x + 0, y + 1, z + 1, block.topMaxX, block.topMinY, waterTopValue);
-                                    fluidVertices.emplace_back(x + 1, y + 1, z + 0, block.topMinX, block.topMaxY, waterTopValue);
-                                    fluidVertices.emplace_back(x + 0, y + 1, z + 0, block.topMaxX, block.topMaxY, waterTopValue);
+                                    fluidVertices.emplace_back(x + 1, y + 1, z + 1, block.topMinX, block.topMinY, 5, waterTopValue);
+                                    fluidVertices.emplace_back(x + 0, y + 1, z + 1, block.topMaxX, block.topMinY, 5, waterTopValue);
+                                    fluidVertices.emplace_back(x + 1, y + 1, z + 0, block.topMinX, block.topMaxY, 5, waterTopValue);
+                                    fluidVertices.emplace_back(x + 0, y + 1, z + 0, block.topMaxX, block.topMaxY, 5, waterTopValue);
 
                                     fluidIndices.emplace_back(currentFluidVertex + 0);
                                     fluidIndices.emplace_back(currentFluidVertex + 3);
@@ -364,10 +364,10 @@ namespace WillowVox
                                 topBlock.blockType == Block::BILLBOARD ||
                                 topBlock.blockType == Block::LIQUID)
                             {
-                                solidVertices.emplace_back(x + 0, y + 1, z + 1, block.topMinX, block.topMinY);
-                                solidVertices.emplace_back(x + 1, y + 1, z + 1, block.topMaxX, block.topMinY);
-                                solidVertices.emplace_back(x + 0, y + 1, z + 0, block.topMinX, block.topMaxY);
-                                solidVertices.emplace_back(x + 1, y + 1, z + 0, block.topMaxX, block.topMaxY);
+                                solidVertices.emplace_back(x + 0, y + 1, z + 1, block.topMinX, block.topMinY, 5);
+                                solidVertices.emplace_back(x + 1, y + 1, z + 1, block.topMaxX, block.topMinY, 5);
+                                solidVertices.emplace_back(x + 0, y + 1, z + 0, block.topMinX, block.topMaxY, 5);
+                                solidVertices.emplace_back(x + 1, y + 1, z + 0, block.topMaxX, block.topMaxY, 5);
 
                                 solidIndices.emplace_back(currentSolidVertex + 0);
                                 solidIndices.emplace_back(currentSolidVertex + 3);
