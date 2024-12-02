@@ -13,6 +13,9 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform float time;
 
+const int aFrames = 32;
+const float animationTime = 5;
+const int texNum = 16;
 void main()
 {
     vec3 pos = aPos;
@@ -22,5 +25,9 @@ void main()
         pos.y += (sin(pos.x * 3.1415926535 / 2 + time) + sin(pos.z * 3.1415926535 / 2 + time * 1.5)) * .05;
     }
     gl_Position = projection * view * vec4(pos + model, 1.0);
-    TexCoord = aTexCoords * texMultiplier;
+
+    vec2 currentTex = aTexCoords;
+    currentTex.x += mod(floor(mod(time / animationTime, 1) * aFrames), texNum);
+    currentTex.y += floor(floor(mod(time / animationTime, 1) * aFrames) / texNum);
+    TexCoord = currentTex * texMultiplier;
 }
