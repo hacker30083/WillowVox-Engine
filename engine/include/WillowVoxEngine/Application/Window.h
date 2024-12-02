@@ -18,6 +18,8 @@ namespace WillowVox
         void StartFrame();
         void EndFrame();
 
+        void SetBackgroundColor(float r, float g, float b);
+
         void SetInput(Input* input);
         GLFWwindow* GetWindow();
 

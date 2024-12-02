@@ -117,6 +117,11 @@ namespace WillowVox
         glfwPollEvents();
     }
 
+    void Window::SetBackgroundColor(float r, float g, float b)
+    {
+        glClearColor(r, g, b, 1);
+    }
+
     void Window::SetInput(Input* input) { this->input = input; }
 
     GLFWwindow* Window::GetWindow() { return window; }
