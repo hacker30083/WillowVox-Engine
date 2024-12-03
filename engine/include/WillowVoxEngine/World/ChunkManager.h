@@ -24,8 +24,8 @@ namespace WillowVox
 
         void SetPlayerObj(Camera* camera);
 
-        int renderDistance = 10;
-        int renderHeight = 3;
+        int renderDistance = 5;
+        int renderHeight = 2;
 
         // TEMP until asset manager
         Shader* solidShader;

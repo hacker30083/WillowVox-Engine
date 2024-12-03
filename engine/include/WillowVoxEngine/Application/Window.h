@@ -12,7 +12,7 @@ namespace WillowVox
     class Window
     {
     public:
-        Window();
+        Window(int width, int height);
         ~Window();
 
         void StartFrame();

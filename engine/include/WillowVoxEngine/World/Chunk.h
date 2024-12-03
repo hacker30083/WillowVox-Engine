@@ -30,8 +30,10 @@ namespace WillowVox
         ChunkData* upData;
         ChunkData* downData;
 
-    private:
         glm::ivec3 chunkPos;
+        bool ready = false;
+
+    private:
         glm::vec3 worldPos;
 
         MeshRenderer* solidMeshRenderer;
@@ -47,6 +49,5 @@ namespace WillowVox
         std::vector<uint32_t> fluidIndices;
         std::vector<BillboardVertex> billboardVertices;
         std::vector<uint32_t> billboardIndices;
-        bool ready = false;
     };
 }

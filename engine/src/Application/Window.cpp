@@ -10,14 +10,14 @@
 
 namespace WillowVox
 {
-    Window::Window()
+    Window::Window(int width, int height)
     {
         // Set window hints
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-		window = glfwCreateWindow(600, 400, "Test", nullptr, nullptr);
+		window = glfwCreateWindow(width, height, "Test", nullptr, nullptr);
 		if (window == nullptr)
 		{
 			Logger::EngineLog("Failed to create window!\n");
@@ -34,7 +34,7 @@ namespace WillowVox
             windowCloseEventDispatcher.Dispatch(e);
 		}
 
-		glViewport(0, 0, 600, 400);
+		glViewport(0, 0, width, height);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
         // Callbacks

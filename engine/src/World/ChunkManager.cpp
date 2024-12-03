@@ -25,6 +25,48 @@ namespace WillowVox
     {
         while (!shouldEnd)
         {
+            chunkMutex.lock();
+            for (auto it = chunks.begin(); it != chunks.end();)
+            {
+                if (!(*it->second).ready)
+                {
+                    ++it;
+                    continue;
+                }
+
+                int chunkX = (*it->second).chunkPos.x;
+                int chunkY = (*it->second).chunkPos.y;
+                int chunkZ = (*it->second).chunkPos.z;
+                if (abs(chunkX - playerChunkX) > renderDistance ||
+                    abs(chunkY - playerChunkY) > renderDistance ||
+                    abs(chunkZ - playerChunkZ) > renderDistance)
+                {
+                    delete it->second;
+                    it = chunks.erase(it);
+                }
+                else
+                    ++it;
+            }
+            for (auto it = chunkData.begin(); it != chunkData.end(); )
+            {
+                glm::ivec3 pos = it->first;
+
+                if (chunks.find(pos) == chunks.end() &&
+                    chunks.find({ pos.x + 1, pos.y, pos.z }) == chunks.end() &&
+                    chunks.find({ pos.x - 1, pos.y, pos.z }) == chunks.end() &&
+                    chunks.find({ pos.x, pos.y + 1, pos.z }) == chunks.end() &&
+                    chunks.find({ pos.x, pos.y - 1, pos.z }) == chunks.end() &&
+                    chunks.find({ pos.x, pos.y, pos.z + 1 }) == chunks.end() &&
+                    chunks.find({ pos.x, pos.y, pos.z - 1 }) == chunks.end())
+                {
+                    delete it->second;
+                    it = chunkData.erase(it);
+                }
+                else
+                    ++it;
+            }
+            chunkMutex.unlock();
+
             // Check if player moved to new chunk
             if (playerChunkX != lastPlayerX || playerChunkY != lastPlayerY || playerChunkZ != lastPlayerZ)
             {
