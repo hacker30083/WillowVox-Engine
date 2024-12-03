@@ -12,11 +12,13 @@ namespace WillowVox
     class Window
     {
     public:
-        Window();
+        Window(int width, int height);
         ~Window();
 
         void StartFrame();
         void EndFrame();
+
+        void SetBackgroundColor(float r, float g, float b);
 
         void SetInput(Input* input);
         GLFWwindow* GetWindow();
@@ -27,5 +29,7 @@ namespace WillowVox
     private:
         GLFWwindow* window;
         Input* input;
+
+        float lastMouseX, lastMouseY;
     };
 }

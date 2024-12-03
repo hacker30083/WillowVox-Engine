@@ -1,6 +1,9 @@
 # CMakeLists.txt (test)
 # Define executable target
-add_executable(WVTest src/main.cpp)
+add_executable(WVTest 
+    src/main.cpp
+    src/PlayerController.cpp
+)
 
 # Link the engine library
 target_link_libraries(WVTest PRIVATE WillowVoxEngine)

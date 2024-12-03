@@ -31,6 +31,8 @@ namespace WillowVox
 
         void BindTexture(TexSlot slot);
 
+        int width, height;
+
     private:
         unsigned int textureId;
     };

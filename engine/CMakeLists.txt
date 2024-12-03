@@ -5,10 +5,17 @@ add_library(WillowVoxEngine STATIC
     src/Application/Window.cpp
     src/Core/Logger.cpp
     src/Input/Input.cpp
+    src/Math/Noise.cpp
     src/Rendering/OpenGLGraphicsAPI.cpp
     src/Rendering/Shader.cpp
     src/Rendering/Texture.cpp
     src/Rendering/Camera.cpp
+    src/Resources/Blocks.cpp
+    src/World/Chunk.cpp
+    src/World/World.cpp
+    src/World/GameObject.cpp
+    src/World/ChunkManager.cpp
+    src/World/TerrainGen.cpp
 
     dependencies/include/glad/src/glad.c
 )

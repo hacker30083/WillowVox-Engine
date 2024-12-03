@@ -1,6 +1,7 @@
 #pragma once
 
 #include <WillowVoxEngine/Rendering/Shader.h>
+#include <WillowVoxEngine/Rendering/BMesh.h>
 #include <cstdint>
 #include <vector>
 #include <glad/glad.h>
@@ -9,7 +10,7 @@
 
 namespace WillowVox
 {
-    template <typename T> class Mesh
+    template <typename T> class Mesh : public BMesh
     {
     public:
         Mesh()
@@ -28,7 +29,7 @@ namespace WillowVox
             T::SetShaderAttributes();
         }
 
-        ~Mesh()
+        ~Mesh() override
         {
             glDeleteVertexArrays(1, &VAO);
             glDeleteBuffers(1, &VBO);
@@ -91,7 +92,7 @@ namespace WillowVox
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, triCount * sizeof(uint32_t), indices, GL_STATIC_DRAW);
         }
 
-        void Render(Shader& shader)
+        void Render(Shader& shader) override
         {
             glBindVertexArray(VAO);
             glDrawElements(GL_TRIANGLES, triCount, GL_UNSIGNED_INT, 0); // Error for some reason

@@ -14,7 +14,7 @@ namespace WillowVox
         // Load texture data
         stbi_set_flip_vertically_on_load(true);
 
-        int width, height, nrChannels;
+        int nrChannels;
         unsigned char* data = stbi_load(path, &width, &height, &nrChannels, 0);
         if (data)
         {

@@ -1,19 +1,23 @@
 #include <WillowVoxEngine/Application/Application.h>
 #include <WillowVoxEngine/Core/Logger.h>
 #include <WillowVoxEngine/Application/Window.h>
+#include <WillowVoxEngine/Resources/Blocks.h>
 #include <WillowVoxEngine/Rendering/OpenGLGraphicsAPI.h>
 #include <WillowVoxEngine/Rendering/Shader.h>
 #include <WillowVoxEngine/Rendering/Mesh.h>
 #include <WillowVoxEngine/Rendering/MeshRenderer.h>
 #include <WillowVoxEngine/Rendering/Texture.h>
 #include <WillowVoxEngine/Rendering/Vertex.h>
+#include <WillowVoxEngine/Math/Noise.h>
 #include <glm/glm.hpp>
 
 namespace WillowVox
 {
+	Application* Application::app = nullptr;
+
 	Application::Application()
 	{
-
+		app = this;
 	}
 
 	Application::~Application()
@@ -23,10 +27,13 @@ namespace WillowVox
 
 	void Application::Run()
 	{
+		// Load graphics API
 		OpenGLGraphicsAPI openGLApi;
 		openGLApi.Initialize();
-		
-		Window window;
+
+		Window window(1920, 1080);
+		window.SetBackgroundColor(0.6f, 0.8f, 1.0f);
+		OpenGLGraphicsAPI::PostGladSetup();
 		window.windowCloseEventDispatcher.RegisterListener([this](Event& event) {
 			isRunning = false;
 		});
@@ -35,10 +42,22 @@ namespace WillowVox
 			Logger::EngineLog("Window resized!\n");
 		});
 
+		// Load assets and resources
+		LoadAssets();
+		Blocks::RegisterBlock({0, 0, Block::TRANSPARENT, "Air"});
+		RegisterBlocks();
+
+		// Set up input
 		input = new Input(window.GetWindow());
 		window.SetInput(input);
 
-		mainCamera = new Camera();
+		// Init noise
+		Noise::InitNoise();
+
+		// Create world
+		InitWorld();
+
+		loadedWorld->Start();
 
 		// Pre-game logic
 		Start();
@@ -53,9 +72,11 @@ namespace WillowVox
 			window.StartFrame();
 
 			// Run game logic
+			loadedWorld->Update();
 			Update();
 
 			// Render the game
+			loadedWorld->Render();
 			Render();
 
 			window.EndFrame();
