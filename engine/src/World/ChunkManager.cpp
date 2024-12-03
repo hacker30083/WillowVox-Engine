@@ -25,7 +25,7 @@ namespace WillowVox
     {
         while (!shouldEnd)
         {
-            //chunkMutex.lock();
+            chunkMutex.lock();
             for (auto it = chunks.begin(); it != chunks.end();)
             {
                 if (!(*it->second).ready)
@@ -47,6 +47,7 @@ namespace WillowVox
                 else
                     ++it;
             }
+            chunkMutex.unlock();
             for (auto it = chunkData.begin(); it != chunkData.end(); )
             {
                 glm::ivec3 pos = it->first;
