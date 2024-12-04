@@ -439,4 +439,16 @@ namespace WillowVox
 		fluidShader.SetVec3("model", worldPos);
         fluidMeshRenderer->Render();
     }
+
+    uint16_t Chunk::GetBlockIdAtPos(int x, int y, int z)
+    {
+        return chunkData->GetBlock(x, y, z);
+    }
+
+    void Chunk::SetBlock(int x, int y, int z, uint16_t block)
+    {
+        chunkData->SetBlock(x, y, z, block);
+        GenerateChunkMeshData();
+        GenerateChunkMesh();
+    }
 }

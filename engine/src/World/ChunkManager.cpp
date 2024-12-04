@@ -4,6 +4,8 @@
 
 namespace WillowVox
 {
+    ChunkManager* ChunkManager::instance = nullptr;
+
     ChunkManager::~ChunkManager()
     {
         
@@ -11,6 +13,8 @@ namespace WillowVox
 
     void ChunkManager::Start()
     {
+        instance = this;
+
         chunkThread = std::thread(&ChunkManager::ChunkThreadUpdate, this);
     }
 
@@ -414,6 +418,32 @@ namespace WillowVox
             ++it;
         }
         chunkMutex.unlock();
+    }
+
+    Chunk* ChunkManager::GetChunk(int x, int y, int z)
+    {
+        chunkMutex.lock();
+        Chunk* c;
+        if (chunks.find(glm::ivec3(x, y, z)) == chunks.end())
+            c = nullptr;
+        else
+            c = chunks.at(glm::ivec3(x, y, z));
+
+        chunkMutex.unlock();
+        return c;
+    }
+
+    Chunk* ChunkManager::GetChunk(glm::ivec3 pos)
+    {
+        chunkMutex.lock();
+        Chunk* c;
+        if (chunks.find(pos) == chunks.end())
+            c = nullptr;
+        else
+            c = chunks.at(pos);
+
+        chunkMutex.unlock();
+        return c;
     }
 
     void ChunkManager::SetPlayerObj(Camera* camera)

@@ -6,6 +6,7 @@ add_library(WillowVoxEngine STATIC
     src/Core/Logger.cpp
     src/Input/Input.cpp
     src/Math/Noise.cpp
+    src/Physics/Physics.cpp
     src/Rendering/OpenGLGraphicsAPI.cpp
     src/Rendering/Shader.cpp
     src/Rendering/Texture.cpp

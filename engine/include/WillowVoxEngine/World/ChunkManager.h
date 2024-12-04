@@ -22,6 +22,9 @@ namespace WillowVox
         void Update();
         void Render(Camera& camera);
 
+        Chunk* GetChunk(int x, int y, int z);
+        Chunk* GetChunk(glm::ivec3 pos);
+
         void SetPlayerObj(Camera* camera);
 
         int renderDistance = 5;
@@ -31,6 +34,8 @@ namespace WillowVox
         Shader* solidShader;
         Shader* fluidShader;
         Shader* billboardShader;
+
+        static ChunkManager* instance;
 
     private:
         void ChunkThreadUpdate();
