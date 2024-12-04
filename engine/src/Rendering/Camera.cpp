@@ -41,6 +41,6 @@ namespace WillowVox
 
     glm::mat4 Camera::GetProjectionMatrix()
     {
-        return glm::perspective(glm::radians(fov), 600.0f / 400.0f, 0.1f, 1000.0f);
+        return glm::perspective(glm::radians(fov), 1920.0f / 1080.0f, 0.1f, 1000.0f);
     }
 }

@@ -23,6 +23,11 @@ namespace WillowVox
             return voxels[GetIndex(x, y, z)];
         }
 
+        void SetBlock(int x, int y, int z, uint16_t block)
+        {
+            voxels[GetIndex(x, y, z)] = block;
+        }
+
         uint16_t* voxels;
         glm::ivec3 offset;
     };

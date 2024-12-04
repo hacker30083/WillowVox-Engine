@@ -8,6 +8,7 @@
 #include <WillowVoxEngine/World/BillboardVertex.h>
 #include <glm/glm.hpp>
 #include <vector>
+#include <cstdint>
 
 namespace WillowVox
 {
@@ -21,6 +22,9 @@ namespace WillowVox
         void GenerateChunkMesh();
         void RenderSolid();
         void RenderTransparent();
+
+        uint16_t GetBlockIdAtPos(int x, int y, int z);
+        void SetBlock(int x, int y, int z, uint16_t block);
 
         ChunkData* chunkData;
         ChunkData* northData;

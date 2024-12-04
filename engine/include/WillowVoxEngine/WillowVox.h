@@ -21,6 +21,8 @@
 #include <WillowVoxEngine/Events/MouseScrollEvent.h>
 // Input
 #include <WillowVoxEngine/Input/Input.h>
+// Physics
+#include <WillowVoxEngine/Physics/Physics.h>
 // Rendering
 #include <WillowVoxEngine/Rendering/Camera.h>
 #include <WillowVoxEngine/Rendering/Mesh.h>
