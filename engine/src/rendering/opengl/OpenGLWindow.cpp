@@ -41,6 +41,13 @@ namespace WillowVox
 			self->_height = height;
 
 			glViewport(0, 0, width, height);
+
+			// Resize framebuffer texture and depth texture
+			glBindTexture(GL_TEXTURE_2D, self->_framebufferTexture);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, self->_width, self->_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+			glBindTexture(GL_TEXTURE_2D, self->_depthTexture);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, self->_width, self->_height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+
 			WindowResizeEvent e(width, height);
 			self->WindowResizeEventDispatcher.Dispatch(e);
 		});
