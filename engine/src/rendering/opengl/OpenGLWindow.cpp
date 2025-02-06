@@ -46,11 +46,49 @@ namespace WillowVox
 		});
 
 		glfwSetScrollCallback(_window, [](GLFWwindow* window, double xoffset, double yoffset) {
-			auto self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+			auto self = static_cast<OpenGLWindow*>(glfwGetWindowUserPointer(window));
 
 			MouseScrollEvent e(xoffset, yoffset);
 			self->MouseScrollEventDispatcher.Dispatch(e);
-			});
+		});
+
+		glfwSetCursorPosCallback(_window, [](GLFWwindow* window, double xpos, double ypos) {
+			auto self = static_cast<OpenGLWindow*>(glfwGetWindowUserPointer(window));
+
+			MouseMoveEvent e(xpos - self->_lastMouseX, ypos - self->_lastMouseY);
+			self->_lastMouseX = xpos;
+			self->_lastMouseY = ypos;
+			self->MouseMoveEventDispatcher.Dispatch(e);
+		});
+
+		glfwSetMouseButtonCallback(_window, [](GLFWwindow* window, int button, int action, int mods) {
+            auto self = static_cast<OpenGLWindow*>(glfwGetWindowUserPointer(window));
+            if (action == GLFW_PRESS)
+            {
+                MouseClickEvent e(button);
+                self->MouseClickEventDispatcher.Dispatch(e);
+            }
+            else
+            {
+                MouseReleaseEvent e(button);
+                self->MouseReleaseEventDispatcher.Dispatch(e);
+            }
+        });
+
+		glfwSetKeyCallback(_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+			auto self = static_cast<OpenGLWindow*>(glfwGetWindowUserPointer(window));
+            
+            if (action == GLFW_PRESS)
+            {
+                KeyPressEvent e((Key)openGLtoKey[key]);
+                self->KeyPressEventDispatcher.Dispatch(e);
+            }
+            else if (action == GLFW_RELEASE)
+            {
+                KeyReleaseEvent e((Key)openGLtoKey[key]);
+                self->KeyReleaseEventDispatcher.Dispatch(e);
+            }
+		});
 
 		// Post-processing
 		glGenFramebuffers(1, &_fbo);
@@ -261,20 +299,6 @@ namespace WillowVox
 		double x, y;
 		glfwGetCursorPos(_window, &x, &y);
 		return glm::vec2((float)x, (float)y);
-	}
-
-	glm::vec2 OpenGLWindow::GetMouseMovement()
-	{
-		double x, y;
-		glfwGetCursorPos(_window, &x, &y);
-
-		float changeX = x - _lastMouseX;
-		float changeY = y - _lastMouseY;
-
-		_lastMouseX = x;
-		_lastMouseY = y;
-
-		return glm::vec2((float)changeX, (float)changeY);
 	}
 
 	bool OpenGLWindow::MouseDisabled()

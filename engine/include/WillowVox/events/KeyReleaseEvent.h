@@ -9,7 +9,7 @@ namespace WillowVox
     {
     public:
         KeyReleaseEvent(Key key) 
-            : Event(Type::KeyPress), m_key(key) {}
+            : Event(Type::KeyRelease), m_key(key) {}
 
         std::string ToString() const override { return "KeyReleaseEvent"; }
     

@@ -33,7 +33,6 @@ namespace WillowVox
 		bool KeyDown(Key key) override;
 		bool MouseButtonDown(int button) override;
 		glm::vec2 GetMousePos() override;
-		glm::vec2 GetMouseMovement() override;
 		bool MouseDisabled() override;
 
 	private:
@@ -47,7 +46,6 @@ namespace WillowVox
 
 		float _width, _height;
 
-		double _lastMouseX;
-		double _lastMouseY;
+		float _lastMouseX, _lastMouseY;
 	};
 }

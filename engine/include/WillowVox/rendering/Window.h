@@ -2,7 +2,12 @@
 
 #include <WillowVox/events/WindowCloseEvent.h>
 #include <WillowVox/events/WindowResizeEvent.h>
+#include <WillowVox/events/MouseClickEvent.h>
+#include <WillowVox/events/MouseReleaseEvent.h>
 #include <WillowVox/events/MouseScrollEvent.h>
+#include <WillowVox/events/MouseMoveEvent.h>
+#include <WillowVox/events/KeyPressEvent.h>
+#include <WillowVox/events/KeyReleaseEvent.h>
 #include <WillowVox/events/EventDispatcher.h>
 #include <WillowVox/input/Key.h>
 #include <WillowVox/rendering/Shader.h>
@@ -48,13 +53,17 @@ namespace WillowVox
 		virtual bool KeyDown(Key key) = 0;
 		virtual bool MouseButtonDown(int button) = 0;
 		virtual glm::vec2 GetMousePos() = 0;
-		virtual glm::vec2 GetMouseMovement() = 0;
 		virtual bool MouseDisabled() = 0;
 
 		// Events
 		EventDispatcher<WindowCloseEvent> WindowCloseEventDispatcher;
 		EventDispatcher<WindowResizeEvent> WindowResizeEventDispatcher;
 		EventDispatcher<MouseScrollEvent> MouseScrollEventDispatcher;
+		EventDispatcher<MouseClickEvent> MouseClickEventDispatcher;
+		EventDispatcher<MouseReleaseEvent> MouseReleaseEventDispatcher;
+		EventDispatcher<MouseMoveEvent> MouseMoveEventDispatcher;
+		EventDispatcher<KeyPressEvent> KeyPressEventDispatcher;
+		EventDispatcher<KeyReleaseEvent> KeyReleaseEventDispatcher;
 
 	protected:
 		std::vector<PostProcessingShader*> _postProcessingShaders;
