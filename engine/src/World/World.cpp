@@ -1,70 +1,56 @@
-#include <WillowVoxEngine/World/World.h>
-#include <WillowVoxEngine/Rendering/OpenGLGraphicsAPI.h>
-#include <WillowVoxEngine/Core/Logger.h>
+#include <WillowVox/world/World.h>
+#include <WillowVox/core/Application.h>
+#include <WillowVox/rendering/RenderingAPI.h>
+#include <WillowVox/core/Logger.h>
+#include <WillowVox/rendering/engine-default/ChunkSolidMaterial.h>
+#include <WillowVox/rendering/engine-default/ChunkFluidMaterial.h>
+#include <WillowVox/rendering/engine-default/TextureMaterial.h>
 
 namespace WillowVox
 {
     World::~World()
     {
-        for (auto i : gameObjects)
-        {
-            delete i;
-        }
+        delete _chunkManager;
     }
 
     void World::Start()
     {
-		tex = new Texture("assets/block_map.png");
-		tex->BindTexture(Texture::TEX00);
+        RenderingAPI& api = *RenderingAPI::m_renderingAPI;
+        _tex = api.CreateTexture("assets/sprites/block_map.png");
+        _tex->BindTexture(Texture::TEX00);
 
-        solidShader = new Shader("assets/chunk_solid_vert.glsl", "assets/chunk_solid_frag.glsl");
-        chunkManager.solidShader = solidShader;
-        solidShader->Use();
-        solidShader->SetFloat("texMultiplier", 16.0f / tex->width);
+        _solidShader = api.CreateShader("assets/shaders/chunk-shaders/chunk_solid_vert.glsl", "assets/shaders/chunk-shaders/chunk_solid_frag.glsl");
+        _solidMaterial = new ChunkSolidMaterial(_solidShader, _tex);
+        _chunkManager->m_solidMaterial = _solidMaterial;
+        _solidShader->Bind();
+        _solidShader->SetFloat("texMultiplier", 16.0f / _tex->m_width);
 
-        fluidShader = new Shader("assets/chunk_fluid_vert.glsl", "assets/chunk_fluid_frag.glsl");
-        chunkManager.fluidShader = fluidShader;
-        fluidShader->Use();
-        fluidShader->SetFloat("texMultiplier", 16.0f / tex->width);
+        _fluidShader = api.CreateShader("assets/shaders/chunk-shaders/chunk_fluid_vert.glsl", "assets/shaders/chunk-shaders/chunk_fluid_frag.glsl");
+        _fluidMaterial = new ChunkFluidMaterial(_fluidShader, _tex);
+        _chunkManager->m_fluidMaterial = _fluidMaterial;
+        _fluidShader->Bind();
+        _fluidShader->SetFloat("texMultiplier", 16.0f / _tex->m_width);
 
-        billboardShader = new Shader("assets/chunk_billboard_vert.glsl", "assets/chunk_billboard_frag.glsl");
-        chunkManager.billboardShader = billboardShader;
-        billboardShader->Use();
-        billboardShader->SetFloat("texMultiplier", 16.0f / tex->width);
+        _billboardShader = api.CreateShader("assets/shaders/chunk-shaders/chunk_billboard_vert.glsl", "assets/shaders/chunk-shaders/chunk_billboard_frag.glsl");
+        _billboardMaterial = new TextureMaterial(_billboardShader, _tex);
+        _chunkManager->m_billboardMaterial = _billboardMaterial;
+        _billboardShader->Bind();
+        _billboardShader->SetFloat("texMultiplier", 16.0f / _tex->m_width);
 
-        chunkManager.SetPlayerObj(mainCamera);
+        _chunkManager->SetPlayerObj(m_mainCamera);
 
-        chunkManager.Start();
-
-        for (auto i : gameObjects)
-        {
-            i->Start();
-        }
+        _chunkManager->Start();
     }
 
     void World::Update()
     {
-        chunkManager.Update();
-
-        for (auto i : gameObjects)
-        {
-            i->Update();
-        }
+        _chunkManager->Update();
     }
 
     void World::Render()
     {
-        fluidShader->SetFloat("time", OpenGLGraphicsAPI::GetTime());
-        chunkManager.Render(*mainCamera);
-    }
-
-    void World::AddMeshRenderer(MeshRenderer* mr)
-    {
-        meshRenderers.push_back(mr);
-    }
-
-    void World::AddGameObject(GameObject* gameObject)
-    {
-        gameObjects.push_back(gameObject);
+        _fluidShader->Bind();
+        _fluidShader->SetFloat("time", RenderingAPI::m_renderingAPI->GetTime());
+        _chunkManager->Render(*m_mainCamera);
     }
 }

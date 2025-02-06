@@ -2,7 +2,6 @@
 # Define executable target
 add_executable(WVTest 
     src/main.cpp
-    src/PlayerController.cpp
 )
 
 # Link the engine library

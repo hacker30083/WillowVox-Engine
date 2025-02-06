@@ -1,377 +1,355 @@
-#include <WillowVoxEngine/World/ChunkManager.h>
-#include <WillowVoxEngine/World/WorldGlobals.h>
-#include <WillowVoxEngine/Core/Logger.h>
+#include <WillowVox/world/ChunkManager.h>
+#include <WillowVox/world/WorldGlobals.h>
+#include <WillowVox/core/Logger.h>
 
 namespace WillowVox
 {
-    ChunkManager* ChunkManager::instance = nullptr;
+    ChunkManager* ChunkManager::m_instance = nullptr;
 
     ChunkManager::~ChunkManager()
     {
-        
+
     }
 
     void ChunkManager::Start()
     {
-        instance = this;
+        m_instance = this;
 
-        chunkThread = std::thread(&ChunkManager::ChunkThreadUpdate, this);
+        _chunkThread = std::thread(&ChunkManager::ChunkThreadUpdate, this);
     }
 
     void ChunkManager::Update()
     {
-        playerChunkX = playerObj->position.x < 0 ? floor(playerObj->position.x / CHUNK_SIZE) : playerObj->position.x / CHUNK_SIZE;
-        playerChunkY = playerObj->position.y < 0 ? floor(playerObj->position.y / CHUNK_SIZE) : playerObj->position.y / CHUNK_SIZE;
-        playerChunkZ = playerObj->position.z < 0 ? floor(playerObj->position.z / CHUNK_SIZE) : playerObj->position.z / CHUNK_SIZE;
+        _playerChunkX = _playerObj->position.x < 0 ? floor(_playerObj->position.x / CHUNK_SIZE) : _playerObj->position.x / CHUNK_SIZE;
+        _playerChunkY = _playerObj->position.y < 0 ? floor(_playerObj->position.y / CHUNK_SIZE) : _playerObj->position.y / CHUNK_SIZE;
+        _playerChunkZ = _playerObj->position.z < 0 ? floor(_playerObj->position.z / CHUNK_SIZE) : _playerObj->position.z / CHUNK_SIZE;
     }
 
     void ChunkManager::ChunkThreadUpdate()
     {
-        while (!shouldEnd)
+        while (!_shouldEnd)
         {
-            chunkMutex.lock();
-            for (auto it = chunks.begin(); it != chunks.end();)
-            {
-                if (!(*it->second).ready)
-                {
-                    ++it;
-                    continue;
-                }
-
-                int chunkX = (*it->second).chunkPos.x;
-                int chunkY = (*it->second).chunkPos.y;
-                int chunkZ = (*it->second).chunkPos.z;
-                if (abs(chunkX - playerChunkX) > renderDistance ||
-                    abs(chunkY - playerChunkY) > renderDistance ||
-                    abs(chunkZ - playerChunkZ) > renderDistance)
-                {
-                    delete it->second;
-                    it = chunks.erase(it);
-                }
-                else
-                    ++it;
-            }
-            chunkMutex.unlock();
-            for (auto it = chunkData.begin(); it != chunkData.end(); )
+            // Delete unused chunk data
+            for (auto it = _chunkData.begin(); it != _chunkData.end(); )
             {
                 glm::ivec3 pos = it->first;
 
-                if (chunks.find(pos) == chunks.end() &&
-                    chunks.find({ pos.x + 1, pos.y, pos.z }) == chunks.end() &&
-                    chunks.find({ pos.x - 1, pos.y, pos.z }) == chunks.end() &&
-                    chunks.find({ pos.x, pos.y + 1, pos.z }) == chunks.end() &&
-                    chunks.find({ pos.x, pos.y - 1, pos.z }) == chunks.end() &&
-                    chunks.find({ pos.x, pos.y, pos.z + 1 }) == chunks.end() &&
-                    chunks.find({ pos.x, pos.y, pos.z - 1 }) == chunks.end())
+                if (_chunks.find(pos) == _chunks.end() &&
+                    _chunks.find({ pos.x + 1, pos.y, pos.z }) == _chunks.end() &&
+                    _chunks.find({ pos.x - 1, pos.y, pos.z }) == _chunks.end() &&
+                    _chunks.find({ pos.x, pos.y + 1, pos.z }) == _chunks.end() &&
+                    _chunks.find({ pos.x, pos.y - 1, pos.z }) == _chunks.end() &&
+                    _chunks.find({ pos.x, pos.y, pos.z + 1 }) == _chunks.end() &&
+                    _chunks.find({ pos.x, pos.y, pos.z - 1 }) == _chunks.end())
                 {
                     delete it->second;
-                    it = chunkData.erase(it);
+                    it = _chunkData.erase(it);
                 }
                 else
                     ++it;
             }
-            //chunkMutex.unlock();
 
             // Check if player moved to new chunk
-            if (playerChunkX != lastPlayerX || playerChunkY != lastPlayerY || playerChunkZ != lastPlayerZ)
+            if (_playerChunkX != _lastPlayerX || _playerChunkY != _lastPlayerY || _playerChunkZ != _lastPlayerZ)
             {
                 // Player moved chunks, start new chunk queue
-                lastPlayerX = playerChunkX;
-                lastPlayerY = playerChunkY;
-                lastPlayerZ = playerChunkZ;
+                _lastPlayerX = _playerChunkX;
+                _lastPlayerY = _playerChunkY;
+                _lastPlayerZ = _playerChunkZ;
 
-                chunkQueue = {};
+                _chunkQueue = {};
+
                 // Add current chunk
-                chunkQueue.push({ playerChunkX, playerChunkY, playerChunkZ });
+                _chunkQueue.push({ _playerChunkX, _playerChunkY, _playerChunkZ });
 
-                for (int r = 0; r < renderDistance; r++)
+                for (int r = 0; r < m_renderDistance; r++)
                 {
                     // Add middle chunks
-                    for (int y = 0; y < renderHeight; y++)
+                    for (int y = 0; y < m_renderHeight; y++)
                     {
-                        chunkQueue.push({ playerChunkX,     playerChunkY + y, playerChunkZ + r });
-                        chunkQueue.push({ playerChunkX + r, playerChunkY + y, playerChunkZ     });
-                        chunkQueue.push({ playerChunkX,     playerChunkY + y, playerChunkZ - r });
-                        chunkQueue.push({ playerChunkX - r, playerChunkY + y, playerChunkZ     });
+                        _chunkQueue.push({ _playerChunkX,     _playerChunkY + y, _playerChunkZ + r });
+                        _chunkQueue.push({ _playerChunkX + r, _playerChunkY + y, _playerChunkZ });
+                        _chunkQueue.push({ _playerChunkX,     _playerChunkY + y, _playerChunkZ - r });
+                        _chunkQueue.push({ _playerChunkX - r, _playerChunkY + y, _playerChunkZ });
 
                         if (y > 0)
                         {
-                            chunkQueue.push({ playerChunkX,     playerChunkY - y, playerChunkZ + r });
-                            chunkQueue.push({ playerChunkX + r, playerChunkY - y, playerChunkZ     });
-                            chunkQueue.push({ playerChunkX,     playerChunkY - y, playerChunkZ - r });
-                            chunkQueue.push({ playerChunkX - r, playerChunkY - y, playerChunkZ     });
+                            _chunkQueue.push({ _playerChunkX,     _playerChunkY - y, _playerChunkZ + r });
+                            _chunkQueue.push({ _playerChunkX + r, _playerChunkY - y, _playerChunkZ });
+                            _chunkQueue.push({ _playerChunkX,     _playerChunkY - y, _playerChunkZ - r });
+                            _chunkQueue.push({ _playerChunkX - r, _playerChunkY - y, _playerChunkZ });
                         }
                     }
 
                     // Add edges
                     for (int e = 1; e < r; e++)
                     {
-                        for (int y = 0; y <= renderHeight; y++)
+                        for (int y = 0; y <= m_renderHeight; y++)
                         {
-                            chunkQueue.push({ playerChunkX + e, playerChunkY + y, playerChunkZ + r });
-                            chunkQueue.push({ playerChunkX - e, playerChunkY + y, playerChunkZ + r });
-
-                            chunkQueue.push({ playerChunkX + r, playerChunkY + y, playerChunkZ + e });
-                            chunkQueue.push({ playerChunkX + r, playerChunkY + y, playerChunkZ - e });
-
-                            chunkQueue.push({ playerChunkX + e, playerChunkY + y, playerChunkZ - r });
-                            chunkQueue.push({ playerChunkX - e, playerChunkY + y, playerChunkZ - r });
-
-                            chunkQueue.push({ playerChunkX - r, playerChunkY + y, playerChunkZ + e });
-                            chunkQueue.push({ playerChunkX - r, playerChunkY + y, playerChunkZ - e });
+                            _chunkQueue.push({ _playerChunkX + e, _playerChunkY + y, _playerChunkZ + r });
+                            _chunkQueue.push({ _playerChunkX - e, _playerChunkY + y, _playerChunkZ + r });
+                            
+                            _chunkQueue.push({ _playerChunkX + r, _playerChunkY + y, _playerChunkZ + e });
+                            _chunkQueue.push({ _playerChunkX + r, _playerChunkY + y, _playerChunkZ - e });
+                            
+                            _chunkQueue.push({ _playerChunkX + e, _playerChunkY + y, _playerChunkZ - r });
+                            _chunkQueue.push({ _playerChunkX - e, _playerChunkY + y, _playerChunkZ - r });
+                            
+                            _chunkQueue.push({ _playerChunkX - r, _playerChunkY + y, _playerChunkZ + e });
+                            _chunkQueue.push({ _playerChunkX - r, _playerChunkY + y, _playerChunkZ - e });
 
                             if (y > 0)
                             {
-                                chunkQueue.push({ playerChunkX + e, playerChunkY - y, playerChunkZ + r });
-                                chunkQueue.push({ playerChunkX - e, playerChunkY - y, playerChunkZ + r });
-
-                                chunkQueue.push({ playerChunkX + r, playerChunkY - y, playerChunkZ + e });
-                                chunkQueue.push({ playerChunkX + r, playerChunkY - y, playerChunkZ - e });
-
-                                chunkQueue.push({ playerChunkX + e, playerChunkY - y, playerChunkZ - r });
-                                chunkQueue.push({ playerChunkX - e, playerChunkY - y, playerChunkZ - r });
-
-                                chunkQueue.push({ playerChunkX - r, playerChunkY - y, playerChunkZ + e });
-                                chunkQueue.push({ playerChunkX - r, playerChunkY - y, playerChunkZ - e });
+                                _chunkQueue.push({ _playerChunkX + e, _playerChunkY - y, _playerChunkZ + r });
+                                _chunkQueue.push({ _playerChunkX - e, _playerChunkY - y, _playerChunkZ + r });
+                                
+                                _chunkQueue.push({ _playerChunkX + r, _playerChunkY - y, _playerChunkZ + e });
+                                _chunkQueue.push({ _playerChunkX + r, _playerChunkY - y, _playerChunkZ - e });
+                                
+                                _chunkQueue.push({ _playerChunkX + e, _playerChunkY - y, _playerChunkZ - r });
+                                _chunkQueue.push({ _playerChunkX - e, _playerChunkY - y, _playerChunkZ - r });
+                                
+                                _chunkQueue.push({ _playerChunkX - r, _playerChunkY - y, _playerChunkZ + e });
+                                _chunkQueue.push({ _playerChunkX - r, _playerChunkY - y, _playerChunkZ - e });
                             }
                         }
                     }
 
                     // Add corners
-                    for (int y = 0; y <= renderHeight; y++)
+                    for (int y = 0; y <= m_renderHeight; y++)
                     {
-                        chunkQueue.push({ playerChunkX + r, playerChunkY + y, playerChunkZ + r });
-                        chunkQueue.push({ playerChunkX + r, playerChunkY + y, playerChunkZ - r });
-                        chunkQueue.push({ playerChunkX - r, playerChunkY + y, playerChunkZ + r });
-                        chunkQueue.push({ playerChunkX - r, playerChunkY + y, playerChunkZ - r });
+                        _chunkQueue.push({ _playerChunkX + r, _playerChunkY + y, _playerChunkZ + r });
+                        _chunkQueue.push({ _playerChunkX + r, _playerChunkY + y, _playerChunkZ - r });
+                        _chunkQueue.push({ _playerChunkX - r, _playerChunkY + y, _playerChunkZ + r });
+                        _chunkQueue.push({ _playerChunkX - r, _playerChunkY + y, _playerChunkZ - r });
 
                         if (y > 0)
                         {
-                            chunkQueue.push({ playerChunkX + r, playerChunkY - y, playerChunkZ + r });
-                            chunkQueue.push({ playerChunkX + r, playerChunkY - y, playerChunkZ - r });
-                            chunkQueue.push({ playerChunkX - r, playerChunkY - y, playerChunkZ + r });
-                            chunkQueue.push({ playerChunkX - r, playerChunkY - y, playerChunkZ - r });
+                            _chunkQueue.push({ _playerChunkX + r, _playerChunkY - y, _playerChunkZ + r });
+                            _chunkQueue.push({ _playerChunkX + r, _playerChunkY - y, _playerChunkZ - r });
+                            _chunkQueue.push({ _playerChunkX - r, _playerChunkY - y, _playerChunkZ + r });
+                            _chunkQueue.push({ _playerChunkX - r, _playerChunkY - y, _playerChunkZ - r });
                         }
                     }
                 }
             }
-            else if (!chunkQueue.empty())
+            else if (!_chunkQueue.empty())
             {
                 // Generate next chunk in queue
-                glm::ivec3 chunkPos = chunkQueue.front();
-                
+                glm::ivec3 chunkPos = _chunkQueue.front();
+
                 // If exists, skip
-                chunkMutex.lock();
-                if (chunks.find(chunkPos) != chunks.end())
+                _chunkMutex.lock();
+                if (_chunks.find(chunkPos) != _chunks.end())
                 {
-                    chunkMutex.unlock();
-                    chunkQueue.pop();
+                    _chunkMutex.unlock();
+                    _chunkQueue.pop();
                     continue;
                 }
-                chunkMutex.unlock();
+                _chunkMutex.unlock();
 
                 // Create chunk object
-                Chunk* chunk = new Chunk(*solidShader, *fluidShader, *billboardShader, chunkPos, chunkPos * CHUNK_SIZE);
+                Chunk* chunk = new Chunk(m_solidMaterial, m_fluidMaterial, m_billboardMaterial, chunkPos, chunkPos * CHUNK_SIZE);
 
                 // Set chunk data
                 {
-                    chunkMutex.lock();
-                    if (chunkData.find(chunkPos) == chunkData.end())
+                    _chunkMutex.lock();
+                    if (_chunkData.find(chunkPos) == _chunkData.end())
                     {
                         // Chunk data doesn't exist, create it
-                        chunkMutex.unlock();
+                        _chunkMutex.unlock();
 
                         ChunkData* data = new ChunkData();
                         data->offset = chunkPos * CHUNK_SIZE;
-                        worldGen.GenerateChunkData(*data);
+                        _worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
-                        chunk->chunkData = data;
+                        chunk->m_chunkData = data;
 
                         // Add new chunk data to chunk data map
-                        chunkMutex.lock();
-                        chunkData[chunkPos] = data;
-                        chunkMutex.unlock();
+                        _chunkMutex.lock();
+                        _chunkData[chunkPos] = data;
+                        _chunkMutex.unlock();
                     }
                     else
                     {
                         // Set chunk's data to item from chunk data map
-                        chunk->chunkData = chunkData.at(chunkPos);
-                        chunkMutex.unlock();
+                        chunk->m_chunkData = _chunkData.at(chunkPos);
+                        _chunkMutex.unlock();
                     }
                 }
 
                 // Set north chunk data
                 {
                     glm::ivec3 checkPos(chunkPos.x, chunkPos.y, chunkPos.z - 1);
-                    chunkMutex.lock();
-                    if (chunkData.find(checkPos) == chunkData.end())
+                    _chunkMutex.lock();
+                    if (_chunkData.find(checkPos) == _chunkData.end())
                     {
                         // Chunk data doesn't exist, create it
-                        chunkMutex.unlock();
-                        
+                        _chunkMutex.unlock();
+
                         ChunkData* data = new ChunkData();
                         data->offset = checkPos * CHUNK_SIZE;
-                        worldGen.GenerateChunkData(*data);
+                        _worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
-                        chunk->northData = data;
+                        chunk->m_northData = data;
 
                         // Add new chunk data to chunk data map
-                        chunkMutex.lock();
-                        chunkData[checkPos] = data;
-                        chunkMutex.unlock();
+                        _chunkMutex.lock();
+                        _chunkData[checkPos] = data;
+                        _chunkMutex.unlock();
                     }
                     else
                     {
                         // Set chunk's data to item from chunk data map
-                        chunk->northData = chunkData.at(checkPos);
-                        chunkMutex.unlock();
+                        chunk->m_northData = _chunkData.at(checkPos);
+                        _chunkMutex.unlock();
                     }
                 }
 
                 // Set south chunk data
                 {
                     glm::ivec3 checkPos(chunkPos.x, chunkPos.y, chunkPos.z + 1);
-                    chunkMutex.lock();
-                    if (chunkData.find(checkPos) == chunkData.end())
+                    _chunkMutex.lock();
+                    if (_chunkData.find(checkPos) == _chunkData.end())
                     {
                         // Chunk data doesn't exist, create it
-                        chunkMutex.unlock();
-                        
+                        _chunkMutex.unlock();
+
                         ChunkData* data = new ChunkData();
                         data->offset = checkPos * CHUNK_SIZE;
-                        worldGen.GenerateChunkData(*data);
+                        _worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
-                        chunk->southData = data;
+                        chunk->m_southData = data;
 
                         // Add new chunk data to chunk data map
-                        chunkMutex.lock();
-                        chunkData[checkPos] = data;
-                        chunkMutex.unlock();
+                        _chunkMutex.lock();
+                        _chunkData[checkPos] = data;
+                        _chunkMutex.unlock();
                     }
                     else
                     {
                         // Set chunk's data to item from chunk data map
-                        chunk->southData = chunkData.at(checkPos);
-                        chunkMutex.unlock();
+                        chunk->m_southData = _chunkData.at(checkPos);
+                        _chunkMutex.unlock();
                     }
                 }
 
                 // Set east chunk data
                 {
                     glm::ivec3 checkPos(chunkPos.x + 1, chunkPos.y, chunkPos.z);
-                    chunkMutex.lock();
-                    if (chunkData.find(checkPos) == chunkData.end())
+                    _chunkMutex.lock();
+                    if (_chunkData.find(checkPos) == _chunkData.end())
                     {
                         // Chunk data doesn't exist, create it
-                        chunkMutex.unlock();
-                        
+                        _chunkMutex.unlock();
+
                         ChunkData* data = new ChunkData();
                         data->offset = checkPos * CHUNK_SIZE;
-                        worldGen.GenerateChunkData(*data);
+                        _worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
-                        chunk->eastData = data;
+                        chunk->m_eastData = data;
 
                         // Add new chunk data to chunk data map
-                        chunkMutex.lock();
-                        chunkData[checkPos] = data;
-                        chunkMutex.unlock();
+                        _chunkMutex.lock();
+                        _chunkData[checkPos] = data;
+                        _chunkMutex.unlock();
                     }
                     else
                     {
                         // Set chunk's data to item from chunk data map
-                        chunk->eastData = chunkData.at(checkPos);
-                        chunkMutex.unlock();
+                        chunk->m_eastData = _chunkData.at(checkPos);
+                        _chunkMutex.unlock();
                     }
                 }
 
                 // Set west chunk data
                 {
                     glm::ivec3 checkPos(chunkPos.x - 1, chunkPos.y, chunkPos.z);
-                    chunkMutex.lock();
-                    if (chunkData.find(checkPos) == chunkData.end())
+                    _chunkMutex.lock();
+                    if (_chunkData.find(checkPos) == _chunkData.end())
                     {
                         // Chunk data doesn't exist, create it
-                        chunkMutex.unlock();
-                        
+                        _chunkMutex.unlock();
+
                         ChunkData* data = new ChunkData();
                         data->offset = checkPos * CHUNK_SIZE;
-                        worldGen.GenerateChunkData(*data);
+                        _worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
-                        chunk->westData = data;
+                        chunk->m_westData = data;
 
                         // Add new chunk data to chunk data map
-                        chunkMutex.lock();
-                        chunkData[checkPos] = data;
-                        chunkMutex.unlock();
+                        _chunkMutex.lock();
+                        _chunkData[checkPos] = data;
+                        _chunkMutex.unlock();
                     }
                     else
                     {
                         // Set chunk's data to item from chunk data map
-                        chunk->westData = chunkData.at(checkPos);
-                        chunkMutex.unlock();
+                        chunk->m_westData = _chunkData.at(checkPos);
+                        _chunkMutex.unlock();
                     }
                 }
 
                 // Set top chunk data
                 {
                     glm::ivec3 checkPos(chunkPos.x, chunkPos.y + 1, chunkPos.z);
-                    chunkMutex.lock();
-                    if (chunkData.find(checkPos) == chunkData.end())
+                    _chunkMutex.lock();
+                    if (_chunkData.find(checkPos) == _chunkData.end())
                     {
                         // Chunk data doesn't exist, create it
-                        chunkMutex.unlock();
-                        
+                        _chunkMutex.unlock();
+
                         ChunkData* data = new ChunkData();
                         data->offset = checkPos * CHUNK_SIZE;
-                        worldGen.GenerateChunkData(*data);
+                        _worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
-                        chunk->upData = data;
+                        chunk->m_upData = data;
 
                         // Add new chunk data to chunk data map
-                        chunkMutex.lock();
-                        chunkData[checkPos] = data;
-                        chunkMutex.unlock();
+                        _chunkMutex.lock();
+                        _chunkData[checkPos] = data;
+                        _chunkMutex.unlock();
                     }
                     else
                     {
                         // Set chunk's data to item from chunk data map
-                        chunk->upData = chunkData.at(checkPos);
-                        chunkMutex.unlock();
+                        chunk->m_upData = _chunkData.at(checkPos);
+                        _chunkMutex.unlock();
                     }
                 }
 
                 // Set down chunk data
                 {
                     glm::ivec3 checkPos(chunkPos.x, chunkPos.y - 1, chunkPos.z);
-                    chunkMutex.lock();
-                    if (chunkData.find(checkPos) == chunkData.end())
+                    _chunkMutex.lock();
+                    if (_chunkData.find(checkPos) == _chunkData.end())
                     {
                         // Chunk data doesn't exist, create it
-                        chunkMutex.unlock();
-                        
+                        _chunkMutex.unlock();
+
                         ChunkData* data = new ChunkData();
                         data->offset = checkPos * CHUNK_SIZE;
-                        worldGen.GenerateChunkData(*data);
+                        _worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
-                        chunk->downData = data;
+                        chunk->m_downData = data;
 
                         // Add new chunk data to chunk data map
-                        chunkMutex.lock();
-                        chunkData[checkPos] = data;
-                        chunkMutex.unlock();
+                        _chunkMutex.lock();
+                        _chunkData[checkPos] = data;
+                        _chunkMutex.unlock();
                     }
                     else
                     {
                         // Set chunk's data to item from chunk data map
-                        chunk->downData = chunkData.at(checkPos);
-                        chunkMutex.unlock();
+                        chunk->m_downData = _chunkData.at(checkPos);
+                        _chunkMutex.unlock();
                     }
                 }
 
@@ -379,9 +357,9 @@ namespace WillowVox
                 chunk->GenerateChunkMeshData();
 
                 // Add chunk to chunk map
-                chunkMutex.lock();
-                chunks[chunkPos] = chunk;
-                chunkMutex.unlock();
+                _chunkMutex.lock();
+                _chunks[chunkPos] = chunk;
+                _chunkMutex.unlock();
             }
             else
             {
@@ -393,61 +371,154 @@ namespace WillowVox
     void ChunkManager::Render(Camera& camera)
     {
         glm::mat4 view = camera.GetViewMatrix();
-		glm::mat4 projection = camera.GetProjectionMatrix();
-		solidShader->Use();
-		solidShader->SetMat4("view", view);
-		solidShader->SetMat4("projection", projection);
+        glm::mat4 projection = camera.GetProjectionMatrix();
 
-		fluidShader->Use();
-		fluidShader->SetMat4("view", view);
-		fluidShader->SetMat4("projection", projection);
+        m_solidMaterial->Bind();
+        m_solidMaterial->SetCameraShaderProperties(view, projection);
 
-		billboardShader->Use();
-		billboardShader->SetMat4("view", view);
-		billboardShader->SetMat4("projection", projection);
+        m_fluidMaterial->Bind();
+        m_fluidMaterial->SetCameraShaderProperties(view, projection);
 
-        chunkMutex.lock();
-        for (auto it = chunks.begin(); it != chunks.end();)
+        m_billboardMaterial->Bind();
+        m_billboardMaterial->SetCameraShaderProperties(view, projection);
+
+        _chunkMutex.lock();
+        int numChunks = 0;
+        for (auto it = _chunks.begin(); it != _chunks.end();)
         {
-            (*it->second).RenderSolid();
-            ++it;
+            Chunk& chunk = *it->second;
+
+            int chunkX = chunk.m_chunkPos.x;
+            int chunkY = chunk.m_chunkPos.y;
+            int chunkZ = chunk.m_chunkPos.z;
+            if (abs(chunkX - _playerChunkX) > m_renderDistance ||
+                abs(chunkY - _playerChunkY) > m_renderDistance ||
+                abs(chunkZ - _playerChunkZ) > m_renderDistance)
+            {
+                delete it->second;
+                it = _chunks.erase(it);
+            }
+            else
+            {
+                numChunks++;
+                chunk.RenderSolid(view, projection);
+                ++it;
+            }
         }
-        for (auto it = chunks.begin(); it != chunks.end();)
+        for (auto it = _chunks.begin(); it != _chunks.end();)
         {
             (*it->second).RenderTransparent();
             ++it;
         }
-        chunkMutex.unlock();
+        //Logger::EngineLog("%d chunks rendered", numChunks);
+        _chunkMutex.unlock();
     }
 
     Chunk* ChunkManager::GetChunk(int x, int y, int z)
     {
-        chunkMutex.lock();
+        _chunkMutex.lock();
         Chunk* c;
-        if (chunks.find(glm::ivec3(x, y, z)) == chunks.end())
+        if (_chunks.find(glm::ivec3(x, y, z)) == _chunks.end())
             c = nullptr;
         else
-            c = chunks.at(glm::ivec3(x, y, z));
+            c = _chunks.at(glm::ivec3(x, y, z));
 
-        chunkMutex.unlock();
+        _chunkMutex.unlock();
         return c;
     }
 
     Chunk* ChunkManager::GetChunk(glm::ivec3 pos)
     {
-        chunkMutex.lock();
+        _chunkMutex.lock();
         Chunk* c;
-        if (chunks.find(pos) == chunks.end())
+        if (_chunks.find(pos) == _chunks.end())
             c = nullptr;
         else
-            c = chunks.at(pos);
+            c = _chunks.at(pos);
 
-        chunkMutex.unlock();
+        _chunkMutex.unlock();
         return c;
+    }
+
+
+    Chunk* ChunkManager::GetChunkAtPos(float x, float y, float z)
+    {
+        int cX = x < 0 ? floor(x / CHUNK_SIZE) : x / CHUNK_SIZE;
+        int cY = y < 0 ? floor(y / CHUNK_SIZE) : y / CHUNK_SIZE;
+        int cZ = z < 0 ? floor(z / CHUNK_SIZE) : z / CHUNK_SIZE;
+
+        _chunkMutex.lock();
+        Chunk* c;
+        if (_chunks.find(glm::ivec3(cX, cY, cZ)) == _chunks.end())
+            c = nullptr;
+        else
+            c = _chunks.at(glm::ivec3(cX, cY, cZ));
+
+        _chunkMutex.unlock();
+        return c;
+    }
+
+    Chunk* ChunkManager::GetChunkAtPos(glm::vec3 pos)
+    {
+        int cX = pos.x < 0 ? floor(pos.x / CHUNK_SIZE) : pos.x / CHUNK_SIZE;
+        int cY = pos.y < 0 ? floor(pos.y / CHUNK_SIZE) : pos.y / CHUNK_SIZE;
+        int cZ = pos.z < 0 ? floor(pos.z / CHUNK_SIZE) : pos.z / CHUNK_SIZE;
+
+        _chunkMutex.lock();
+        Chunk* c;
+        if (_chunks.find(glm::ivec3(cX, cY, cZ)) == _chunks.end())
+            c = nullptr;
+        else
+            c = _chunks.at(glm::ivec3(cX, cY, cZ));
+
+        _chunkMutex.unlock();
+        return c;
+    }
+
+    uint16_t ChunkManager::GetBlockIdAtPos(float x, float y, float z)
+    {
+        int blockX = x < 0 ? x - 1 : x;
+        int blockY = y < 0 ? y - 1 : y;
+        int blockZ = z < 0 ? z - 1 : z;
+
+        int chunkX = blockX < 0 ? floorf(blockX / (float)CHUNK_SIZE) : blockX / (int)CHUNK_SIZE;
+        int chunkY = blockY < 0 ? floorf(blockY / (float)CHUNK_SIZE) : blockY / (int)CHUNK_SIZE;
+        int chunkZ = blockZ < 0 ? floorf(blockZ / (float)CHUNK_SIZE) : blockZ / (int)CHUNK_SIZE;
+
+        int localBlockX = blockX - (chunkX * CHUNK_SIZE);
+        int localBlockY = blockY - (chunkY * CHUNK_SIZE);
+        int localBlockZ = blockZ - (chunkZ * CHUNK_SIZE);
+
+        Chunk* chunk = GetChunk(chunkX, chunkY, chunkZ);
+        if (chunk != nullptr)
+            return chunk->GetBlockIdAtPos(localBlockX, localBlockY, localBlockZ);
+
+        return 0;
+    }
+
+    uint16_t ChunkManager::GetBlockIdAtPos(glm::vec3 pos)
+    {
+        int blockX = pos.x < 0 ? pos.x - 1 : pos.x;
+        int blockY = pos.y < 0 ? pos.y - 1 : pos.y;
+        int blockZ = pos.z < 0 ? pos.z - 1 : pos.z;
+
+        int chunkX = blockX < 0 ? floorf(blockX / (float)CHUNK_SIZE) : blockX / (int)CHUNK_SIZE;
+        int chunkY = blockY < 0 ? floorf(blockY / (float)CHUNK_SIZE) : blockY / (int)CHUNK_SIZE;
+        int chunkZ = blockZ < 0 ? floorf(blockZ / (float)CHUNK_SIZE) : blockZ / (int)CHUNK_SIZE;
+
+        int localBlockX = blockX - (chunkX * CHUNK_SIZE);
+        int localBlockY = blockY - (chunkY * CHUNK_SIZE);
+        int localBlockZ = blockZ - (chunkZ * CHUNK_SIZE);
+
+        Chunk* chunk = GetChunk(chunkX, chunkY, chunkZ);
+        if (chunk != nullptr)
+            return chunk->GetBlockIdAtPos(localBlockX, localBlockY, localBlockZ);
+
+        return 0;
     }
 
     void ChunkManager::SetPlayerObj(Camera* camera)
     {
-        playerObj = camera;
+        _playerObj = camera;
     }
 }
