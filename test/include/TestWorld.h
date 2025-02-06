@@ -13,14 +13,14 @@ public:
     {
         m_mainCamera = player;
 
-        _noise = new NoiseSettings(1.05f, 10.0f);
-        _worldGen = new TerrainGen(*_noise);
+        _noise = new NoiseSettings2D(10.0f, 1.05f, 3, 0.5f, 2.5f, -5);
+        _worldGen = new TerrainGen(*_noise, -10);
 
         _chunkManager = new ChunkManager(*_worldGen);
     }
 
 private:
     /* Test Code */
-    NoiseSettings* _noise;
+    NoiseSettings2D* _noise;
     TerrainGen* _worldGen;
 };
