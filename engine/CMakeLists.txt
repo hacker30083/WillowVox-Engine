@@ -1,41 +1,55 @@
 # CMakeLists.txt (engine)
 # Define the library target
 add_library(WillowVoxEngine STATIC
-    src/Application/Application.cpp
-    src/Application/Window.cpp
-    src/Core/Logger.cpp
-    src/Input/Input.cpp
-    src/Math/Noise.cpp
-    src/Physics/Physics.cpp
-    src/Rendering/OpenGLGraphicsAPI.cpp
-    src/Rendering/Shader.cpp
-    src/Rendering/Texture.cpp
-    src/Rendering/Camera.cpp
-    src/Resources/Blocks.cpp
-    src/World/Chunk.cpp
-    src/World/World.cpp
-    src/World/GameObject.cpp
-    src/World/ChunkManager.cpp
-    src/World/TerrainGen.cpp
+    # core
+    src/core/Application.cpp
+    src/core/Logger.cpp
+    # math
+    src/math/Noise.cpp
+    # physics
+    src/physics/Physics.cpp
+    # rendering
+    src/rendering/BaseMaterial.cpp
+    src/rendering/Camera.cpp
+    src/rendering/RenderingAPI.cpp
+    src/rendering/Window.cpp
+    src/rendering/opengl/OpenGLAPI.cpp
+    src/rendering/opengl/OpenGLMesh.cpp
+    src/rendering/opengl/OpenGLShader.cpp
+    src/rendering/opengl/OpenGLTexture.cpp
+    src/rendering/opengl/OpenGLWindow.cpp
+    src/rendering/engine-default/ChunkFluidMaterial.cpp
+    src/rendering/engine-default/ChunkSolidMaterial.cpp
+    src/rendering/engine-default/RawTriMaterial.cpp
+    src/rendering/engine-default/TextureMaterial.cpp
+    # resources
+    src/resources/Blocks.cpp
+    # world
+    src/world/Chunk.cpp
+    src/world/ChunkManager.cpp
+    src/world/TerrainGen.cpp
+    src/world/World.cpp
 
-    dependencies/include/glad/src/glad.c
+    # dependencies
+    dependencies/include/private/glad/src/glad.c
 )
+
+# Add imgui subdirectory
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/dependencies/imgui)
 
 # Include directories
 target_include_directories(WillowVoxEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_include_directories(WillowVoxEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/include)
+target_include_directories(WillowVoxEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/include/public)
+target_include_directories(WillowVoxEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/include/private)
+target_include_directories(WillowVoxEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/imgui)
 
 # Link libraries
 target_link_libraries(WillowVoxEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/lib/glfw3.lib)
+target_link_libraries(WillowVoxEngine PRIVATE imgui)
 
 # Set output properties for the library
 set_target_properties(WillowVoxEngine PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-)
-
-configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/WillowVoxEngine/Version.h.in
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/WillowVoxEngine/Version.h
 )
 
 # Add platform-specific preprocessor definitions

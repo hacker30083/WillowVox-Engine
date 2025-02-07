@@ -1,10 +1,11 @@
-#include <WillowVoxEngine/Physics/Physics.h>
-#include <WillowVoxEngine/World/ChunkManager.h>
-#include <WillowVoxEngine/Resources/Blocks.h>
+#include <WillowVox/physics/Physics.h>
 
-namespace WillowVox
+#include <WillowVox/world/ChunkManager.h>
+#include <WillowVox/resources/Blocks.h>
+
+namespace WillowVox::Physics
 {
-    Physics::RaycastResult Physics::Raycast(const glm::vec3 startPos, const glm::vec3 direction, const float maxDistance)
+    RaycastResult Raycast(const glm::vec3 startPos, const glm::vec3 direction, const float maxDistance)
     {
         float currentDistance = 0;
 
@@ -19,7 +20,7 @@ namespace WillowVox
             int chunkX = resultPos.x >= 0 ? resultPos.x / (unsigned int)CHUNK_SIZE : resultPos.x / (unsigned int)CHUNK_SIZE - 1;
             int chunkY = resultPos.y >= 0 ? resultPos.y / (unsigned int)CHUNK_SIZE : resultPos.y / (unsigned int)CHUNK_SIZE - 1;
             int chunkZ = resultPos.z >= 0 ? resultPos.z / (unsigned int)CHUNK_SIZE : resultPos.z / (unsigned int)CHUNK_SIZE - 1;
-            Chunk* chunk = ChunkManager::instance->GetChunk(chunkX, chunkY, chunkZ);
+            Chunk* chunk = ChunkManager::m_instance->GetChunk(chunkX, chunkY, chunkZ);
             if (chunk == nullptr)
                 continue;
 
@@ -38,13 +39,13 @@ namespace WillowVox
 
             // Return true if it hit a block
             if (blockId != 0 && Blocks::GetBlock(blockId).blockType != Block::LIQUID)
-                return { true, resultPos, chunk, 
+                return { true, resultPos, chunk,
                 blockX, blockY, blockZ,
-                localBlockX, localBlockY, localBlockZ};
+                localBlockX, localBlockY, localBlockZ };
         }
 
-        return { false, glm::vec3(0), nullptr, 
-            0, 0, 0, 
-            0, 0, 0};
+        return { false, glm::vec3(0), nullptr,
+            0, 0, 0,
+            0, 0, 0 };
     }
 }

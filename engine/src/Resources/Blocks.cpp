@@ -1,4 +1,4 @@
-#include <WillowVoxEngine/Resources/Blocks.h>
+#include <WillowVox/resources/Blocks.h>
 
 namespace WillowVox
 {
@@ -7,12 +7,12 @@ namespace WillowVox
         blocks.push_back(block);
         blockNames[block.blockName] = blocks.size() - 1;
     }
-    
+
     Block& Blocks::GetBlock(const char* name)
     {
         return blocks[blockNames[name]];
     }
-    
+
     Block& Blocks::GetBlock(uint16_t id)
     {
         return blocks[id];
