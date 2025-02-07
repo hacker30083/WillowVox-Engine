@@ -18,7 +18,7 @@ namespace WillowVox
                 {
                     for (int z = 0; z < CHUNK_SIZE; z++)
                     {
-                        chunkData.voxels[i] = GetBlock(x + chunkData.offset.x, y + chunkData.offset.y, z + chunkData.offset.z);
+                        chunkData.m_voxels[i] = GetBlock(x + chunkData.m_offset.x, y + chunkData.m_offset.y, z + chunkData.m_offset.z);
                         i++;
                     }
                 }

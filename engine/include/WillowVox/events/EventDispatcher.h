@@ -15,19 +15,19 @@ namespace WillowVox
         // Register a listener for a specific event type
         void RegisterListener(Listener listener)
         {
-            listeners.push_back(listener);
+            m_listeners.push_back(listener);
         }
 
         // Unregister all listeners for a specific event type
         void UnregisterAllListeners()
         {
-            listeners.clear();
+            m_listeners.clear();
         }
 
         // Dispatch an event to all registered listeners
         void Dispatch(T& event)
         {
-            for (auto& l : listeners)
+            for (auto& l : m_listeners)
             {
                 l(event);
 
@@ -39,6 +39,6 @@ namespace WillowVox
 
     private:
         // Store all the event listeners
-        std::vector<Listener> listeners;
+        std::vector<Listener> m_listeners;
     };
 }

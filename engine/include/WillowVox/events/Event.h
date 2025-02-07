@@ -15,16 +15,16 @@ namespace WillowVox
             WindowResize, WindowClose
         };
 
-        Event(Type type) : type(type), handled(false) {}
+        Event(Type type) : m_type(type), m_handled(false) {}
 
-        Type GetType() const { return type; }
-        bool IsHandled() const { return handled; }
-        void MarkHandled() { handled = true; }
+        Type GetType() const { return m_type; }
+        bool IsHandled() const { return m_handled; }
+        void MarkHandled() { m_handled = true; }
 
         virtual std::string ToString() const { return "Event"; }
 
     private:
-        Type type;
-        bool handled;
+        Type m_type;
+        bool m_handled;
     };
 }

@@ -15,19 +15,19 @@ namespace WillowVox
 
         ~MeshRenderer()
         {
-            if (destroyMeshWhenDestroyed)
+            if (_destroyMeshWhenDestroyed)
                 delete _mesh;
         }
 
         void SetShader(BaseMaterial& material) { _material = material; }
         void SetMesh(Mesh* mesh, bool destroyMeshWhenDestroyed = false)
         {
-            if (_mesh != nullptr && this->destroyMeshWhenDestroyed)
+            if (_mesh != nullptr && this->_destroyMeshWhenDestroyed)
                 delete _mesh;
             _mesh = mesh;
             _mesh->SetVertexProperties(_material);
 
-            this->destroyMeshWhenDestroyed = destroyMeshWhenDestroyed;
+            this->_destroyMeshWhenDestroyed = destroyMeshWhenDestroyed;
         }
 
         void Render(const glm::vec3& position, const PolygonMode& mode = PolygonMode::Triangle)
@@ -43,6 +43,6 @@ namespace WillowVox
         BaseMaterial& _material;
         Mesh* _mesh;
 
-        bool destroyMeshWhenDestroyed = false;
+        bool _destroyMeshWhenDestroyed = false;
     };
 }

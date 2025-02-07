@@ -12,6 +12,7 @@ namespace WillowVox
 
     float Noise::GetValue2D(NoiseSettings2D& settings, int x, int y)
     {
+        // Get a 2D noise value starting at heightOffset and using octaves
         float value = settings.m_heightOffset;
         float freq = settings.m_frequency;
         float amp = settings.m_amplitude;
@@ -26,6 +27,7 @@ namespace WillowVox
 
     float Noise::GetValue3D(NoiseSettings3D& settings, int x, int y, int z)
     { 
+        // Get a 2D noise value using octaves
         float value = 0;
         float freq = settings.m_frequency;
         float amp = settings.m_amplitude;
