@@ -154,9 +154,9 @@ namespace TestGame
 			{
 				// Break block
 				auto result = Physics::Raycast(_camera->position, _camera->Front(), 10.0f);
-				if (result.hit)
+				if (result.m_hit)
 				{
-					result.chunk->SetBlock(result.localBlockX, result.localBlockY, result.localBlockZ, 0);
+					result.m_chunk->SetBlock(result.m_localBlockX, result.m_localBlockY, result.m_localBlockZ, 0);
 				}
 			}
 			else if (_window->MouseButtonDown(1))
@@ -164,13 +164,13 @@ namespace TestGame
 				// Place block
 				auto result = Physics::Raycast(_camera->position, _camera->Front(), 10.0f);
 
-				float distX = result.hitPos.x - (result.blockX + .5f);
-				float distY = result.hitPos.y - (result.blockY + .5f);
-				float distZ = result.hitPos.z - (result.blockZ + .5f);
+				float distX = result.m_hitPos.x - (result.m_blockX + .5f);
+				float distY = result.m_hitPos.y - (result.m_blockY + .5f);
+				float distZ = result.m_hitPos.z - (result.m_blockZ + .5f);
 
-				int blockX = result.blockX;
-				int blockY = result.blockY;
-				int blockZ = result.blockZ;
+				int blockX = result.m_blockX;
+				int blockY = result.m_blockY;
+				int blockZ = result.m_blockZ;
 
 				// Choose face to place on
 				if (abs(distX) > abs(distY) && abs(distX) > abs(distZ))
@@ -200,10 +200,10 @@ namespace TestGame
 			{
 				// Pick block
 				auto result = Physics::Raycast(_camera->position, _camera->Front(), 10.0f);
-				if (!result.hit)
+				if (!result.m_hit)
 					return;
 
-				_selectedBlock = result.chunk->GetBlockIdAtPos(result.localBlockX, result.localBlockY, result.localBlockZ);
+				_selectedBlock = result.m_chunk->GetBlockIdAtPos(result.m_localBlockX, result.m_localBlockY, result.m_localBlockZ);
 			}
 		}
 

@@ -160,7 +160,7 @@ namespace WillowVox
                         _chunkMutex.unlock();
 
                         ChunkData* data = new ChunkData();
-                        data->offset = chunkPos * CHUNK_SIZE;
+                        data->m_offset = chunkPos * CHUNK_SIZE;
                         _worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
@@ -189,7 +189,7 @@ namespace WillowVox
                         _chunkMutex.unlock();
 
                         ChunkData* data = new ChunkData();
-                        data->offset = checkPos * CHUNK_SIZE;
+                        data->m_offset = checkPos * CHUNK_SIZE;
                         _worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
@@ -218,7 +218,7 @@ namespace WillowVox
                         _chunkMutex.unlock();
 
                         ChunkData* data = new ChunkData();
-                        data->offset = checkPos * CHUNK_SIZE;
+                        data->m_offset = checkPos * CHUNK_SIZE;
                         _worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
@@ -247,7 +247,7 @@ namespace WillowVox
                         _chunkMutex.unlock();
 
                         ChunkData* data = new ChunkData();
-                        data->offset = checkPos * CHUNK_SIZE;
+                        data->m_offset = checkPos * CHUNK_SIZE;
                         _worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
@@ -276,7 +276,7 @@ namespace WillowVox
                         _chunkMutex.unlock();
 
                         ChunkData* data = new ChunkData();
-                        data->offset = checkPos * CHUNK_SIZE;
+                        data->m_offset = checkPos * CHUNK_SIZE;
                         _worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
@@ -305,7 +305,7 @@ namespace WillowVox
                         _chunkMutex.unlock();
 
                         ChunkData* data = new ChunkData();
-                        data->offset = checkPos * CHUNK_SIZE;
+                        data->m_offset = checkPos * CHUNK_SIZE;
                         _worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
@@ -334,7 +334,7 @@ namespace WillowVox
                         _chunkMutex.unlock();
 
                         ChunkData* data = new ChunkData();
-                        data->offset = checkPos * CHUNK_SIZE;
+                        data->m_offset = checkPos * CHUNK_SIZE;
                         _worldGen.GenerateChunkData(*data);
 
                         // Set chunk's chunk data
