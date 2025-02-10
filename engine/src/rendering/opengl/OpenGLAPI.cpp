@@ -142,6 +142,11 @@ namespace WillowVox
 		}
 	}
 
+	void OpenGLAPI::SetLineWidth(float width) 
+	{
+		glLineWidth(width);
+	}
+
     // Raw (mostly debug) rendering
 	void OpenGLAPI::RenderTriangles(glm::vec3* vertices, int vertexCount, glm::vec4 color)
 	{

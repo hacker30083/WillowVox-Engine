@@ -211,7 +211,7 @@ namespace TestGame
 
 		void Render() override
 		{
-
+			
 		}
 
 		void ConfigurePostProcessing() override
