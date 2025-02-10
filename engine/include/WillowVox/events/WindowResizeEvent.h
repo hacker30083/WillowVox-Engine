@@ -1,10 +1,11 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/events/Event.h>
 
 namespace WillowVox
 {
-    class WindowResizeEvent : public Event
+    class WILLOWVOX_API WindowResizeEvent : public Event
     {
     public:
         WindowResizeEvent(int newWidth, int newHeight) 

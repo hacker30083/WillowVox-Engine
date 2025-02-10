@@ -1,9 +1,10 @@
+#include <WillowVox/WillowVoxDefines.h>
 #include <glm/glm.hpp>
 #include <unordered_map>
 
 namespace WillowVox
 {
-    struct ivec3Hash
+    struct WILLOWVOX_API ivec3Hash
     {
         std::size_t operator()(const glm::ivec3& vec) const
         {

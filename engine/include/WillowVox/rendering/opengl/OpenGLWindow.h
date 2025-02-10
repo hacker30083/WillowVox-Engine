@@ -1,11 +1,12 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/rendering/opengl/OpenGLAPI.h>
 #include <WillowVox/rendering/Window.h>
 
 namespace WillowVox
 {
-	class OpenGLWindow : public Window
+	class WILLOWVOX_API OpenGLWindow : public Window
 	{
 	public:
 		OpenGLWindow(int width, int height, const char* title);

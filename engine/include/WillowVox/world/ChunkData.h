@@ -1,12 +1,13 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/world/WorldGlobals.h>
 #include <glm/glm.hpp>
 #include <cstdint>
 
 namespace WillowVox
 {
-    struct ChunkData
+    struct WILLOWVOX_API ChunkData
     {
     public:
         ChunkData(uint16_t* voxels, glm::ivec3 offset) : m_voxels(voxels), m_offset(offset) {}

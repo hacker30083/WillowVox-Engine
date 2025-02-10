@@ -1,10 +1,11 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/rendering/Mesh.h>
 
 namespace WillowVox
 {
-	class OpenGLMesh : public Mesh
+	class WILLOWVOX_API OpenGLMesh : public Mesh
 	{
 	public:
 		OpenGLMesh();

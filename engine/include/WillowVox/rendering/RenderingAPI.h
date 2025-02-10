@@ -1,5 +1,6 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/rendering/Window.h>
 #include <WillowVox/rendering/Shader.h>
 #include <WillowVox/rendering/BaseMaterial.h>
@@ -17,7 +18,7 @@ namespace WillowVox
 		Wireframe
 	};
 
-	class RenderingAPI
+	class WILLOWVOX_API RenderingAPI
 	{
 	public:
 		// Function to get the correct rendering API without having to include unused APIs

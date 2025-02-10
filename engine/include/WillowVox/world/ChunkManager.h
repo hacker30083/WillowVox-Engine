@@ -1,5 +1,6 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/world/Chunk.h>
 #include <WillowVox/world/ChunkData.h>
 #include <WillowVox/math/ivec3Hash.h>
@@ -14,13 +15,11 @@
 
 namespace WillowVox
 {
-    class ChunkManager
+    class WILLOWVOX_API ChunkManager
     {
     public:
-        ChunkManager(WorldGen& worldGen)
-            : _worldGen(worldGen) {}
+        ChunkManager(WorldGen& worldGen) : _worldGen(worldGen) {}
         ~ChunkManager();
-
         void Start();
         void Update();
         void Render(Camera& camera);
@@ -44,8 +43,6 @@ namespace WillowVox
         BaseMaterial* m_solidMaterial;
         BaseMaterial* m_fluidMaterial;
         BaseMaterial* m_billboardMaterial;
-
-        static ChunkManager* m_instance;
 
     private:
         void ChunkThreadUpdate();

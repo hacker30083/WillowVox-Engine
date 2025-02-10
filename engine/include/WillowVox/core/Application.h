@@ -1,5 +1,6 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/rendering/RenderingAPI.h>
 #include <WillowVox/rendering/Window.h>
 #include <WillowVox/world/World.h>
@@ -7,7 +8,7 @@
 
 namespace WillowVox
 {
-	class Application
+	class WILLOWVOX_API Application
 	{
 	public:
 		Application();
@@ -44,5 +45,5 @@ namespace WillowVox
 		double _lastFrame;
 	};
 
-	Application* CreateApplication();
+	WILLOWVOX_API Application* CreateApplication();
 }

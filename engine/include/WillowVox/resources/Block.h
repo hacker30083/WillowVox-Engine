@@ -1,10 +1,11 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <cstdint>
 
 namespace WillowVox
 {
-    struct Block
+    struct WILLOWVOX_API Block
     {
         enum BLOCK_TYPE
         {

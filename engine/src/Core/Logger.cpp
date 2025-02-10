@@ -2,5 +2,5 @@
 
 namespace WillowVox
 {
-    std::fstream Logger::logFile("log.txt");
+    WILLOWVOX_API std::fstream Logger::logFile("log.txt");
 }

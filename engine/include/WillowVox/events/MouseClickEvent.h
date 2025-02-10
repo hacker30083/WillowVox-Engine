@@ -1,10 +1,11 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/events/Event.h>
 
 namespace WillowVox
 {
-    class MouseClickEvent : public Event
+    class WILLOWVOX_API MouseClickEvent : public Event
     {
     public:
         MouseClickEvent(int button) 

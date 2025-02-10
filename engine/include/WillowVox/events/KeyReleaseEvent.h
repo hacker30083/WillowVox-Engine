@@ -1,11 +1,12 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/events/Event.h>
 #include <WillowVox/input/Key.h>
 
 namespace WillowVox
 {
-    class KeyReleaseEvent : public Event
+    class WILLOWVOX_API KeyReleaseEvent : public Event
     {
     public:
         KeyReleaseEvent(Key key) 

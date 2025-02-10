@@ -1,5 +1,6 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/world/Chunk.h>
 #include <glm/glm.hpp>
 
@@ -7,7 +8,7 @@
 
 namespace WillowVox::Physics
 {
-    struct RaycastResult
+    struct WILLOWVOX_API RaycastResult
     {
         bool m_hit;
         glm::vec3 m_hitPos;
@@ -23,5 +24,5 @@ namespace WillowVox::Physics
             : m_hit(hit), m_hitPos(hitPos), m_chunk(chunk), m_blockX(blockX), m_blockY(blockY), m_blockZ(blockZ), m_localBlockX(localBlockX), m_localBlockY(localBlockY), m_localBlockZ(localBlockZ) {}
     };
 
-    RaycastResult Raycast(glm::vec3 startPos, glm::vec3 direction, float maxDistance);
+    RaycastResult WILLOWVOX_API Raycast(glm::vec3 startPos, glm::vec3 direction, float maxDistance);
 }

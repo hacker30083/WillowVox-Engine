@@ -1,5 +1,6 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <ctime>
 #include <fstream>
 #include <cstdio>
@@ -14,7 +15,7 @@
 
 namespace WillowVox
 {
-	class Logger
+	class WILLOWVOX_API Logger
 	{
 	public:
 		static void CloseLogger()

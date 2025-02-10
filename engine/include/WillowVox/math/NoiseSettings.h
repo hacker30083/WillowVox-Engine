@@ -1,8 +1,10 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
+
 namespace WillowVox
 {
-    struct NoiseSettings2D
+    struct WILLOWVOX_API NoiseSettings2D
     {
         NoiseSettings2D(float amplitude, float frequency, int octaves, 
                         float persistence, float lacunarity, float heightOffset)
@@ -17,7 +19,7 @@ namespace WillowVox
         float m_heightOffset;
     };
     
-    struct NoiseSettings3D
+    struct WILLOWVOX_API NoiseSettings3D
     {
         NoiseSettings3D(float amplitude, float frequency, int octaves, 
                         float persistence, float lacunarity, float noiseThreshold)

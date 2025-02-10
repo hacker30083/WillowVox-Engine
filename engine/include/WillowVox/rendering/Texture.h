@@ -1,8 +1,10 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
+
 namespace WillowVox
 {
-    class Texture
+    class WILLOWVOX_API Texture
     {
     public:
         enum TexSlot

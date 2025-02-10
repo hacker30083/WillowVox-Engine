@@ -1,12 +1,13 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/world/ChunkData.h>
 #include <WillowVox/core/Logger.h>
 #include <cstdint>
 
 namespace WillowVox
 {
-    class WorldGen
+    class WILLOWVOX_API WorldGen
     {
     public:
         virtual void GenerateChunkData(const ChunkData& chunkData)

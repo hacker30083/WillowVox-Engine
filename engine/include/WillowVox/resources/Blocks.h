@@ -1,12 +1,13 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/resources/Block.h>
 #include <unordered_map>
 #include <vector>
 
 namespace WillowVox
 {
-    class Blocks
+    class WILLOWVOX_API Blocks
     {
     public:
         static void RegisterBlock(Block block);

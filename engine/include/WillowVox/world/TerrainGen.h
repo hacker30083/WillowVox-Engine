@@ -1,11 +1,12 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/world/WorldGen.h>
 #include <WillowVox/math/NoiseSettings.h>
 
 namespace WillowVox
 {
-    class TerrainGen : public WorldGen
+    class WILLOWVOX_API TerrainGen : public WorldGen
     {
     public:
         TerrainGen(NoiseSettings2D& noiseSettings, int waterLevel)

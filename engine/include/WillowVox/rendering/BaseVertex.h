@@ -1,8 +1,10 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
+
 namespace WillowVox
 {
-	class BaseVertex
+	class WILLOWVOX_API BaseVertex
 	{
 
 	};

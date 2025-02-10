@@ -16,7 +16,7 @@ public:
         _noise = new NoiseSettings2D(10.0f, 1.05f, 3, 0.5f, 2.5f, -5);
         _worldGen = new TerrainGen(*_noise, -10);
 
-        _chunkManager = new ChunkManager(*_worldGen);
+        m_chunkManager = new ChunkManager(*_worldGen);
     }
 
 private:

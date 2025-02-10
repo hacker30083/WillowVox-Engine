@@ -1,5 +1,6 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/rendering/Window.h>
 #include <glm/glm.hpp>
 
@@ -15,7 +16,7 @@ namespace WillowVox
         FORWARD_NO_Y
     };
 
-    class Camera
+    class WILLOWVOX_API Camera
     {
     public:
         // Camera attributes

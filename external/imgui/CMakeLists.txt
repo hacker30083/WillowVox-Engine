@@ -1,4 +1,4 @@
-add_library(imgui 
+add_library(imgui STATIC
   imgui.cpp
   imgui_demo.cpp
   imgui_draw.cpp
@@ -8,4 +8,7 @@ add_library(imgui
   imgui_widgets.cpp
 )
 
-target_include_directories(imgui PUBLIC ../include/private/)
+target_include_directories(imgui PUBLIC
+  ${CMAKE_CURRENT_SOURCE_DIR}
+  ${CMAKE_SOURCE_DIR}/external/
+)

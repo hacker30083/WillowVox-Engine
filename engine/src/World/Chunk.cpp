@@ -7,8 +7,8 @@
 
 namespace WillowVox
 {
-    Chunk::Chunk(BaseMaterial* solidMaterial, BaseMaterial* fluidMaterial, BaseMaterial* billboardMaterial, const glm::ivec3& chunkPos, const glm::vec3& worldPos)
-        : _solidMaterial(solidMaterial), _fluidMaterial(fluidMaterial), _billboardMaterial(billboardMaterial), m_chunkPos(chunkPos), _worldPos(worldPos)
+    Chunk::Chunk(ChunkManager& chunkManager, BaseMaterial* solidMaterial, BaseMaterial* fluidMaterial, BaseMaterial* billboardMaterial, const glm::ivec3& chunkPos, const glm::vec3& worldPos)
+        : _chunkManager(chunkManager), _solidMaterial(solidMaterial), _fluidMaterial(fluidMaterial), _billboardMaterial(billboardMaterial), m_chunkPos(chunkPos), _worldPos(worldPos)
     {
         _solidMesh = new MeshRenderer(*solidMaterial);
         _fluidMesh = new MeshRenderer(*fluidMaterial);
@@ -447,17 +447,17 @@ namespace WillowVox
         GenerateChunkMesh();
 
         if (x == 0)
-            ChunkManager::m_instance->GetChunk(m_chunkPos.x - 1, m_chunkPos.y, m_chunkPos.z)->ReloadChunk();
+            _chunkManager.GetChunk(m_chunkPos.x - 1, m_chunkPos.y, m_chunkPos.z)->ReloadChunk();
         if (x == CHUNK_SIZE - 1)
-            ChunkManager::m_instance->GetChunk(m_chunkPos.x + 1, m_chunkPos.y, m_chunkPos.z)->ReloadChunk();
+            _chunkManager.GetChunk(m_chunkPos.x + 1, m_chunkPos.y, m_chunkPos.z)->ReloadChunk();
         if (y == 0)
-            ChunkManager::m_instance->GetChunk(m_chunkPos.x, m_chunkPos.y - 1, m_chunkPos.z)->ReloadChunk();
+            _chunkManager.GetChunk(m_chunkPos.x, m_chunkPos.y - 1, m_chunkPos.z)->ReloadChunk();
         if (y == CHUNK_SIZE - 1)
-            ChunkManager::m_instance->GetChunk(m_chunkPos.x, m_chunkPos.y + 1, m_chunkPos.z)->ReloadChunk();
+            _chunkManager.GetChunk(m_chunkPos.x, m_chunkPos.y + 1, m_chunkPos.z)->ReloadChunk();
         if (z == 0)
-            ChunkManager::m_instance->GetChunk(m_chunkPos.x, m_chunkPos.y, m_chunkPos.z - 1)->ReloadChunk();
+            _chunkManager.GetChunk(m_chunkPos.x, m_chunkPos.y, m_chunkPos.z - 1)->ReloadChunk();
         if (z == CHUNK_SIZE - 1)
-            ChunkManager::m_instance->GetChunk(m_chunkPos.x, m_chunkPos.y, m_chunkPos.z + 1)->ReloadChunk();
+            _chunkManager.GetChunk(m_chunkPos.x, m_chunkPos.y, m_chunkPos.z + 1)->ReloadChunk();
     }
 
     void Chunk::ReloadChunk()

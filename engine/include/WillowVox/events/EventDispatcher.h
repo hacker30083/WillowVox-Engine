@@ -1,5 +1,6 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/events/Event.h>
 #include <functional>
 #include <unordered_map>
@@ -7,7 +8,7 @@
 
 namespace WillowVox
 {
-    template <typename T> class EventDispatcher
+    template <typename T> class WILLOWVOX_API EventDispatcher
     {
     public:
         using Listener = std::function<void(T&)>;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/rendering/MeshRenderer.h>
 #include <WillowVox/rendering/BaseMaterial.h>
 #include <WillowVox/world/ChunkData.h>
@@ -12,10 +13,10 @@
 
 namespace WillowVox
 {
-    class Chunk
+    class WILLOWVOX_API Chunk
     {
     public:
-        Chunk(BaseMaterial* solidMaterial, BaseMaterial* fluidMaterial, BaseMaterial* billboardMaterial, const glm::ivec3& chunkPos, const glm::vec3& worldPos);
+        Chunk(ChunkManager& chunkManager, BaseMaterial* solidMaterial, BaseMaterial* fluidMaterial, BaseMaterial* billboardMaterial, const glm::ivec3& chunkPos, const glm::vec3& worldPos);
         ~Chunk();
 
         void GenerateChunkMeshData();
@@ -39,6 +40,8 @@ namespace WillowVox
         bool m_ready = false;
 
     private:
+        ChunkManager& _chunkManager;
+
         glm::vec3 _worldPos;
 
         MeshRenderer* _solidMesh;

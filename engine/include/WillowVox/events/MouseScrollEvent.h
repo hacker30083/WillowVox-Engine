@@ -1,10 +1,11 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/events/Event.h>
 
 namespace WillowVox
 {
-    class MouseScrollEvent : public Event
+    class WILLOWVOX_API MouseScrollEvent : public Event
     {
     public:
         MouseScrollEvent(float xOffset, float yOffset)

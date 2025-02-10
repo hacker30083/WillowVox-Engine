@@ -1,11 +1,12 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/rendering/Mesh.h>
 #include <WillowVox/rendering/BaseMaterial.h>
 
 namespace WillowVox
 {
-    class MeshRenderer
+    class WILLOWVOX_API MeshRenderer
     {
     public:
         MeshRenderer(BaseMaterial& material) : _material(material) {}

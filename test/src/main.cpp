@@ -16,7 +16,7 @@
 #include <WillowVox/resources/Blocks.h>
 #include <TestGame.h>
 #include <TestWorld.h>
-#include <imgui.h>
+#include <imgui/imgui.h>
 #include <cstdint>
 
 using namespace WillowVox;
@@ -190,7 +190,7 @@ namespace TestGame
 				int localBlockY = blockY - (chunkY * CHUNK_SIZE);
 				int localBlockZ = blockZ - (chunkZ * CHUNK_SIZE);
 
-				auto chunk = ChunkManager::m_instance->GetChunk(chunkX, chunkY, chunkZ);
+				auto chunk = m_world->m_chunkManager->GetChunk(chunkX, chunkY, chunkZ);
 				if (chunk == nullptr)
 					return;
 
@@ -216,7 +216,7 @@ namespace TestGame
 
 		void ConfigurePostProcessing() override
 		{
-			_test->enabled = ChunkManager::m_instance->GetBlockIdAtPos(_camera->position) == 3;
+			_test->enabled = m_world->m_chunkManager->GetBlockIdAtPos(_camera->position) == 3;
 		}
 
 		void RenderUI() override
