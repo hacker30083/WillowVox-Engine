@@ -22,7 +22,7 @@ namespace WillowVox
 	{
 		// Init rendering API and window
 		_renderingAPI = RenderingAPI::GetRenderingAPI();
-		_window = _renderingAPI->CreateWindow(600, 480, _applicationName);
+		_window = _renderingAPI->CreateWindow(_defaultWindowWidth, _defaultWindowHeight, _applicationName);
 
 		// Load assets and resources
 		LoadAssets();

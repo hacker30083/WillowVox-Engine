@@ -29,6 +29,8 @@ namespace TestGame
 		TestGameApp()
 		{
 			_applicationName = "Test Game";
+			_defaultWindowWidth = 1920;
+			_defaultWindowHeight = 1080;
 		}
 
 		void LoadAssets() override

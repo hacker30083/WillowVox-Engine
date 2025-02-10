@@ -35,6 +35,7 @@ namespace WillowVox
 		RenderingAPI* _renderingAPI;
 		Window* _window;
 		const char* _applicationName;
+		int _defaultWindowWidth = 600, _defaultWindowHeight = 480;
 
 		bool _renderUI = true;
 		bool _postProcessingEnabled = true;
