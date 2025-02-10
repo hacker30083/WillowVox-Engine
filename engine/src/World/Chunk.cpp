@@ -1,3 +1,4 @@
+#include <WillowVox/world/ChunkManager.h>
 #include <WillowVox/world/Chunk.h>
 #include <WillowVox/rendering/Mesh.h>
 #include <WillowVox/world/WorldGlobals.h>

@@ -155,7 +155,7 @@ namespace TestGame
 			if (_window->MouseButtonDown(0))
 			{
 				// Break block
-				auto result = Physics::Raycast(_camera->position, _camera->Front(), 10.0f);
+				auto result = Physics::Raycast(*m_world->m_chunkManager, _camera->position, _camera->Front(), 10.0f);
 				if (result.m_hit)
 				{
 					result.m_chunk->SetBlock(result.m_localBlockX, result.m_localBlockY, result.m_localBlockZ, 0);
@@ -164,7 +164,7 @@ namespace TestGame
 			else if (_window->MouseButtonDown(1))
 			{
 				// Place block
-				auto result = Physics::Raycast(_camera->position, _camera->Front(), 10.0f);
+				auto result = Physics::Raycast(*m_world->m_chunkManager, _camera->position, _camera->Front(), 10.0f);
 
 				float distX = result.m_hitPos.x - (result.m_blockX + .5f);
 				float distY = result.m_hitPos.y - (result.m_blockY + .5f);
@@ -201,7 +201,7 @@ namespace TestGame
 			else if (_window->MouseButtonDown(2))
 			{
 				// Pick block
-				auto result = Physics::Raycast(_camera->position, _camera->Front(), 10.0f);
+				auto result = Physics::Raycast(*m_world->m_chunkManager, _camera->position, _camera->Front(), 10.0f);
 				if (!result.m_hit)
 					return;
 
@@ -221,8 +221,10 @@ namespace TestGame
 
 		void RenderUI() override
 		{
+			ImGui::SetCurrentContext(GetImGuiContext());
 			ImGui::Begin("Test Game", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 			ImGui::Text("Yo dude");
+			ImGui::End();
 		}
 
 	private:

@@ -12,3 +12,10 @@ target_include_directories(imgui PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_SOURCE_DIR}/external/
 )
+
+# Set output properties for the library
+set_target_properties(imgui PROPERTIES
+  ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
+
+target_link_libraries(imgui PRIVATE ${CMAKE_SOURCE_DIR}/external/glfw3.lib)

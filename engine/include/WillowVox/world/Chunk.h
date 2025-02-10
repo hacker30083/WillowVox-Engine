@@ -11,8 +11,11 @@
 #include <vector>
 #include <cstdint>
 
+
 namespace WillowVox
 {
+    class ChunkManager;
+    
     class WILLOWVOX_API Chunk
     {
     public:

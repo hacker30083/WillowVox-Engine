@@ -47,6 +47,8 @@ target_link_libraries(WillowVoxEngine PUBLIC imgui)
 
 # Set output properties for the library
 set_target_properties(WillowVoxEngine PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 

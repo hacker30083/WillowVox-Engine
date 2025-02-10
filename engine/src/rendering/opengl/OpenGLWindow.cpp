@@ -224,7 +224,6 @@ namespace WillowVox
 
 	void OpenGLWindow::UIEnd()
 	{
-		ImGui::End();
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
