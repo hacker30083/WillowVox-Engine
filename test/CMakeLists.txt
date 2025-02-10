@@ -8,7 +8,6 @@ add_executable(WVTest
 
 # Link the engine library
 target_link_libraries(WVTest PRIVATE WillowVoxEngine)
-target_link_libraries(WVTest PUBLIC imgui)
 
 # Include directories
 target_include_directories(WVTest PUBLIC
