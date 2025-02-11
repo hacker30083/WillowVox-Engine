@@ -28,7 +28,7 @@ namespace WillowVox
 
         virtual uint16_t GetBlock(int x, int y, int z)
         {
-            return 1;
+            return 0;
         }
     };
 }
