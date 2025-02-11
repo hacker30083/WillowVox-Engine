@@ -1,5 +1,6 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/events/WindowCloseEvent.h>
 #include <WillowVox/events/WindowResizeEvent.h>
 #include <WillowVox/events/MouseClickEvent.h>
@@ -17,7 +18,7 @@
 
 namespace WillowVox
 {
-	struct PostProcessingShader
+	struct WILLOWVOX_API PostProcessingShader
 	{
 		PostProcessingShader(Shader* shader, bool enabled = true)
 			: shader(shader), enabled(enabled) {}
@@ -26,7 +27,7 @@ namespace WillowVox
 		bool enabled;
 	};
 
-	class Window
+	class WILLOWVOX_API Window
 	{
 	public:
 		// Actions

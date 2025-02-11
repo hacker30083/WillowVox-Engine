@@ -1,5 +1,6 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/rendering/Mesh.h>
 #include <WillowVox/world/ChunkManager.h>
 #include <WillowVox/world/Chunk.h>
@@ -10,7 +11,7 @@
 
 namespace WillowVox
 {
-    class World
+    class WILLOWVOX_API World
     {
     public:
         ~World();
@@ -20,9 +21,7 @@ namespace WillowVox
         void Render();
 
         Camera* m_mainCamera;
-
-    protected:
-        ChunkManager* _chunkManager;
+        ChunkManager* m_chunkManager;
 
     private:
         // vvv Test code vvv

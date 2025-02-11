@@ -1,11 +1,10 @@
 #include <WillowVox/physics/Physics.h>
 
-#include <WillowVox/world/ChunkManager.h>
 #include <WillowVox/resources/Blocks.h>
 
 namespace WillowVox::Physics
 {
-    RaycastResult Raycast(const glm::vec3 startPos, const glm::vec3 direction, const float maxDistance)
+    RaycastResult Raycast(ChunkManager& chunkManager, const glm::vec3 startPos, const glm::vec3 direction, const float maxDistance)
     {
         float currentDistance = 0;
 
@@ -20,7 +19,7 @@ namespace WillowVox::Physics
             int chunkX = resultPos.x >= 0 ? resultPos.x / (unsigned int)CHUNK_SIZE : resultPos.x / (unsigned int)CHUNK_SIZE - 1;
             int chunkY = resultPos.y >= 0 ? resultPos.y / (unsigned int)CHUNK_SIZE : resultPos.y / (unsigned int)CHUNK_SIZE - 1;
             int chunkZ = resultPos.z >= 0 ? resultPos.z / (unsigned int)CHUNK_SIZE : resultPos.z / (unsigned int)CHUNK_SIZE - 1;
-            Chunk* chunk = ChunkManager::m_instance->GetChunk(chunkX, chunkY, chunkZ);
+            Chunk* chunk = chunkManager.GetChunk(chunkX, chunkY, chunkZ);
             if (chunk == nullptr)
                 continue;
 

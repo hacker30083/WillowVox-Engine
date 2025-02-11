@@ -16,7 +16,7 @@
 #include <WillowVox/resources/Blocks.h>
 #include <TestGame.h>
 #include <TestWorld.h>
-#include <imgui.h>
+#include <imgui/imgui.h>
 #include <cstdint>
 
 using namespace WillowVox;
@@ -155,7 +155,7 @@ namespace TestGame
 			if (_window->MouseButtonDown(0))
 			{
 				// Break block
-				auto result = Physics::Raycast(_camera->position, _camera->Front(), 10.0f);
+				auto result = Physics::Raycast(*m_world->m_chunkManager, _camera->position, _camera->Front(), 10.0f);
 				if (result.m_hit)
 				{
 					result.m_chunk->SetBlock(result.m_localBlockX, result.m_localBlockY, result.m_localBlockZ, 0);
@@ -164,7 +164,7 @@ namespace TestGame
 			else if (_window->MouseButtonDown(1))
 			{
 				// Place block
-				auto result = Physics::Raycast(_camera->position, _camera->Front(), 10.0f);
+				auto result = Physics::Raycast(*m_world->m_chunkManager, _camera->position, _camera->Front(), 10.0f);
 
 				float distX = result.m_hitPos.x - (result.m_blockX + .5f);
 				float distY = result.m_hitPos.y - (result.m_blockY + .5f);
@@ -190,7 +190,7 @@ namespace TestGame
 				int localBlockY = blockY - (chunkY * CHUNK_SIZE);
 				int localBlockZ = blockZ - (chunkZ * CHUNK_SIZE);
 
-				auto chunk = ChunkManager::m_instance->GetChunk(chunkX, chunkY, chunkZ);
+				auto chunk = m_world->m_chunkManager->GetChunk(chunkX, chunkY, chunkZ);
 				if (chunk == nullptr)
 					return;
 
@@ -201,7 +201,7 @@ namespace TestGame
 			else if (_window->MouseButtonDown(2))
 			{
 				// Pick block
-				auto result = Physics::Raycast(_camera->position, _camera->Front(), 10.0f);
+				auto result = Physics::Raycast(*m_world->m_chunkManager, _camera->position, _camera->Front(), 10.0f);
 				if (!result.m_hit)
 					return;
 
@@ -216,13 +216,15 @@ namespace TestGame
 
 		void ConfigurePostProcessing() override
 		{
-			_test->enabled = ChunkManager::m_instance->GetBlockIdAtPos(_camera->position) == 3;
+			_test->enabled = m_world->m_chunkManager->GetBlockIdAtPos(_camera->position) == 3;
 		}
 
 		void RenderUI() override
 		{
+			ImGui::SetCurrentContext(GetImGuiContext());
 			ImGui::Begin("Test Game", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 			ImGui::Text("Yo dude");
+			ImGui::End();
 		}
 
 	private:

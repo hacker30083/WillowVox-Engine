@@ -1,12 +1,13 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/rendering/RenderingAPI.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace WillowVox
 {
-	class OpenGLAPI : public RenderingAPI
+	class WILLOWVOX_API OpenGLAPI : public RenderingAPI
 	{
 	public:
 		OpenGLAPI();

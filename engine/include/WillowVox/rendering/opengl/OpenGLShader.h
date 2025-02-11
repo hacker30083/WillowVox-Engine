@@ -1,10 +1,11 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/rendering/Shader.h>
 
 namespace WillowVox
 {
-	class OpenGLShader : public Shader
+	class WILLOWVOX_API OpenGLShader : public Shader
 	{
 	public:
 		OpenGLShader(const char* vertexShaderPath, const char* fragmentShaderPath);

@@ -1,4 +1,6 @@
 # CMakeLists.txt (test)
+project(WVTest)
+
 # Define executable target
 add_executable(WVTest 
     src/main.cpp
@@ -8,10 +10,10 @@ add_executable(WVTest
 target_link_libraries(WVTest PRIVATE WillowVoxEngine)
 
 # Include directories
-target_include_directories(WVTest 
-    PRIVATE 
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/engine/include
+target_include_directories(WVTest PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/engine/include
+    ${CMAKE_SOURCE_DIR}/external
 )
 
 # Set output properties for the library

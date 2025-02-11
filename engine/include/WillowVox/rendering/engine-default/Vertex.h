@@ -1,11 +1,12 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/rendering/BaseVertex.h>
 #include <glm/glm.hpp>
 
 namespace WillowVox
 {
-	class Vertex : public BaseVertex
+	class WILLOWVOX_API Vertex : public BaseVertex
 	{
 	public:
 		Vertex(glm::vec3 position, glm::vec2 texPos)

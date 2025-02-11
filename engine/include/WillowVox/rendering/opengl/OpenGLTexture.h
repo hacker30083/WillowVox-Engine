@@ -1,10 +1,11 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/rendering/Texture.h>
 
 namespace WillowVox
 {
-    class OpenGLTexture : public Texture
+    class WILLOWVOX_API OpenGLTexture : public Texture
     {
     public:
         OpenGLTexture(const char* path);

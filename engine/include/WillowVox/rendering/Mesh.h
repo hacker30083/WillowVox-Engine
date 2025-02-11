@@ -1,5 +1,6 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/rendering/BaseMaterial.h>
 #include <WillowVox/rendering/BaseVertex.h>
 #include <cstdint>
@@ -13,7 +14,7 @@ namespace WillowVox
 		Line
 	};
 
-	class Mesh
+	class WILLOWVOX_API Mesh
 	{
 	public:
 		virtual void Render(const glm::vec3& position, BaseMaterial& material, const PolygonMode& mode = PolygonMode::Triangle) = 0; // Bind material and render

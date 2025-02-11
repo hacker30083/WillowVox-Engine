@@ -1,11 +1,12 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/rendering/BaseVertex.h>
 #include <glm/glm.hpp>
 
 namespace WillowVox
 {
-	class FluidVertex : public BaseVertex
+	class WILLOWVOX_API FluidVertex : public BaseVertex
 	{
 	public:
 		FluidVertex(char xPos, char yPos, char zPos, glm::vec2 texPos, char direction, char top)

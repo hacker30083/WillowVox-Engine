@@ -1,5 +1,6 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <ctime>
 #include <fstream>
 #include <cstdio>
@@ -14,14 +15,9 @@
 
 namespace WillowVox
 {
-	class Logger
+	class WILLOWVOX_API Logger
 	{
 	public:
-		static void CloseLogger()
-		{
-			logFile.close();
-		}
-
 		// Game
 		template <typename... Args>
 		static void Log(const char* msg, Args... args)
@@ -35,10 +31,12 @@ namespace WillowVox
 
 			char formattedMsg[1024];
 			std::snprintf(formattedMsg, sizeof(formattedMsg), msg, args...);
+			std::fstream logFile("log.txt");
 			logFile << "[" << std::setfill('0') << std::setw(2) << now.tm_hour << ":"
 				<< std::setfill('0') << std::setw(2) << now.tm_min << ":"
 				<< std::setfill('0') << std::setw(2) << now.tm_sec << " App] "
 				<< formattedMsg << std::endl;
+			logFile.close();
 		}
 
 		template <typename... Args>
@@ -53,10 +51,12 @@ namespace WillowVox
 
 			char formattedMsg[1024];
 			std::snprintf(formattedMsg, sizeof(formattedMsg), msg, args...);
+			std::fstream logFile("log.txt");
 			logFile << "[" << std::setfill('0') << std::setw(2) << now.tm_hour << ":"
 				<< std::setfill('0') << std::setw(2) << now.tm_min << ":"
 				<< std::setfill('0') << std::setw(2) << now.tm_sec << " App] WARN: "
 				<< formattedMsg << std::endl;
+			logFile.close();
 		}
 
 		template <typename... Args>
@@ -71,10 +71,12 @@ namespace WillowVox
 
 			char formattedMsg[1024];
 			std::snprintf(formattedMsg, sizeof(formattedMsg), msg, args...);
+			std::fstream logFile("log.txt");
 			logFile << "[" << std::setfill('0') << std::setw(2) << now.tm_hour << ":"
 				<< std::setfill('0') << std::setw(2) << now.tm_min << ":"
 				<< std::setfill('0') << std::setw(2) << now.tm_sec << " App] ERROR: "
 				<< formattedMsg << std::endl;
+			logFile.close();
 		}
 
 		// Engine
@@ -90,10 +92,12 @@ namespace WillowVox
 
 			char formattedMsg[1024];
 			std::snprintf(formattedMsg, sizeof(formattedMsg), msg, args...);
+			std::fstream logFile("log.txt");
 			logFile << "[" << std::setfill('0') << std::setw(2) << now.tm_hour << ":"
 				<< std::setfill('0') << std::setw(2) << now.tm_min << ":"
 				<< std::setfill('0') << std::setw(2) << now.tm_sec << " Engine] "
 				<< formattedMsg << std::endl;
+			logFile.close();
 		}
 
 		template <typename... Args>
@@ -108,10 +112,12 @@ namespace WillowVox
 
 			char formattedMsg[1024];
 			std::snprintf(formattedMsg, sizeof(formattedMsg), msg, args...);
+			std::fstream logFile("log.txt");
 			logFile << "[" << std::setfill('0') << std::setw(2) << now.tm_hour << ":"
 				<< std::setfill('0') << std::setw(2) << now.tm_min << ":"
 				<< std::setfill('0') << std::setw(2) << now.tm_sec << " Engine] WARN: "
 				<< formattedMsg << std::endl;
+			logFile.close();
 		}
 
 		template <typename... Args>
@@ -126,12 +132,12 @@ namespace WillowVox
 
 			char formattedMsg[1024];
 			std::snprintf(formattedMsg, sizeof(formattedMsg), msg, args...);
+			std::fstream logFile("log.txt");
 			logFile << "[" << std::setfill('0') << std::setw(2) << now.tm_hour << ":"
 				<< std::setfill('0') << std::setw(2) << now.tm_min << ":"
 				<< std::setfill('0') << std::setw(2) << now.tm_sec << " Engine] ERROR: "
 				<< formattedMsg << std::endl;
+			logFile.close();
 		}
-
-		static std::fstream logFile;
 	};
 }

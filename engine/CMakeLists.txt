@@ -1,6 +1,8 @@
 # CMakeLists.txt (engine)
+project(WillowVoxEngine)
+
 # Define the library target
-add_library(WillowVoxEngine STATIC
+add_library(WillowVoxEngine SHARED
     # core
     src/core/Application.cpp
     src/core/Logger.cpp
@@ -31,24 +33,22 @@ add_library(WillowVoxEngine STATIC
     src/world/World.cpp
 
     # dependencies
-    dependencies/include/private/glad/src/glad.c
+    dependencies/include/glad/src/glad.c
 )
-
-# Add imgui subdirectory
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/dependencies/imgui)
 
 # Include directories
 target_include_directories(WillowVoxEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_include_directories(WillowVoxEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/include/public)
-target_include_directories(WillowVoxEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/include/private)
-target_include_directories(WillowVoxEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/imgui)
+target_include_directories(WillowVoxEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/include)
+target_include_directories(WillowVoxEngine PUBLIC ${CMAKE_SOURCE_DIR}/external)
 
 # Link libraries
-target_link_libraries(WillowVoxEngine PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/lib/glfw3.lib)
-target_link_libraries(WillowVoxEngine PRIVATE imgui)
+target_link_libraries(WillowVoxEngine PRIVATE ${CMAKE_SOURCE_DIR}/external/glfw3.lib)
+target_link_libraries(WillowVoxEngine PUBLIC imgui)
 
 # Set output properties for the library
 set_target_properties(WillowVoxEngine PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 
@@ -62,3 +62,6 @@ elseif(UNIX)
 else()
     message(FATAL_ERROR "Unknown platform!")
 endif()
+
+# Add export macros for cross-platform compatibility
+target_compile_definitions(WillowVoxEngine PUBLIC WILLOWVOX_EXPORT)

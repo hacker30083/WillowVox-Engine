@@ -1,11 +1,12 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/rendering/BaseVertex.h>
 #include <glm/glm.hpp>
 
 namespace WillowVox
 {
-	class ChunkVertex : public BaseVertex
+	class WILLOWVOX_API ChunkVertex : public BaseVertex
 	{
 	public:
 		ChunkVertex(char xPos, char yPos, char zPos, glm::vec2 texPos, char direction)

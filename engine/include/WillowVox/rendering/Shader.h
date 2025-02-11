@@ -1,10 +1,11 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <glm/glm.hpp>
 
 namespace WillowVox
 {
-	class Shader
+	class WILLOWVOX_API Shader
 	{
 	public:
 		virtual void Bind() = 0;

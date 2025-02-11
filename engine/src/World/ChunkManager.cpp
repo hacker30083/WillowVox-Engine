@@ -4,7 +4,6 @@
 
 namespace WillowVox
 {
-    ChunkManager* ChunkManager::m_instance = nullptr;
 
     ChunkManager::~ChunkManager()
     {
@@ -13,8 +12,6 @@ namespace WillowVox
 
     void ChunkManager::Start()
     {
-        m_instance = this;
-
         _chunkThread = std::thread(&ChunkManager::ChunkThreadUpdate, this);
     }
 
@@ -149,7 +146,7 @@ namespace WillowVox
                 _chunkMutex.unlock();
 
                 // Create chunk object
-                Chunk* chunk = new Chunk(m_solidMaterial, m_fluidMaterial, m_billboardMaterial, chunkPos, chunkPos * CHUNK_SIZE);
+                Chunk* chunk = new Chunk(*this, m_solidMaterial, m_fluidMaterial, m_billboardMaterial, chunkPos, chunkPos * CHUNK_SIZE);
 
                 // Set chunk data
                 {

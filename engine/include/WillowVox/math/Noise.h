@@ -1,11 +1,12 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <FastNoiseLite.h>
 #include <WillowVox/math/NoiseSettings.h>
 
 namespace WillowVox
 {
-    class Noise
+    class WILLOWVOX_API Noise
     {
     public:
         static FastNoiseLite noise;

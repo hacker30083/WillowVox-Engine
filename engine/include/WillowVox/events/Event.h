@@ -1,10 +1,11 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <string>
 
 namespace WillowVox
 {
-    class Event
+    class WILLOWVOX_API Event
     {
     public:
         enum class Type

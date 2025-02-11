@@ -1,6 +1,6 @@
-#include <imgui.h>
-#include <imgui_impl_glfw.h>
-#include <imgui_impl_opengl3.h>
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
 
 #include <WillowVox/rendering/opengl/OpenGLWindow.h>
 #include <WillowVox/core/Logger.h>
@@ -224,7 +224,6 @@ namespace WillowVox
 
 	void OpenGLWindow::UIEnd()
 	{
-		ImGui::End();
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}

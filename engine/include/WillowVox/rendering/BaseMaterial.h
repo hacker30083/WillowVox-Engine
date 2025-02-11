@@ -1,12 +1,13 @@
 #pragma once
 
+#include <WillowVox/WillowVoxDefines.h>
 #include <WillowVox/rendering/Shader.h>
 #include <glm/glm.hpp>
 #include <stddef.h>
 
 namespace WillowVox
 {
-	class BaseMaterial
+	class WILLOWVOX_API BaseMaterial
 	{
 	public:
 		BaseMaterial(Shader* shader);
