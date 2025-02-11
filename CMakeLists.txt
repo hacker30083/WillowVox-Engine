@@ -4,6 +4,7 @@ project(WillowVox
     LANGUAGES CXX C
     VERSION 0.1.0
 )
+set(CMAKE_GENERATOR_PLATFORM x64)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 20)

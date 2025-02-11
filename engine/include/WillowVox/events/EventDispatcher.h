@@ -8,7 +8,7 @@
 
 namespace WillowVox
 {
-    template <typename T> class WILLOWVOX_API EventDispatcher
+    template <typename T> class EventDispatcher
     {
     public:
         using Listener = std::function<void(T&)>;
