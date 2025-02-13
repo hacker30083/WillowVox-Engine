@@ -20,7 +20,7 @@ void main()
 	vec4 result = vec4(ambient + diffuse, 1.0);
 
 	vec4 texResult = texture(tex, TexCoord);
-	//if (texResult.a == 0)
-	//	discard;
+	if (texResult.a == 0)
+		discard;
 	FragColor = texResult * result;
 }

@@ -13,14 +13,131 @@ public:
     {
         m_mainCamera = player;
 
-        _noise = new NoiseSettings2D(10.0f, 1.05f, 3, 0.5f, 2.5f, -5);
-        _worldGen = new TerrainGen(*_noise, -10);
+        _surfaceNoise = new NoiseSettings2D[] {
+            { 20.0f, 0.5f, 1, 0, 0, -5 },
+            { 3.0f, 2.4f, 1, 0, 0, 0 },
+        };
+
+        _caveNoise = new CaveNoiseSettings[] {
+            { 2.5f, 1, 0, 0, 0.5f }
+        };
+
+        _oreNoise = new OreNoiseSettings[]{
+            { 4.5f, 1, 0, 0, 0.7f, 2, 14.0f, 34.0f, 23.0f }
+        };
+
+        _surfaceFeatures = new SurfaceFeature[] {
+            // Tree
+            {
+                { 1.0f, 40.23f, 1, 0, 0, 0 },
+                { 
+                    0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0,
+                    0, 0, 1, 0, 0,
+                    0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0,
+
+                    0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0,
+                    0, 0, 3, 0, 0,
+                    0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0,
+
+                    0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0,
+                    0, 0, 3, 0, 0,
+                    0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0,
+
+                    0, 4, 4, 4, 0,
+                    4, 4, 4, 4, 4,
+                    4, 4, 3, 4, 4,
+                    4, 4, 4, 4, 4,
+                    0, 4, 4, 4, 0,
+
+                    0, 4, 4, 4, 0,
+                    4, 4, 4, 4, 4,
+                    4, 4, 3, 4, 4,
+                    4, 4, 4, 4, 4,
+                    0, 4, 4, 4, 0,
+
+                    0, 0, 0, 0, 0,
+                    0, 0, 4, 0, 0,
+                    0, 4, 4, 4, 0,
+                    0, 0, 4, 0, 0,
+                    0, 0, 0, 0, 0,
+
+                    0, 0, 0, 0, 0,
+                    0, 0, 4, 0, 0,
+                    0, 4, 4, 4, 0,
+                    0, 0, 4, 0, 0,
+                    0, 0, 0, 0, 0,
+
+                },
+                { 
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, true,  false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, true,  false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, true,  false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, true,  false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, true,  false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                },
+                5,
+                7,
+                5,
+                -2,
+                0,
+                -2,
+                0.9f
+            },
+        };
+
+        _worldGen = new TerrainGen(0, _surfaceNoise, 2, _caveNoise, 1, _oreNoise, 1,
+            _surfaceFeatures, 1);
 
         m_chunkManager = new ChunkManager(*_worldGen);
     }
 
 private:
     /* Test Code */
-    NoiseSettings2D* _noise;
+    NoiseSettings2D* _surfaceNoise;
+    CaveNoiseSettings* _caveNoise;
+    OreNoiseSettings* _oreNoise;
+    SurfaceFeature* _surfaceFeatures;
     TerrainGen* _worldGen;
 };

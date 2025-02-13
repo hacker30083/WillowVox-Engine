@@ -29,8 +29,8 @@ namespace TestGame
 		TestGameApp()
 		{
 			_applicationName = "Test Game";
-			_defaultWindowWidth = 1920;
-			_defaultWindowHeight = 1080;
+			//_defaultWindowWidth = 1920;
+			//_defaultWindowHeight = 1080;
 		}
 
 		void LoadAssets() override
@@ -40,9 +40,10 @@ namespace TestGame
 
 		void RegisterBlocks() override
 		{
-			Blocks::RegisterBlock({ 1, 1, 0, 0, 1, 0, Block::SOLID, "Grass Block" });
-			Blocks::RegisterBlock({ 1, 2, Block::BILLBOARD, "Grass" });
-			Blocks::RegisterBlock({ 0, 4, Block::LIQUID, "Water" });
+			Blocks::RegisterBlock({ 0, 0, Block::SOLID, "Test Dirt" });
+			Blocks::RegisterBlock({ 1, 1, Block::SOLID, "Test Stone" });
+			Blocks::RegisterBlock({ 1, 0, Block::SOLID, "Test Log" });
+			Blocks::RegisterBlock({ 0, 1, Block::LEAVES, "Test Leaves" });
 		}
 
 		void Start() override
