@@ -8,6 +8,12 @@ namespace WillowVox
     void TerrainGen::GenerateChunkData(ChunkData& chunkData)
     {
         // Terrain shape
+        GenerateChunkBlocks(chunkData);
+        GenerateSurfaceFeatures(chunkData);
+    }
+
+    inline void TerrainGen::GenerateChunkBlocks(ChunkData& chunkData)
+    {
         int i = 0;
         for (int x = 0; x < CHUNK_SIZE; x++)
         {
@@ -20,7 +26,10 @@ namespace WillowVox
                 }
             }
         }
+    }
 
+    inline void TerrainGen::GenerateSurfaceFeatures(ChunkData& chunkData)
+    {
         // Surface features
         for (int i = 0; i < m_surfaceFeatureCount; i++)
         {
@@ -96,31 +105,73 @@ namespace WillowVox
 
     uint16_t TerrainGen::GetBlock(int x, int y, int z)
     {
-        float surfaceNoise = Noise::GetValueLayered2D(m_surfaceNoiseSettings, m_surfaceNoiseLayers, x, z);
-        int surfaceBlock = (int)roundf(surfaceNoise);
-
-        float caveNoise = Noise::GetValueLayered3D(m_caveNoiseSettings, m_caveNoiseLayers, x, y, z);
+        int surfaceBlock = GetSurfaceBlock(x, z);
         
         // Sky
         if (y > surfaceBlock)
-        {
-            if (y <= m_waterLevel)
-                return m_waterBlock;
-            else
-                return 0;
-        }
+            return GetSkyBlock(x, y, z, surfaceBlock);
         // Caves
-        else if (caveNoise > m_caveThreshold)
-            return 0;
-        // Ground
+        else if (IsCave(x, y, z, surfaceBlock))
+            return GetCaveBlock(x, y, z, surfaceBlock);
         else
         {
-            if (y == surfaceBlock)
-                return m_surfaceBlock;
-            else if (y < surfaceBlock - m_groundCount)
-                return m_undergroundBlock;
+            uint16_t ore = IsOre(x, y, z, surfaceBlock);
+            // Ore
+            if (ore != 0)
+                return GetOreBlock(x, y, z, surfaceBlock, ore);
+            // Ground
             else
-                return m_groundBlock;
+                return GetGroundBlock(x, y, z, surfaceBlock);
         }
+    }
+
+    inline uint16_t TerrainGen::GetSkyBlock(int x, int y, int z, int surfaceBlock)
+    {
+        return 0;
+    }
+
+    inline uint16_t TerrainGen::GetGroundBlock(int x, int y, int z, int surfaceBlock)
+    {
+        return 1;
+    }
+
+    inline uint16_t TerrainGen::GetCaveBlock(int x, int y, int z, int surfaceBlock)
+    {
+        return 0;
+    }
+
+    inline uint16_t TerrainGen::GetOreBlock(int x, int y, int z, int surfaceBlock, uint16_t block)
+    {
+        return block;
+    }
+
+    inline bool TerrainGen::IsCave(int x, int y, int z, int surfaceBlock)
+    {
+        for (int l = 0; l < m_caveNoiseLayers; l++)
+        {
+            float noise = Noise::GetValue3D(m_caveNoiseSettings[l], m_seed, x, y, z);
+            if (noise > m_caveNoiseSettings[l].m_noiseThreshold)
+                return true;
+        }
+
+        return false;
+    }
+
+    inline uint16_t TerrainGen::IsOre(int x, int y, int z, int surfaceBlock)
+    {
+        for (int l = 0; l < m_oreNoiseLayers; l++)
+        {
+            float noise = Noise::GetValue3D(m_oreNoiseSettings[l], m_seed, x, y, z);
+            if (noise > m_oreNoiseSettings[l].m_noiseThreshold)
+                return m_oreNoiseSettings[l].m_replaceBlock;
+        }
+
+        return 0;
+    }
+
+    inline int TerrainGen::GetSurfaceBlock(int x, int z)
+    {
+        float surfaceNoise = Noise::GetValueLayered2D(m_surfaceNoiseSettings, m_surfaceNoiseLayers, m_seed, x, z);
+        return (int)roundf(surfaceNoise);
     }
 }

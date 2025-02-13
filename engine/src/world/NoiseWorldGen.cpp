@@ -7,7 +7,7 @@ namespace WillowVox
 {
     uint16_t NoiseWorldGen::GetBlock(int x, int y, int z)
     {
-        float noise = Noise::GetValue2D(m_noiseSettings, x, z);
+        float noise = Noise::GetValue2D(m_noiseSettings, m_seed, x, z);
         int block = (int)roundf(noise);
         
         if (y <= block)

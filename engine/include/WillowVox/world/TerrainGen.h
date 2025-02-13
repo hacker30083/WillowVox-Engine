@@ -11,27 +11,50 @@ namespace WillowVox
     class WILLOWVOX_API TerrainGen : public WorldGen
     {
     public:
-        TerrainGen(NoiseSettings2D* surfaceNoiseSettings, int surfaceNoiseLayers, NoiseSettings3D* caveNoiseSettings, 
-            int caveNoiseLayers, float caveThreshold, int waterLevel, int groundCount, 
-            uint16_t undergroundBlock, uint16_t groundBlock, uint16_t surfaceBlock, uint16_t waterBlock, 
+        TerrainGen(int seed, NoiseSettings2D* surfaceNoiseSettings, int surfaceNoiseLayers, CaveNoiseSettings* caveNoiseSettings, 
+            int caveNoiseLayers, OreNoiseSettings* oreNoiseSettings, int oreNoiseLayers,
             SurfaceFeature* surfaceFeatures, int surfaceFeatureCount)
             
-            : m_surfaceNoiseSettings(surfaceNoiseSettings), m_surfaceNoiseLayers(surfaceNoiseLayers),
-            m_caveNoiseSettings(caveNoiseSettings), m_caveNoiseLayers(caveNoiseLayers), m_caveThreshold(caveThreshold), 
-            m_waterLevel(waterLevel), m_groundCount(groundCount), m_undergroundBlock(undergroundBlock), 
-            m_groundBlock(groundBlock), m_surfaceBlock(surfaceBlock), m_waterBlock(waterBlock),
+            : WorldGen(seed), 
+            m_surfaceNoiseSettings(surfaceNoiseSettings), m_surfaceNoiseLayers(surfaceNoiseLayers),
+            m_caveNoiseSettings(caveNoiseSettings), m_caveNoiseLayers(caveNoiseLayers),
+            m_oreNoiseSettings(oreNoiseSettings), m_oreNoiseLayers(oreNoiseLayers),
             m_surfaceFeatures(surfaceFeatures), m_surfaceFeatureCount(surfaceFeatureCount) {}
 
         void GenerateChunkData(ChunkData& chunkData) override;
+        // === Generation Steps ===
+        /* These exist so that developers can change these behaviors
+           without having to remake the whole GenerateChunkData function */
+        inline void GenerateChunkBlocks(ChunkData& chunkData);
+        inline void GenerateSurfaceFeatures(ChunkData& chunkData);
+        // ========================
 
         uint16_t GetBlock(int x, int y, int z) override;
+        // === Block Picking Functions ===
+        /* These exist so that developers can change these behaviors
+           without having to remake the whole GetBlock function */
+        
+        // GetSkyBlock called when block is above the surface (good to override for adding water)
+        inline uint16_t GetSkyBlock(int x, int y, int z, int surfaceBlock);
+        // GetGroundBlock called when block is solid (not cave or ore)
+        inline uint16_t GetGroundBlock(int x, int y, int z, int surfaceBlock);
+        // GetCaveBlock called when block is below the sky but is a cave
+        inline uint16_t GetCaveBlock(int x, int y, int z, int surfaceBlock);
+        // GetOreBlock checks to see if the block is an ore
+        inline uint16_t GetOreBlock(int x, int y, int z, int surfaceBlock, uint16_t block);
+
+        // Checks if block is cave using cave noise settings
+        inline bool IsCave(int x, int y, int z, int surfaceBlock);
+        // Checks to see if the block is an ore and returns the type if so. Returns 0 if not.
+        inline uint16_t IsOre(int x, int y, int z, int surfaceBlock);
+        // Gets the block that the surface is on
+        inline int GetSurfaceBlock(int x, int z);
+        // ===============================
 
         NoiseSettings2D* m_surfaceNoiseSettings;
-        NoiseSettings3D* m_caveNoiseSettings;
-        int m_surfaceNoiseLayers, m_caveNoiseLayers;
-        float m_caveThreshold;
-        int m_waterLevel, m_groundCount;
-        uint16_t m_undergroundBlock, m_groundBlock, m_surfaceBlock, m_waterBlock;
+        CaveNoiseSettings* m_caveNoiseSettings;
+        OreNoiseSettings* m_oreNoiseSettings;
+        int m_surfaceNoiseLayers, m_caveNoiseLayers, m_oreNoiseLayers;
         SurfaceFeature* m_surfaceFeatures;
         int m_surfaceFeatureCount;
     };
