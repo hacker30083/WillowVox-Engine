@@ -12,10 +12,6 @@ namespace WillowVox
         
         if (y <= block)
             return 1;
-        else if (y < m_waterLevel)
-            return 3;
-        else if (y == block + 1)
-            return 2;
         else
             return 0;
     }
