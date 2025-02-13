@@ -29,7 +29,7 @@ namespace WillowVox
     }
 
     inline void TerrainGen::GenerateSurfaceFeatures(ChunkData& chunkData)
-    {
+    {        
         // Surface features
         for (int i = 0; i < m_surfaceFeatureCount; i++)
         {
@@ -37,30 +37,22 @@ namespace WillowVox
             {
                 for (int z = -m_surfaceFeatures[i].sizeZ - m_surfaceFeatures[i].offsetZ; z < CHUNK_SIZE - m_surfaceFeatures[i].offsetZ; z++)
                 {
-                    float noiseY = Noise::GetValueLayered2D(m_surfaceNoiseSettings, m_surfaceNoiseLayers, 
-                        x + chunkData.m_offset.x, z + chunkData.m_offset.z);
-                    int surfaceBlock = (int)roundf(noiseY);
+                    int surfaceBlock = GetSurfaceBlock(x + chunkData.m_offset.x, z + chunkData.m_offset.z);
 
                     if (surfaceBlock + m_surfaceFeatures[i].offsetY > chunkData.m_offset.y + CHUNK_SIZE || 
                         surfaceBlock + m_surfaceFeatures[i].sizeY + m_surfaceFeatures[i].offsetY < chunkData.m_offset.y)
                         continue;
-
-                    // Check if it's in water or on sand
-                    if (surfaceBlock < m_waterLevel + 2)
-                        continue;
                     
-                    // Check if it's in a cave
-                    float caveNoise = Noise::GetValueLayered3D(m_caveNoiseSettings, m_caveNoiseLayers, x + chunkData.m_offset.x, surfaceBlock, z + chunkData.m_offset.z);
-                    bool cave = caveNoise > m_caveThreshold;
-
-                    if (cave)
+                    if (!IsValidSurfaceFeaturePlacement(x + chunkData.m_offset.x, surfaceBlock, z + chunkData.m_offset.z, surfaceBlock))
                         continue;
 
-                    float noise = Noise::GetValue2D(m_surfaceFeatures[i].noiseSettings, 
+                    // Noise check
+                    float noise = Noise::GetValue2D(m_surfaceFeatures[i].noiseSettings, m_seed, 
                         x + chunkData.m_offset.x, z + chunkData.m_offset.z);
                     
                     if (noise > m_surfaceFeatures[i].chance)
                     {
+                        // Place feature
                         int featureX = x + chunkData.m_offset.x;
                         int featureY = surfaceBlock;
                         int featureZ = z + chunkData.m_offset.z;
@@ -173,5 +165,14 @@ namespace WillowVox
     {
         float surfaceNoise = Noise::GetValueLayered2D(m_surfaceNoiseSettings, m_surfaceNoiseLayers, m_seed, x, z);
         return (int)roundf(surfaceNoise);
+    }
+
+    inline bool TerrainGen::IsValidSurfaceFeaturePlacement(int x, int y, int z, int surfaceBlock)
+    {
+        // Check if it's a cave
+        if (IsCave(x, y, z, surfaceBlock))
+            return false;
+
+        return true;
     }
 }

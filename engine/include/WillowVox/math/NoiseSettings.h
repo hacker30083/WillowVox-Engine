@@ -40,9 +40,9 @@ namespace WillowVox
 
     struct WILLOWVOX_API CaveNoiseSettings
     {
-        CaveNoiseSettings(float amplitude, float frequency, int octaves,
+        CaveNoiseSettings(float frequency, int octaves,
             float persistence, float lacunarity, float noiseThreshold, float xOffset = 0, float yOffset = 0, float zOffset = 0)
-            : m_amplitude(amplitude), m_frequency(frequency), m_octaves(octaves),
+            : m_amplitude(1.0f), m_frequency(frequency), m_octaves(octaves),
             m_persistence(persistence), m_lacunarity(lacunarity), m_noiseThreshold(noiseThreshold),
             m_xOffset(xOffset), m_yOffset(yOffset), m_zOffset(zOffset) {}
 
@@ -57,9 +57,9 @@ namespace WillowVox
 
     struct WILLOWVOX_API OreNoiseSettings
     {
-        OreNoiseSettings(float amplitude, float frequency, int octaves,
+        OreNoiseSettings(float frequency, int octaves,
             float persistence, float lacunarity, float noiseThreshold, uint16_t replaceBlock, float xOffset = 0, float yOffset = 0, float zOffset = 0)
-            : m_amplitude(amplitude), m_frequency(frequency), m_octaves(octaves),
+            : m_amplitude(1.0f), m_frequency(frequency), m_octaves(octaves),
             m_persistence(persistence), m_lacunarity(lacunarity), m_noiseThreshold(noiseThreshold), m_replaceBlock(replaceBlock),
             m_xOffset(xOffset), m_yOffset(yOffset), m_zOffset(zOffset) {}
 

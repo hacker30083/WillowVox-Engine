@@ -18,8 +18,12 @@ public:
             { 3.0f, 2.4f, 1, 0, 0, 0 },
         };
 
-        _caveNoise = new NoiseSettings3D[] {
-            { 1.0f, 2.5f, 1, 0, 0 }
+        _caveNoise = new CaveNoiseSettings[] {
+            { 2.5f, 1, 0, 0, 0.5f }
+        };
+
+        _oreNoise = new OreNoiseSettings[]{
+            { 4.5f, 1, 0, 0, 0.7f, 2, 14.0f, 34.0f, 23.0f }
         };
 
         _surfaceFeatures = new SurfaceFeature[] {
@@ -225,7 +229,7 @@ public:
             },        
         };
 
-        _worldGen = new TerrainGen(_surfaceNoise, 2, _caveNoise, 1, 0.5f, 0, 5, 3, 1, 2, 13,
+        _worldGen = new TerrainGen(0, _surfaceNoise, 2, _caveNoise, 1, _oreNoise, 1,
             _surfaceFeatures, 7);
 
         m_chunkManager = new ChunkManager(*_worldGen);
@@ -234,7 +238,8 @@ public:
 private:
     /* Test Code */
     NoiseSettings2D* _surfaceNoise;
-    NoiseSettings3D* _caveNoise;
+    CaveNoiseSettings* _caveNoise;
+    OreNoiseSettings* _oreNoise;
     SurfaceFeature* _surfaceFeatures;
     TerrainGen* _worldGen;
 };

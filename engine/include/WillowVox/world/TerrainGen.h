@@ -51,6 +51,15 @@ namespace WillowVox
         inline int GetSurfaceBlock(int x, int z);
         // ===============================
 
+        // === Surface Feature Placement ===
+        /* These exist so that developers can change these behaviors
+           without having to remake the whole GenerateSurfaceFeatures function */
+
+        // Override to change the conditions of surface feature placement
+        // Base function checks if it is a cave or not
+        inline bool IsValidSurfaceFeaturePlacement(int x, int y, int z, int surfaceBlock);
+        // =================================
+
         NoiseSettings2D* m_surfaceNoiseSettings;
         CaveNoiseSettings* m_caveNoiseSettings;
         OreNoiseSettings* m_oreNoiseSettings;
