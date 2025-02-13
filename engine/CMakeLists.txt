@@ -29,6 +29,7 @@ add_library(WillowVoxEngine SHARED
     # world
     src/world/Chunk.cpp
     src/world/ChunkManager.cpp
+    src/world/NoiseWorldGen.cpp
     src/world/TerrainGen.cpp
     src/world/World.cpp
 
