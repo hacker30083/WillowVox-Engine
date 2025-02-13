@@ -16,5 +16,9 @@ namespace WillowVox
         static float GetValue2D(NoiseSettings2D& settings, int x, int y);
 
         static float GetValue3D(NoiseSettings3D& settings, int x, int y, int z);
+
+        static float GetValueLayered2D(NoiseSettings2D* settings, int layers, int x, int y);
+
+        static float GetValueLayered3D(NoiseSettings3D* settings, int layers, int x, int y, int z);
     };
 }

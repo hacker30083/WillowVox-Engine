@@ -22,15 +22,14 @@ namespace WillowVox
     struct WILLOWVOX_API NoiseSettings3D
     {
         NoiseSettings3D(float amplitude, float frequency, int octaves, 
-                        float persistence, float lacunarity, float noiseThreshold)
+                        float persistence, float lacunarity)
             : m_amplitude(amplitude), m_frequency(frequency), m_octaves(octaves), 
-              m_persistence(persistence), m_lacunarity(lacunarity), m_noiseThreshold(noiseThreshold) {}
+              m_persistence(persistence), m_lacunarity(lacunarity) {}
 
         float m_amplitude;
         float m_frequency;
         int m_octaves;
         float m_persistence;
         float m_lacunarity;
-        float m_noiseThreshold;
     };
 }

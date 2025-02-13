@@ -10,7 +10,7 @@ namespace WillowVox
     class WILLOWVOX_API WorldGen
     {
     public:
-        virtual void GenerateChunkData(const ChunkData& chunkData)
+        virtual void GenerateChunkData(ChunkData& chunkData)
         {
             int i = 0;
             for (int x = 0; x < CHUNK_SIZE; x++)

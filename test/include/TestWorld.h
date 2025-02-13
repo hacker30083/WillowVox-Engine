@@ -13,14 +13,228 @@ public:
     {
         m_mainCamera = player;
 
-        _noise = new NoiseSettings2D(10.0f, 1.05f, 3, 0.5f, 2.5f, -5);
-        _worldGen = new TerrainGen(*_noise, -10);
+        _surfaceNoise = new NoiseSettings2D[] {
+            { 20.0f, 0.5f, 1, 0, 0, -5 },
+            { 3.0f, 2.4f, 1, 0, 0, 0 },
+        };
+
+        _caveNoise = new NoiseSettings3D[] {
+            { 1.0f, 2.5f, 1, 0, 0 }
+        };
+
+        _surfaceFeatures = new SurfaceFeature[] {
+            // Tree
+            {
+                { 1.0f, 40.23f, 1, 0, 0, 0 },
+                { 
+                    0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0,
+                    0, 0, 1, 0, 0,
+                    0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0,
+
+                    0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0,
+                    0, 0, 4, 0, 0,
+                    0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0,
+
+                    0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0,
+                    0, 0, 4, 0, 0,
+                    0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0,
+
+                    0, 5, 5, 5, 0,
+                    5, 5, 5, 5, 5,
+                    5, 5, 4, 5, 5,
+                    5, 5, 5, 5, 5,
+                    0, 5, 5, 5, 0,
+
+                    0, 5, 5, 5, 0,
+                    5, 5, 5, 5, 5,
+                    5, 5, 4, 5, 5,
+                    5, 5, 5, 5, 5,
+                    0, 5, 5, 5, 0,
+
+                    0, 0, 0, 0, 0,
+                    0, 0, 5, 0, 0,
+                    0, 5, 5, 5, 0,
+                    0, 0, 5, 0, 0,
+                    0, 0, 0, 0, 0,
+
+                    0, 0, 0, 0, 0,
+                    0, 0, 5, 0, 0,
+                    0, 5, 5, 5, 0,
+                    0, 0, 5, 0, 0,
+                    0, 0, 0, 0, 0,
+
+                },
+                { 
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, true,  false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, true,  false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, true,  false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, true,  false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, true,  false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                    false, false, false, false, false,
+                },
+                5,
+                7,
+                5,
+                -2,
+                0,
+                -2,
+                0.9f
+                },
+            // Tall Grass
+            {
+                { 1.0f, 43.54f, 1, 0, 0, 0 },
+                {
+                    2, 7, 8
+                },
+                {
+                    false, false, false
+                },
+                1,
+                3,
+                1,
+                0,
+                0,
+                0,
+                0.7f
+            },
+            // Grass
+            {
+                { 1.0f, 50.03f, 1, 0, 0, 0 },
+                {
+                    2, 6
+                },
+                {
+                    false, false
+                },
+                1,
+                2,
+                1,
+                0,
+                0,
+                0,
+                0.6f
+            },
+            // Poppy
+            {
+                { 1.0f, 30.5f, 1, 0, 0, 0 },
+                {
+                    2, 9
+                },
+                {
+                    false, false
+                },
+                1,
+                2,
+                1,
+                0,
+                0,
+                0,
+                0.8f
+            },
+            // White Tulip
+            {
+                { 1.0f, 36.43f, 1, 0, 0, 0 },
+                {
+                    2, 10
+                },
+                {
+                    false, false
+                },
+                1,
+                2,
+                1,
+                0,
+                0,
+                0,
+                0.8f
+            },
+            // Pink Tulip
+            {
+                { 1.0f, 32.23f, 1, 0, 0, 0 },
+                {
+                    2, 11
+                },
+                {
+                    false, false
+                },
+                1,
+                2,
+                1,
+                0,
+                0,
+                0,
+                0.8f
+            },
+            // Orange Tulip
+            {
+                { 1.0f, 38.34f, 1, 0, 0, 0 },
+                {
+                    2, 12
+                },
+                {
+                    false, false
+                },
+                1,
+                2,
+                1,
+                0,
+                0,
+                0,
+                0.8f
+            },        
+        };
+
+        _worldGen = new TerrainGen(_surfaceNoise, 2, _caveNoise, 1, 0.5f, 0, 5, 3, 1, 2, 13,
+            _surfaceFeatures, 7);
 
         m_chunkManager = new ChunkManager(*_worldGen);
     }
 
 private:
     /* Test Code */
-    NoiseSettings2D* _noise;
+    NoiseSettings2D* _surfaceNoise;
+    NoiseSettings3D* _caveNoise;
+    SurfaceFeature* _surfaceFeatures;
     TerrainGen* _worldGen;
 };
