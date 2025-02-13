@@ -40,20 +40,10 @@ namespace TestGame
 
 		void RegisterBlocks() override
 		{
-			Blocks::RegisterBlock({ 0, 0, Block::SOLID, "Dirt Block" });
 			Blocks::RegisterBlock({ 1, 1, 0, 0, 1, 0, Block::SOLID, "Grass Block" });
 			Blocks::RegisterBlock({ 0, 1, Block::SOLID, "Stone Block" });
 			Blocks::RegisterBlock({ 2, 1, 2, 1, 2, 0, Block::SOLID, "Log" });
 			Blocks::RegisterBlock({ 0, 2, Block::LEAVES, "Leaves" });
-			Blocks::RegisterBlock({ 1, 2, Block::BILLBOARD, "Grass" });
-			Blocks::RegisterBlock({ 3, 0, Block::BILLBOARD, "Tall Grass Bottom" });
-			Blocks::RegisterBlock({ 3, 1, Block::BILLBOARD, "Tall Grass Top" });
-			Blocks::RegisterBlock({ 0, 3, Block::BILLBOARD, "Poppy" });
-			Blocks::RegisterBlock({ 2, 2, Block::BILLBOARD, "White Tulip" });
-			Blocks::RegisterBlock({ 3, 2, Block::BILLBOARD, "Pink Tulip" });
-			Blocks::RegisterBlock({ 1, 3, Block::BILLBOARD, "Orange Tulip" });
-			Blocks::RegisterBlock({ 0, 4, Block::LIQUID, "Water" });
-			Blocks::RegisterBlock({ 4, 0, Block::SOLID, "Sand" });
 		}
 
 		void Start() override
