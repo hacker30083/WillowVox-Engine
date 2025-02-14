@@ -1,6 +1,6 @@
 #pragma once
 
-#define ENGINE_VERSION "v0.1.0_pre1"
+#define ENGINE_VERSION "v0.1.0_pre2"
 
 // For use by WillowVox Engine applications
 
