@@ -25,8 +25,22 @@ namespace WillowVox
 	{
 		auto w = new OpenGLWindow(width, height, title);
 
-		_debugShader = CreateShader("assets/shaders/debug-shaders/raw_tri_vert.glsl",
-			"assets/shaders/debug-shaders/raw_tri_frag.glsl");
+		const char* vCode = "#version 330 core\n"
+			"layout(location = 0) in vec3 aPos;"
+			"void main()"
+			"{"
+			"gl_Position = vec4(aPos, 1.0);"
+			"}";
+
+		const char* fCode = "#version 330 core\n"
+			"out vec4 FragColor;"
+			"uniform vec4 color;"
+			"void main()"
+			"{"
+			"FragColor = color;"
+			"}";
+
+		_debugShader = CreateShaderFromString(vCode, fCode);
 
 		glCullFace(GL_BACK);
 		glFrontFace(GL_CW);

@@ -213,7 +213,11 @@ namespace TestGame
 
 		void Render() override
 		{
-			
+			glm::vec3 tris[] = {
+				{ -1.0f, -1.0f, 0.0f },
+				{ 1.0f, -1.0f, 0.0f },
+				{ -1.0f, 1.0f, 0.0f }
+			};
 		}
 
 		void ConfigurePostProcessing() override
