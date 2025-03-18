@@ -37,6 +37,7 @@ namespace WillowVox
 		void SetInvertRenderMode(bool enabled) override;
 		void SetRenderingMode(RenderMode mode) override;
 		void SetLineWidth(float width) override;
+		void SetVsync(bool enabled) override;
 
 		// Raw (mostly debug) rendering
 		void RenderTriangles(glm::vec3* vertices, int vertexCount, glm::vec4 color) override;

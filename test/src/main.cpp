@@ -53,6 +53,7 @@ namespace TestGame
 			_window->SetBackgroundColor(0.6f, 0.8f, 1.0f, 1.0f);
 			_renderingAPI->SetCullFace(true);
 			_renderingAPI->SetDepthTest(true);
+			_renderingAPI->SetVsync(true);
 
 			_camera = new WillowVox::Camera(_window);
 
@@ -224,9 +225,11 @@ namespace TestGame
 		{
 			ImGui::SetCurrentContext(GetImGuiContext());
 			ImGui::Begin("Test Game", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-			ImGui::Text("Yo dude");
+			ImGui::Text("ms: %f", m_deltaTime);
 			if (ImGui::SliderInt("Render Distance", &m_world->m_chunkManager->m_renderDistance, 0, 20))
 				m_world->m_chunkManager->ClearChunkQueue();
+			if (ImGui::Checkbox("Vsync", &_vsync))
+				_renderingAPI->SetVsync(_vsync);
 			ImGui::End();
 		}
 
@@ -239,6 +242,7 @@ namespace TestGame
 
 		bool _firstFrame = true;
 		bool _paused = false;
+		bool _vsync = true;
 	};
 }
 
