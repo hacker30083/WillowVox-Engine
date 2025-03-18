@@ -89,6 +89,55 @@ namespace WillowVox
         glDeleteShader(fragment);
 	}
 
+    OpenGLShader::OpenGLShader(const char* vertexShaderCode, const char* fragmentShaderCode, bool codePassed)
+    {
+        // 2. compile shaders
+        unsigned int vertex, fragment;
+        int success;
+        char infoLog[512];
+
+        // vertex shader
+        vertex = glCreateShader(GL_VERTEX_SHADER);
+        glShaderSource(vertex, 1, &vertexShaderCode, nullptr);
+        glCompileShader(vertex);
+        // print compile errors if any
+        glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
+        if (!success)
+        {
+            glGetShaderInfoLog(vertex, 512, nullptr, infoLog);
+            Logger::Error("Error compiling vertex shader! (%s): %s", vertexShaderCode, infoLog);
+        }
+
+        // fragment shader
+        fragment = glCreateShader(GL_FRAGMENT_SHADER);
+        glShaderSource(fragment, 1, &fragmentShaderCode, nullptr);
+        glCompileShader(fragment);
+        // print compile errors if any
+        glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
+        if (!success)
+        {
+            glGetShaderInfoLog(fragment, 512, nullptr, infoLog);
+            Logger::Error("Error compiling fragment shader! (%s): %s", fragmentShaderCode, infoLog);
+        }
+
+        // shader program
+        _programId = glCreateProgram();
+        glAttachShader(_programId, vertex);
+        glAttachShader(_programId, fragment);
+        glLinkProgram(_programId);
+        // print linking errors if any
+        glGetProgramiv(_programId, GL_LINK_STATUS, &success);
+        if (!success)
+        {
+            glGetProgramInfoLog(_programId, 512, nullptr, infoLog);
+            Logger::Error("Error linking shader program: %s", infoLog);
+        }
+
+        // delete the shaders
+        glDeleteShader(vertex);
+        glDeleteShader(fragment);
+    }
+
     OpenGLShader::~OpenGLShader()
     {
         glDeleteProgram(_programId);

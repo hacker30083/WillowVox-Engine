@@ -27,6 +27,7 @@ namespace WillowVox
 		// Rendering objects
 		virtual Window* CreateWindow(int width, int height, const char* title) = 0;
 		virtual Shader* CreateShader(const char* vertexShaderPath, const char* fragmentShaderPath) = 0;
+		virtual Shader* CreateShaderFromString(const char* vertexShaderCode, const char* fragmentShaderCode) = 0;
 		virtual Mesh* CreateMesh() = 0;
 		virtual Texture* CreateTexture(const char* path) = 0;
 

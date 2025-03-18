@@ -9,6 +9,7 @@ namespace WillowVox
 	{
 	public:
 		OpenGLShader(const char* vertexShaderPath, const char* fragmentShaderPath);
+		OpenGLShader(const char* vertexShaderCode, const char* fragmentShaderCode, bool codePassed);
 		~OpenGLShader();
 
 		void Bind() override;

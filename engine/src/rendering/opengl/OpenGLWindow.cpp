@@ -145,7 +145,28 @@ namespace WillowVox
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 
-		_postProcessShader = RenderingAPI::m_renderingAPI->CreateShader("assets/shaders/post-processing/framebuffer_vert.glsl", "assets/shaders/post-processing/framebuffer_frag.glsl");
+		const char* vCode = "#version 330 core\n"
+			"layout(location = 0) in vec2 inPos;"
+			"layout(location = 1) in vec2 inTexCoords;"
+			"out vec2 TexCoords;"
+			"void main()"
+			"{"
+			"gl_Position = vec4(inPos.x, inPos.y, 0.0, 1.0);"
+			"TexCoords = inTexCoords;"
+			"}";
+
+		const char* fCode = "#version 330 core\n"
+			"out vec4 FragColor;"
+			"in vec2 TexCoords;"
+			"uniform sampler2D screenTexture;"
+			"uniform sampler2D depthTexture;"
+			"void main()"
+			"{"
+			"vec4 color = texture(screenTexture, TexCoords);"
+			"FragColor = color;"
+			"}";
+
+		_postProcessShader = RenderingAPI::m_renderingAPI->CreateShaderFromString(vCode, fCode);
 		_postProcessShader->Bind();
 		_postProcessShader->SetInt("screenTexture", 0);
 		_postProcessShader->SetInt("depthTexture", 1);
@@ -172,13 +193,22 @@ namespace WillowVox
 	void OpenGLWindow::FrameStart()
 	{
 		glEnable(GL_DEPTH_TEST);
-		glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
+
+		// If there are no post processing shaders, don't bind the framebuffer
+		if (_postProcessingShaders.size() > 0)
+			glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
+		else
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	void OpenGLWindow::PostProcessingStart()
 	{
+		// If there are no post processing shaders, skip
+		if (_postProcessingShaders.size() == 0)
+			return;
+
 		glBindVertexArray(_postProcessVAO);
 		glDisable(GL_DEPTH_TEST);
 		glActiveTexture(GL_TEXTURE0);
@@ -202,6 +232,10 @@ namespace WillowVox
 
 	void OpenGLWindow::PostProcessingEnd()
 	{
+		// If there are no post processing shaders, skip
+		if (_postProcessingShaders.size() == 0)
+			return;
+
 		_postProcessShader->Bind();
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);

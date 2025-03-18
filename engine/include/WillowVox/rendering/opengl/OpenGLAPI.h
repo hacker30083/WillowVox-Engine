@@ -16,6 +16,7 @@ namespace WillowVox
 		// Rendering objects
 		Window* CreateWindow(int width, int height, const char* title) override;
 		Shader* CreateShader(const char* vertexShaderPath, const char* fragmentShaderPath) override;
+		Shader* CreateShaderFromString(const char* vertexShaderCode, const char* fragmentShaderCode) override;
 		Mesh* CreateMesh() override;
 		Texture* CreateTexture(const char* path) override;
 

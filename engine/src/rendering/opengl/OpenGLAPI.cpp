@@ -40,6 +40,11 @@ namespace WillowVox
 		return new OpenGLShader(vertexShaderPath, fragmentShaderPath);
 	}
 
+	Shader* OpenGLAPI::CreateShaderFromString(const char* vertexShaderCode, const char* fragmentShaderCode)
+	{
+		return new OpenGLShader(vertexShaderCode, fragmentShaderCode, true);
+	}
+
 	Mesh* OpenGLAPI::CreateMesh()
 	{
 		return new OpenGLMesh();
