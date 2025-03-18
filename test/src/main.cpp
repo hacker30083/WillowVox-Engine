@@ -225,6 +225,8 @@ namespace TestGame
 			ImGui::SetCurrentContext(GetImGuiContext());
 			ImGui::Begin("Test Game", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 			ImGui::Text("Yo dude");
+			if (ImGui::SliderInt("Render Distance", &m_world->m_chunkManager->m_renderDistance, 0, 20))
+				m_world->m_chunkManager->ClearChunkQueue();
 			ImGui::End();
 		}
 

@@ -46,13 +46,15 @@ namespace WillowVox
                     ++it;
             }
 
-            // Check if player moved to new chunk
-            if (_playerChunkX != _lastPlayerX || _playerChunkY != _lastPlayerY || _playerChunkZ != _lastPlayerZ)
+            // Check if player moved to new chunk or if the chunk queue should be cleared
+            if (_playerChunkX != _lastPlayerX || _playerChunkY != _lastPlayerY || _playerChunkZ != _lastPlayerZ || _shouldClearChunkQueue)
             {
                 // Player moved chunks, start new chunk queue
                 _lastPlayerX = _playerChunkX;
                 _lastPlayerY = _playerChunkY;
                 _lastPlayerZ = _playerChunkZ;
+
+                _shouldClearChunkQueue = false;
 
                 _chunkQueue = {};
 
@@ -512,6 +514,11 @@ namespace WillowVox
             return chunk->GetBlockIdAtPos(localBlockX, localBlockY, localBlockZ);
 
         return 0;
+    }
+
+    void ChunkManager::ClearChunkQueue()
+    {
+        _shouldClearChunkQueue = true;
     }
 
     void ChunkManager::SetPlayerObj(Camera* camera)

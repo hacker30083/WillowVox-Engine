@@ -34,6 +34,8 @@ namespace WillowVox
         Block* GetBlockAtPos(float x, float y, float z);
         Block* GetBlockAtPos(glm::vec3 pos);
 
+        void ClearChunkQueue();
+
         void SetPlayerObj(Camera* camera);
 
         int m_renderDistance = 10;
@@ -61,5 +63,6 @@ namespace WillowVox
         int _playerChunkX = -100, _playerChunkY = -100, _playerChunkZ = -100;
 
         bool _shouldEnd = false;
+        bool _shouldClearChunkQueue = false;
     };
 }
