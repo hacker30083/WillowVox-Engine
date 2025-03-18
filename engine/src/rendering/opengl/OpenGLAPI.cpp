@@ -25,8 +25,22 @@ namespace WillowVox
 	{
 		auto w = new OpenGLWindow(width, height, title);
 
-		_debugShader = CreateShader("assets/shaders/debug-shaders/raw_tri_vert.glsl",
-			"assets/shaders/debug-shaders/raw_tri_frag.glsl");
+		const char* vCode = "#version 330 core\n"
+			"layout(location = 0) in vec3 aPos;"
+			"void main()"
+			"{"
+			"gl_Position = vec4(aPos, 1.0);"
+			"}";
+
+		const char* fCode = "#version 330 core\n"
+			"out vec4 FragColor;"
+			"uniform vec4 color;"
+			"void main()"
+			"{"
+			"FragColor = color;"
+			"}";
+
+		_debugShader = CreateShaderFromString(vCode, fCode);
 
 		glCullFace(GL_BACK);
 		glFrontFace(GL_CW);
@@ -38,6 +52,11 @@ namespace WillowVox
 	Shader* OpenGLAPI::CreateShader(const char* vertexShaderPath, const char* fragmentShaderPath)
 	{
 		return new OpenGLShader(vertexShaderPath, fragmentShaderPath);
+	}
+
+	Shader* OpenGLAPI::CreateShaderFromString(const char* vertexShaderCode, const char* fragmentShaderCode)
+	{
+		return new OpenGLShader(vertexShaderCode, fragmentShaderCode, true);
 	}
 
 	Mesh* OpenGLAPI::CreateMesh()
@@ -145,6 +164,11 @@ namespace WillowVox
 	void OpenGLAPI::SetLineWidth(float width) 
 	{
 		glLineWidth(width);
+	}
+
+	void OpenGLAPI::SetVsync(bool enabled)
+	{
+		glfwSwapInterval(enabled ? 1 : 0);
 	}
 
     // Raw (mostly debug) rendering

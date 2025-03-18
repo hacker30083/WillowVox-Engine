@@ -16,6 +16,7 @@ namespace WillowVox
 		// Rendering objects
 		Window* CreateWindow(int width, int height, const char* title) override;
 		Shader* CreateShader(const char* vertexShaderPath, const char* fragmentShaderPath) override;
+		Shader* CreateShaderFromString(const char* vertexShaderCode, const char* fragmentShaderCode) override;
 		Mesh* CreateMesh() override;
 		Texture* CreateTexture(const char* path) override;
 
@@ -37,6 +38,7 @@ namespace WillowVox
 		void SetInvertRenderMode(bool enabled) override;
 		void SetRenderingMode(RenderMode mode) override;
 		void SetLineWidth(float width) override;
+		void SetVsync(bool enabled) override;
 
 		// Raw (mostly debug) rendering
 		void RenderTriangles(glm::vec3* vertices, int vertexCount, glm::vec4 color) override;
