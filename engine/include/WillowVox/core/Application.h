@@ -9,43 +9,49 @@
 
 namespace WillowVox
 {
-	class WILLOWVOX_API Application
-	{
-	public:
-		Application();
-		~Application();
+    class WILLOWVOX_API Application
+    {
+    public:
+        Application();
+        ~Application();
 
-		void Run();
+        void Run();
+        void SetTargetFPS(int targetFPS);
+        int GetTargetFPS() const;
+        void SetFPSLockEnabled(bool enabled);
+        bool IsFPSLockEnabled() const;
 
-		float m_deltaTime;
+        float m_deltaTime;
 
-		World* m_world;
+        World *m_world;
 
-	protected:
+    protected:
         // Client-defined pre-start resource loading
-		virtual void LoadAssets() = 0;
-		virtual void RegisterBlocks() = 0;
+        virtual void LoadAssets() = 0;
+        virtual void RegisterBlocks() = 0;
 
         // Client-defined game logic
-		virtual void Start() = 0;
-		virtual void Update() = 0;
+        virtual void Start() = 0;
+        virtual void Update() = 0;
         // Client-defined rendering logic
-		virtual void Render() = 0;
-		virtual void ConfigurePostProcessing() = 0;
-		virtual void RenderUI() = 0;
-		ImGuiContext* GetImGuiContext();
+        virtual void Render() = 0;
+        virtual void ConfigurePostProcessing() = 0;
+        virtual void RenderUI() = 0;
+        ImGuiContext *GetImGuiContext();
 
-		RenderingAPI* _renderingAPI;
-		Window* _window;
-		const char* _applicationName;
-		int _defaultWindowWidth = 600, _defaultWindowHeight = 480;
+        RenderingAPI *_renderingAPI;
+        Window *_window;
+        const char *_applicationName;
+        int _defaultWindowWidth = 600, _defaultWindowHeight = 480;
 
-		bool _renderUI = true;
-		bool _postProcessingEnabled = true;
+        bool _renderUI = true;
+        bool _postProcessingEnabled = true;
 
-	private:
-		double _lastFrame;
-	};
+    private:
+        double _lastFrame;
+        int _targetFPS = 60;
+        bool _fpsLockEnabled = false;
+    };
 
-	Application* CreateApplication();
+    Application *CreateApplication();
 }
