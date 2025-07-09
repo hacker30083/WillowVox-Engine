@@ -16,12 +16,7 @@ jobs:
       # Set fail-fast to false to ensure that feedback is delivered for all matrix combinations. Consider changing this to true when your workflow is stable.
       fail-fast: false
 
-      # Set up a matrix to run the following 3 configurations:
-      # 1. <Windows, Release, latest MSVC compiler toolchain on the default runner image, default generator>
-      # 2. <Linux, Release, latest GCC compiler toolchain on the default runner image, default generator>
-      # 3. <Linux, Release, latest Clang compiler toolchain on the default runner image, default generator>
-      #
-      # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
+      
       matrix:
         os: [ubuntu-latest, windows-latest]
         build_type: [Release]
@@ -65,7 +60,12 @@ jobs:
         -S ${{ github.workspace }}
     
     - name: Install GLFW dependencies
-      run: sudo apt install libwayland-dev libxkbcommon-dev xorg-dev
+      run: |
+         if [ "$RUNNER_OS" == "Linux" ]; then
+              sudo apt install libwayland-dev libxkbcommon-dev xorg-dev
+         fi
+      
+        
     - name: Build GLFW
       run: git clone https://github.com/glfw/glfw; cd glfw; mkdir build; cd build; cmake ..; cmake --build .; cp ./src/libglfw3.a ../../external/; cd ../../; yes | rm -rf glfw;
     - name: Build
