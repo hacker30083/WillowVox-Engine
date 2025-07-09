@@ -2,7 +2,7 @@
 project(WillowVoxEngine)
 
 # Define the library target
-add_library(WillowVoxEngine SHARED
+add_library(WillowVoxEngine STATIC
     # core
     src/core/Application.cpp
     src/core/Logger.cpp
@@ -43,9 +43,15 @@ target_include_directories(WillowVoxEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/de
 target_include_directories(WillowVoxEngine PUBLIC ${CMAKE_SOURCE_DIR}/external)
 
 # Link libraries
-target_link_libraries(WillowVoxEngine PRIVATE ${CMAKE_SOURCE_DIR}/external/glfw3.lib)
-target_link_libraries(WillowVoxEngine PUBLIC imgui)
-
+if(WIN32)
+    target_link_libraries(WillowVoxEngine PRIVATE ${CMAKE_SOURCE_DIR}/external/glfw3.lib)
+    target_link_libraries(WillowVoxEngine PUBLIC imgui)
+elseif(APPLE)
+    message(Apple support not implemented yet.)
+elseif(UNIX)
+    target_link_libraries(WillowVoxEngine PRIVATE ${CMAKE_SOURCE_DIR}/external/libglfw3.a)
+    target_link_libraries(WillowVoxEngine PRIVATE imgui)
+endif()
 # Set output properties for the library
 set_target_properties(WillowVoxEngine PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
