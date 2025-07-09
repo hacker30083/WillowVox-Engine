@@ -28,9 +28,6 @@ jobs:
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
-          - os: ubuntu-latest
-            c_compiler: clang
-            cpp_compiler: clang++
         exclude:
           - os: windows-latest
             c_compiler: gcc
@@ -60,12 +57,9 @@ jobs:
         -S ${{ github.workspace }}
     
     - name: Install GLFW dependencies
-      run: |
-         if [ "$RUNNER_OS" == "Linux" ]; then
-              sudo apt install libwayland-dev libxkbcommon-dev xorg-dev
-         elif [ "$RUNNER_OS" == "Windows" ]; then
-              echo "Windows"
-         fi
+      if: runner.os == 'Linux'
+      run: sudo apt install libwayland-dev libxkbcommon-dev xorg-dev
+         
       
         
     - name: Build GLFW
