@@ -3,6 +3,37 @@ A voxel world engine
 
 ## Building
 
+### Installing dependencies
+
+If you are on linux you need the following packages
+```sh
+sudo apt install libwayland-dev libxkbcommon-dev xorg-dev
+```
+
+### Build GLFW
+From WillowVox directory run the following:
+```sh
+git clone https://github.com/glfw/glfw
+cd glfw
+mkdir build
+cd build
+cmake ..
+cmake --build . --config *Build type here (Release or Debug)*
+```
+On linux:
+```sh
+cp ./src/libglfw3.a ../../external/
+```
+On Windows:
+```sh
+cp ./src/*Your Build type*/glfw3.lib ../../external/
+```
+
+And if the extra directory bothers you get rid of it with (On Windows remove the "-rf"):
+```sh
+cd ../../
+rm -rf glfw
+```
 ### Building with CMake
 In the project root directory:
 Create CMake files:
@@ -13,7 +44,7 @@ cmake ..
 ```
 After that you can build the project using:
 ```sh
-cmake --build ./build
+cmake --build ..
 ```
 Run the build command in the project root directory.
 
