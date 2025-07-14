@@ -1,5 +1,11 @@
 # WillowVox Engine
+
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/EvanatorM/WillowVox-Engine/multi-platform-build-test.yml) ![Static Badge](https://img.shields.io/badge/Version-_V0.2-green?style=flat)
+
+
 A voxel world engine
+
+**Read the docs at https://WillowVox.com/docs/api**
 
 ## Building
 
