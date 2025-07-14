@@ -1,0 +1,46 @@
+name: Update Docs
+
+on:
+  push:
+    branches:
+      - master  
+
+jobs:
+  generate-and-push-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source repo
+      uses: actions/checkout@v4
+
+    - name: Install Doxygen
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y doxygen
+
+    - name: Generate docs
+      run: doxygen 
+    
+    - name: Clone GitHub Pages repo
+      uses: actions/checkout@v4
+      with:
+        repository: EvanatorM/EvanatorM.github.io
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Configure git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      shell: bash
+    - name: Update docs
+      run: |
+        rm -rf EvanatorM.github.io/_src/docs/api/*
+        cp -r html/* EvanatorM.github.io/_src/docs/api
+      shell: bash
+
+    #- name: Commit and push to GitHub Pages
+    #  run: |
+    #    cd EvanatorM.github.io
+    #    git add .
+    #    git commit -m "Update docs from WillowVox repo on $(date --utc)"
+    #    git push
